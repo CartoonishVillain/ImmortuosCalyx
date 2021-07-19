@@ -8,9 +8,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.entity.monster.PillagerEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.DamageSource;
@@ -36,22 +33,6 @@ public class InfectedIGEntity extends IronGolemEntity implements InfectedEntity 
                 .createMutableAttribute(Attributes.ATTACK_DAMAGE, 5D);
     }
 
-
-
-    @Override
-    protected void registerGoals() {
-        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
-        this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
-        this.targetSelector.addGoal(1, new SwimGoal(this));
-        this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 0.8D, false));
-        this.goalSelector.addGoal(2, new MoveTowardsTargetGoal(this, 0.8D, 32.0F));
-        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, PillagerEntity.class,  10, true, false, this::shouldAttack));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, AbstractVillagerEntity.class, 10, true, false, this::shouldAttack));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, 10, true, false, this::shouldAttack));
-        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAttack)); }
-
     public boolean shouldAttack(@Nullable LivingEntity entity) {
         if(entity != null){
             AtomicBoolean infectedThreshold = new AtomicBoolean(false);
@@ -61,6 +42,12 @@ public class InfectedIGEntity extends IronGolemEntity implements InfectedEntity 
             if(infectedThreshold.get()) return false;
             else return true;
 
+        }else return false;
+    }
+
+    public boolean shouldAttackMonster(@Nullable LivingEntity entity) {
+        if(entity != null){
+            return !(entity instanceof InfectedEntity);
         }else return false;
     }
 

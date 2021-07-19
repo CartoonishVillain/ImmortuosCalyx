@@ -1,5 +1,6 @@
 package com.cartoonishvillain.ImmortuosCalyx.Events;
 
+import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedDiverEntity;
 import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedEntity;
 import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedIGEntity;
 import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedPlayerEntity;
@@ -10,9 +11,16 @@ import com.cartoonishvillain.ImmortuosCalyx.Register;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.GoalSelector;
+import net.minecraft.entity.ai.goal.NearestAttackableTargetGoal;
+import net.minecraft.entity.ai.goal.PrioritizedGoal;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
 import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.PillagerEntity;
 import net.minecraft.entity.monster.ZombieEntity;
+import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -24,14 +32,17 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = ImmortuosCalyx.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -212,6 +223,60 @@ public class EntityInfectionEventManager {
                   });
               }
           }
+        }
+    }
+
+    @SubscribeEvent
+    public static void InfectedIGSpawnEvent(EntityJoinWorldEvent event){
+        Entity sEntity = event.getEntity();
+        if(sEntity instanceof InfectedIGEntity && !sEntity.world.isRemote()){
+            InfectedIGEntity entity = (InfectedIGEntity) sEntity;
+            Set<PrioritizedGoal> prioritizedGoals = ObfuscationReflectionHelper.getPrivateValue(GoalSelector.class, entity.targetSelector, "field_220892_d");
+            ArrayList<Goal> toRemove = new ArrayList<>();
+            if(prioritizedGoals != null) {
+                for (PrioritizedGoal prioritizedGoal : prioritizedGoals) {
+                    toRemove.add(prioritizedGoal.getGoal());
+                }
+            }
+            for(Goal goal : toRemove){
+                entity.targetSelector.removeGoal(goal);
+            }
+            entity.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(entity, PillagerEntity.class, 16, true, false,  entity::shouldAttack));
+            entity.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(entity, MonsterEntity.class, 16, true, false,  entity::shouldAttackMonster));
+            entity.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(entity, AbstractVillagerEntity.class, 16, true, false,  entity::shouldAttack));
+            entity.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(entity, PlayerEntity.class, 16, true, false,  entity::shouldAttack));
+            entity.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(entity, GolemEntity.class, 16, true, false,  entity::shouldAttack));
+
+        }
+    }
+
+    @SubscribeEvent
+    public static void GolemSpawnEvent(EntityJoinWorldEvent event){
+        Entity sEntity = event.getEntity();
+        if(sEntity instanceof GolemEntity && !sEntity.world.isRemote() && !(sEntity instanceof InfectedEntity)){
+            GolemEntity golemEntity = (GolemEntity) sEntity;
+            golemEntity.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(golemEntity, InfectedIGEntity.class, true, false));
+        }
+    }
+
+    @SubscribeEvent
+    public static void DiverSpawnEvent(EntityJoinWorldEvent event){
+        Entity sEntity = event.getEntity();
+        if(sEntity instanceof InfectedDiverEntity && !sEntity.world.isRemote()){
+            InfectedDiverEntity entity = (InfectedDiverEntity) sEntity;
+            Set<PrioritizedGoal> prioritizedGoals = ObfuscationReflectionHelper.getPrivateValue(GoalSelector.class, entity.targetSelector, "field_220892_d");
+            ArrayList<Goal> toRemove = new ArrayList<>();
+            if(prioritizedGoals != null) {
+                for (PrioritizedGoal prioritizedGoal : prioritizedGoals) {
+                    toRemove.add(prioritizedGoal.getGoal());
+                }
+            }
+            for(Goal goal : toRemove){
+                entity.targetSelector.removeGoal(goal);
+            }
+            entity.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(entity, PlayerEntity.class, 10, true, false, entity::shouldAttack));
+            entity.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(entity, AbstractVillagerEntity.class, 10, true, false, entity::shouldAttack));
+            entity.targetSelector.addGoal(3, new NearestAttackableTargetGoal<GolemEntity>(entity, GolemEntity.class, 10, true, false, entity::shouldAttackMonster));
         }
     }
 
