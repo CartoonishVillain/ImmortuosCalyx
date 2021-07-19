@@ -30,7 +30,8 @@ public class InfectedIGEntity extends IronGolemEntity implements InfectedEntity 
         return MobEntity.func_233666_p_()
                 .createMutableAttribute(Attributes.MAX_HEALTH, 125D)
                 .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.25D)
-                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 5D);
+                .createMutableAttribute(Attributes.ATTACK_DAMAGE, 5D)
+                .createMutableAttribute(Attributes.KNOCKBACK_RESISTANCE, 1.0D);
     }
 
     public boolean shouldAttack(@Nullable LivingEntity entity) {
