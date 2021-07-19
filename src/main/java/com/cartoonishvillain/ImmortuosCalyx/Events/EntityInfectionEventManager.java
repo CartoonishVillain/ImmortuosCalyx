@@ -245,7 +245,7 @@ public class EntityInfectionEventManager {
             entity.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(entity, MonsterEntity.class, 16, true, false,  entity::shouldAttackMonster));
             entity.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(entity, AbstractVillagerEntity.class, 16, true, false,  entity::shouldAttack));
             entity.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(entity, PlayerEntity.class, 16, true, false,  entity::shouldAttack));
-            entity.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(entity, GolemEntity.class, 16, true, false,  entity::shouldAttack));
+            entity.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(entity, GolemEntity.class, 16, true, false,  entity::shouldAttackMonster));
 
         }
     }
