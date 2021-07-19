@@ -10,6 +10,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.PillagerEntity;
 import net.minecraft.entity.passive.AnimalEntity;
@@ -23,8 +24,17 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Predicate;
 
 public class InfectedVillagerEntity extends MonsterEntity implements InfectedEntity {
+
+    public static final Predicate<LivingEntity> ATTACKPREDICATE = (Target) ->{
+          AtomicBoolean shouldTarget = new AtomicBoolean(true);
+          Target.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
+              if(h.getInfectionProgress() > 0) shouldTarget.set(false);
+          });
+          return shouldTarget.get();
+    };
 
 
     public InfectedVillagerEntity(EntityType<InfectedVillagerEntity> type, World worldIn) {
@@ -48,12 +58,13 @@ public class InfectedVillagerEntity extends MonsterEntity implements InfectedEnt
         this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
         this.targetSelector.addGoal(1, new SwimGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, PillagerEntity.class,  10, true, false, this::shouldAttack));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillagerEntity.class, 10, true, false, this::shouldAttack));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<PillagerEntity>(this, PillagerEntity.class, true, false));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillagerEntity.class, 10, true, false, ATTACKPREDICATE));
         this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAttack));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, 10, true, false, this::shouldAttack));
-        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, 10, true, false, this::shouldAttack));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, 10, true, false, ATTACKPREDICATE));
+        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, 10, true, false, this::shouldAttack));
     }
+
 
 
     public boolean shouldAttack(@Nullable LivingEntity entity) {
@@ -64,7 +75,6 @@ public class InfectedVillagerEntity extends MonsterEntity implements InfectedEnt
             });
             if(infectedThreshold.get()) return false;
             else return true;
-
         }else return false;
     }
 
@@ -98,5 +108,13 @@ public class InfectedVillagerEntity extends MonsterEntity implements InfectedEnt
         this.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
             if(h.getInfectionProgress() < 100) h.setInfectionProgress(100);
         });
+
+        if(getAttackTarget() instanceof VillagerEntity || getAttackTarget() instanceof AnimalEntity){
+            AtomicBoolean shouldContinueTarget = new AtomicBoolean(true);
+            getAttackTarget().getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
+                if(h.getInfectionProgress() > 0) shouldContinueTarget.set(false);
+            });
+            if(!shouldContinueTarget.get()) this.setAttackTarget(null);
+        }
     }
 }
