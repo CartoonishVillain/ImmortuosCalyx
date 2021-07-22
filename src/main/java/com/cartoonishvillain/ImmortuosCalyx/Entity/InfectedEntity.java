@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
 
 public interface InfectedEntity {
 
-    public default boolean shouldAttackMonster(@Nullable LivingEntity entity) {
+     default boolean shouldAttackMonster(@Nullable LivingEntity entity) {
         if(entity != null){
             return !(entity instanceof InfectedEntity);
         }else return false;

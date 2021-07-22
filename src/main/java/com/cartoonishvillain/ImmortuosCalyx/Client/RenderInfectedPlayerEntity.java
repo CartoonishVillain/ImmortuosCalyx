@@ -18,7 +18,7 @@ public class RenderInfectedPlayerEntity extends BipedRenderer<InfectedPlayerEnti
 
     private static class Model extends BipedModel<InfectedPlayerEntity> {
         private static RenderType makeRenderType(ResourceLocation texture) {
-            RenderType normal = RenderType.getEntityTranslucent(texture);
+            RenderType normal = RenderType.entityTranslucent(texture);
             return normal;}
 
         Model() {
@@ -27,9 +27,9 @@ public class RenderInfectedPlayerEntity extends BipedRenderer<InfectedPlayerEnti
     }
 
     @Override
-    public ResourceLocation getEntityTexture(InfectedPlayerEntity entity) {
+    public ResourceLocation getTextureLocation(InfectedPlayerEntity entity) {
         try{
-        return PlayerSkinManager.getSkin(entity.getUUID(), entity.getName().getString());
+        return PlayerSkinManager.getSkin(entity.getPUUID(), entity.getName().getString());
         } catch (NullPointerException e){
             return TEXTURE;
         }
