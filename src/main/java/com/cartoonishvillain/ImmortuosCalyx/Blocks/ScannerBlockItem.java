@@ -1,15 +1,15 @@
 package com.cartoonishvillain.ImmortuosCalyx.Blocks;
 
 import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
-import net.minecraft.block.Block;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -20,10 +20,10 @@ public class ScannerBlockItem extends BlockItem {
     }
 
     @Override
-    public void appendHoverText(ItemStack p_77624_1_, @Nullable World p_77624_2_, List<ITextComponent> list, ITooltipFlag p_77624_4_) {
-        list.add(new StringTextComponent(TextFormatting.BLUE + "Scans for infection when stepped on."));
-        list.add(new StringTextComponent(TextFormatting.BLUE + "If an infection is found, sends redstone signal."));
-        list.add(new StringTextComponent(TextFormatting.BLUE + "If one is not found, it removes it's signal."));
+    public void appendHoverText(ItemStack p_77624_1_, @Nullable Level p_77624_2_, List<Component> list, TooltipFlag p_77624_4_) {
+        list.add(new TextComponent(ChatFormatting.BLUE + "Scans for infection when stepped on."));
+        list.add(new TextComponent(ChatFormatting.BLUE + "If an infection is found, sends redstone signal."));
+        list.add(new TextComponent(ChatFormatting.BLUE + "If one is not found, it removes it's signal."));
 
     }
 }

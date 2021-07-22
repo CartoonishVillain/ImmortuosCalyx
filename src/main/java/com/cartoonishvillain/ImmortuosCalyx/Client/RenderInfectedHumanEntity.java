@@ -3,19 +3,26 @@ package com.cartoonishvillain.ImmortuosCalyx.Client;
 import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedHumanEntity;
 import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.BipedRenderer;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.model.BipedModel;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.resources.ResourceLocation;
 
-public class RenderInfectedHumanEntity extends BipedRenderer<InfectedHumanEntity, BipedModel<InfectedHumanEntity>> {
-    public RenderInfectedHumanEntity(EntityRendererManager renderManager) {
+public class RenderInfectedHumanEntity extends HumanoidMobRenderer<InfectedHumanEntity, HumanoidModel<InfectedHumanEntity>> implements EntityRendererProvider {
+    public RenderInfectedHumanEntity(EntityRenderDispatcher renderManager) {
         super(renderManager, new Model(), 0.5F);
     }
 
     protected final static ResourceLocation TEXTURE = new ResourceLocation(ImmortuosCalyx.MOD_ID, "textures/entity/infectedhuman.png");
 
-    private static class Model extends BipedModel<InfectedHumanEntity> {
+    @Override
+    public EntityRenderer create(Context p_174010_) {
+        return null;
+    }
+
+    private static class Model extends HumanoidModel<InfectedHumanEntity> {
         private static RenderType makeRenderType(ResourceLocation texture) {
             RenderType normal = RenderType.entityTranslucent(texture);
             return normal;}

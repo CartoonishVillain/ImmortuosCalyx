@@ -2,31 +2,38 @@ package com.cartoonishvillain.ImmortuosCalyx.Entity;
 
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
 import com.cartoonishvillain.ImmortuosCalyx.Register;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.ai.attributes.AttributeModifierMap;
-import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.PillagerEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.GolemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.Pillager;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 
-public class InfectedVillagerEntity extends MonsterEntity implements InfectedEntity {
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+
+public class InfectedVillagerEntity extends Monster implements InfectedEntity {
 
     public static final Predicate<LivingEntity> ATTACKPREDICATE = (Target) ->{
           AtomicBoolean shouldTarget = new AtomicBoolean(true);
@@ -37,12 +44,12 @@ public class InfectedVillagerEntity extends MonsterEntity implements InfectedEnt
     };
 
 
-    public InfectedVillagerEntity(EntityType<InfectedVillagerEntity> type, World worldIn) {
+    public InfectedVillagerEntity(EntityType<InfectedVillagerEntity> type, Level worldIn) {
         super(type, worldIn);
     }
 
-    public static AttributeModifierMap.MutableAttribute customAttributes() {
-        return MobEntity.createMobAttributes()
+    public static AttributeSupplier.Builder customAttributes() {
+        return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 20.0D)
                 .add(Attributes.MOVEMENT_SPEED, 1.25D)
                 .add(Attributes.ATTACK_DAMAGE, 2D);
@@ -53,16 +60,16 @@ public class InfectedVillagerEntity extends MonsterEntity implements InfectedEnt
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(8, new LookAtGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.addGoal(8, new LookRandomlyGoal(this));
-        this.goalSelector.addGoal(7, new WaterAvoidingRandomWalkingGoal(this, 0.5D));
-        this.targetSelector.addGoal(1, new SwimGoal(this));
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+        this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, 0.5D));
+        this.targetSelector.addGoal(1, new FloatGoal(this));
         this.goalSelector.addGoal(2, new MeleeAttackGoal(this, 1.25D, false));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<PillagerEntity>(this, PillagerEntity.class, true, false));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillagerEntity.class, 10, true, false, ATTACKPREDICATE));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, PlayerEntity.class, 10, true, false, this::shouldAttack));
-        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, AnimalEntity.class, 10, true, false, ATTACKPREDICATE));
-        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<GolemEntity>(this, GolemEntity.class, 10, true, false, this::shouldAttackMonster));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<Pillager>(this, Pillager.class, true, false));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, AbstractVillager.class, 10, true, false, ATTACKPREDICATE));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::shouldAttack));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(this, Animal.class, 10, true, false, ATTACKPREDICATE));
+        this.targetSelector.addGoal(6, new NearestAttackableTargetGoal<AbstractGolem>(this, AbstractGolem.class, 10, true, false, this::shouldAttackMonster));
     }
 
 
@@ -84,7 +91,7 @@ public class InfectedVillagerEntity extends MonsterEntity implements InfectedEnt
     }
 
     @Override
-    protected int getExperienceReward(PlayerEntity player) {
+    protected int getExperienceReward(Player player) {
         return 5 + this.level.random.nextInt(5);
     }
 
@@ -109,7 +116,7 @@ public class InfectedVillagerEntity extends MonsterEntity implements InfectedEnt
             if(h.getInfectionProgress() < 100) h.setInfectionProgress(100);
         });
 
-        if(getTarget() instanceof VillagerEntity || getTarget() instanceof AnimalEntity){
+        if(getTarget() instanceof Villager || getTarget() instanceof Animal){
             AtomicBoolean shouldContinueTarget = new AtomicBoolean(true);
             getTarget().getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
                 if(h.getInfectionProgress() > 0) shouldContinueTarget.set(false);

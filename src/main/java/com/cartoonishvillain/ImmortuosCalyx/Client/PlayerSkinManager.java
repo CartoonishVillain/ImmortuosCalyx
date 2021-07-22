@@ -5,8 +5,8 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.DefaultPlayerSkin;
-import net.minecraft.tileentity.SkullTileEntity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.level.block.entity.SkullBlockEntity;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class PlayerSkinManager {
         if (players.containsKey(uuid.toString())) {
             return players.get(uuid.toString());
         } else {
-            GameProfile profile = SkullTileEntity.updateGameprofile(new GameProfile(uuid, name));
+            GameProfile profile = SkullBlockEntity.updateGameprofile(new GameProfile(uuid, name));
             players.put(uuid.toString(), profile);
             return profile;
         }

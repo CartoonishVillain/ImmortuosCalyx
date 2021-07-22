@@ -5,15 +5,15 @@ import com.cartoonishvillain.ImmortuosCalyx.Blocks.ScannerBlockItem;
 import com.cartoonishvillain.ImmortuosCalyx.Entity.*;
 import com.cartoonishvillain.ImmortuosCalyx.Items.BaseItems;
 import com.cartoonishvillain.ImmortuosCalyx.Items.ImmortuosSpawnEggItem;
-import net.minecraft.block.Block;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.fml.RegistryObject;
+import net.minecraft.ChatFormatting;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -34,22 +34,22 @@ public class Register {
     public static final RegistryObject<Block> INFECTIONSCANNER = BLOCKS.register("infection_scanner", InfectionScanner::new);
     public static final RegistryObject<Item> INFECTIONSCANNER_ITEM = BLOCKITEMS.register("infection_scanner", () -> new ScannerBlockItem(INFECTIONSCANNER.get()));
 
-    public static final RegistryObject<Item> CALYXANIDE = ITEMS.register("calyxanide", () -> new BaseItems(TextFormatting.BLUE + "Kills the Immortuos Calyx Parasite", TextFormatting.BLUE + "May need multiple doses for later stage infections", TextFormatting.RED + "May be lethal if the parasite is ingrained too heavily", ""));
-    public static final RegistryObject<Item> GENERALANTIPARASITIC = ITEMS.register("antiparasitic", () -> new BaseItems(TextFormatting.BLUE + "Strengthens Immune System to the Immortuos Calyx Parasite", TextFormatting.BLUE + "Does not make you immune. May also kill early forms of infection", TextFormatting.RED + "Will cause light organ damage", TextFormatting.GRAY + "Obtained through syringe extraction from a slime"));
-    public static final RegistryObject<Item> IMMORTUOSCALYXEGGS = ITEMS.register("immortuoseggs", () -> new BaseItems(TextFormatting.RED + "Infects humans with the Immortuos Calyx Parasite,", TextFormatting.GRAY + "Obtained through syringe extraction from fully converted entities", "", ""));
-    public static final RegistryObject<Item> SYRINGE = ITEMS.register("syringe", () -> new BaseItems(TextFormatting.GRAY + "Allows you to harvest biomaterials necessary to make medicines", "", "", ""));
-    public static final RegistryObject<Item> SCANNER = ITEMS.register("healthscanner", () -> new BaseItems(TextFormatting.BLUE + "Gives you information about infection", TextFormatting.BLUE + "levels in players, and yourself.",TextFormatting.GRAY + "Shift rightclick to view your stats,", TextFormatting.GRAY + "left click players to view theirs."));
+    public static final RegistryObject<Item> CALYXANIDE = ITEMS.register("calyxanide", () -> new BaseItems(ChatFormatting.BLUE + "Kills the Immortuos Calyx Parasite", ChatFormatting.BLUE + "May need multiple doses for later stage infections", ChatFormatting.RED + "May be lethal if the parasite is ingrained too heavily", ""));
+    public static final RegistryObject<Item> GENERALANTIPARASITIC = ITEMS.register("antiparasitic", () -> new BaseItems(ChatFormatting.BLUE + "Strengthens Immune System to the Immortuos Calyx Parasite", ChatFormatting.BLUE + "Does not make you immune. May also kill early forms of infection", ChatFormatting.RED + "Will cause light organ damage", ChatFormatting.GRAY + "Obtained through syringe extraction from a slime"));
+    public static final RegistryObject<Item> IMMORTUOSCALYXEGGS = ITEMS.register("immortuoseggs", () -> new BaseItems(ChatFormatting.RED + "Infects humans with the Immortuos Calyx Parasite,", ChatFormatting.GRAY + "Obtained through syringe extraction from fully converted entities", "", ""));
+    public static final RegistryObject<Item> SYRINGE = ITEMS.register("syringe", () -> new BaseItems(ChatFormatting.GRAY + "Allows you to harvest biomaterials necessary to make medicines", "", "", ""));
+    public static final RegistryObject<Item> SCANNER = ITEMS.register("healthscanner", () -> new BaseItems(ChatFormatting.BLUE + "Gives you information about infection", ChatFormatting.BLUE + "levels in players, and yourself.",ChatFormatting.GRAY + "Shift rightclick to view your stats,", ChatFormatting.GRAY + "left click players to view theirs."));
     public static final RegistryObject<Item> INFECTEDHUMANSPAWN = ITEMS.register("infhuman_spawn_egg", () -> new ImmortuosSpawnEggItem(Register.INFECTEDHUMAN, 2565927, 5065244, new Item.Properties().tab(ImmortuosCalyx.TAB)));
     public static final RegistryObject<Item> INFECTEDDIVERSPAWN = ITEMS.register("infdiver_spawn_egg", () -> new ImmortuosSpawnEggItem(Register.INFECTEDDIVER, 2565927, 5065244, new Item.Properties().tab(ImmortuosCalyx.TAB)));
     public static final RegistryObject<Item> INFECTEDVILLAGERSPAWN = ITEMS.register("infvillager_spawn_egg", () -> new ImmortuosSpawnEggItem(Register.INFECTEDVILLAGER, 2565927, 5065244, new Item.Properties().tab(ImmortuosCalyx.TAB)));
     public static final RegistryObject<Item> INFECTEDIGSPAWN = ITEMS.register("infig_spawn_egg", () -> new ImmortuosSpawnEggItem(Register.INFECTEDIG, 2565927, 5065244, new Item.Properties().tab(ImmortuosCalyx.TAB)));
     public static final RegistryObject<Item> INFECTEDPLAYERSPAWN = ITEMS.register("infplayer_spawn_egg", () -> new ImmortuosSpawnEggItem(Register.INFECTEDPLAYER, 2565927, 5065244, new Item.Properties().tab(ImmortuosCalyx.TAB)));
 
-    public static final RegistryObject<EntityType<InfectedHumanEntity>> INFECTEDHUMAN = ENTITY_TYPES.register("infectedhuman", () -> EntityType.Builder.of(InfectedHumanEntity::new, EntityClassification.MONSTER).sized(0.6f, 1.95f).build(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infectedhuman").toString()));
-    public static final RegistryObject<EntityType<InfectedDiverEntity>> INFECTEDDIVER = ENTITY_TYPES.register("infecteddiver", () -> EntityType.Builder.of(InfectedDiverEntity::new, EntityClassification.MONSTER).sized(0.6f, 1.95f).build(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infecteddiver").toString()));
-    public static final RegistryObject<EntityType<InfectedVillagerEntity>> INFECTEDVILLAGER = ENTITY_TYPES.register("infectedvillager", () -> EntityType.Builder.of(InfectedVillagerEntity::new, EntityClassification.MONSTER).sized(0.6f, 1.95f).build(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infectedvillager").toString()));
-    public static final RegistryObject<EntityType<InfectedIGEntity>> INFECTEDIG = ENTITY_TYPES.register("infectedig", ()-> EntityType.Builder.of(InfectedIGEntity::new, EntityClassification.MONSTER).sized(1.6f, 2.6f).build(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infectedig").toString()));
-    public static final RegistryObject<EntityType<InfectedPlayerEntity>> INFECTEDPLAYER = ENTITY_TYPES.register("infectedplayer", ()-> EntityType.Builder.of(InfectedPlayerEntity::new, EntityClassification.MONSTER).sized(0.6f, 1.95f).build(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infectedplayer").toString()));
+    public static final RegistryObject<EntityType<InfectedHumanEntity>> INFECTEDHUMAN = ENTITY_TYPES.register("infectedhuman", () -> EntityType.Builder.of(InfectedHumanEntity::new, MobCategory.MONSTER).sized(0.6f, 1.95f).build(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infectedhuman").toString()));
+    public static final RegistryObject<EntityType<InfectedDiverEntity>> INFECTEDDIVER = ENTITY_TYPES.register("infecteddiver", () -> EntityType.Builder.of(InfectedDiverEntity::new, MobCategory.MONSTER).sized(0.6f, 1.95f).build(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infecteddiver").toString()));
+    public static final RegistryObject<EntityType<InfectedVillagerEntity>> INFECTEDVILLAGER = ENTITY_TYPES.register("infectedvillager", () -> EntityType.Builder.of(InfectedVillagerEntity::new, MobCategory.MONSTER).sized(0.6f, 1.95f).build(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infectedvillager").toString()));
+    public static final RegistryObject<EntityType<InfectedIGEntity>> INFECTEDIG = ENTITY_TYPES.register("infectedig", ()-> EntityType.Builder.of(InfectedIGEntity::new, MobCategory.MONSTER).sized(1.6f, 2.6f).build(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infectedig").toString()));
+    public static final RegistryObject<EntityType<InfectedPlayerEntity>> INFECTEDPLAYER = ENTITY_TYPES.register("infectedplayer", ()-> EntityType.Builder.of(InfectedPlayerEntity::new, MobCategory.MONSTER).sized(0.6f, 1.95f).build(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infectedplayer").toString()));
 
 
     public static final RegistryObject<SoundEvent> HUMANAMBIENT = SOUND_EVENT.register("infected_idle", () -> new SoundEvent(new ResourceLocation(ImmortuosCalyx.MOD_ID, "infected_idle")));

@@ -1,6 +1,6 @@
 package com.cartoonishvillain.ImmortuosCalyx.Entity;
 
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.world.entity.LivingEntity;
 
 import javax.annotation.Nullable;
 

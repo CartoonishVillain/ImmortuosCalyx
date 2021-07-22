@@ -1,7 +1,7 @@
 package com.cartoonishvillain.ImmortuosCalyx.Configs;
 
 import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.fml.common.Mod;
 

@@ -1,8 +1,8 @@
 package com.cartoonishvillain.ImmortuosCalyx.Infection;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntityDamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.EntityDamageSource;
 
 public class InfectionDamage extends DamageSource {
     public InfectionDamage(String p_i1566_1_) {

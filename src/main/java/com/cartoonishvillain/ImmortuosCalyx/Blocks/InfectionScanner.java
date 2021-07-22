@@ -1,22 +1,21 @@
 package com.cartoonishvillain.ImmortuosCalyx.Blocks;
 
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.state.BooleanProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import net.minecraft.block.AbstractBlock.Properties;
 
 public class InfectionScanner extends Block {
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
@@ -31,17 +30,17 @@ public class InfectionScanner extends Block {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(POWERED);
     }
 
     @Override
-    public void stepOn(World world, BlockPos blockPos, Entity entity) {
+    public void stepOn(Level world, BlockPos blockPos, BlockState p_152433_, Entity entity) {
         BlockState blockState = world.getBlockState(blockPos);
         if(!world.isClientSide()){
-        blockState = redstoneStrength(entity, blockState);}
-        world.setBlockAndUpdate(blockPos, blockState.setValue(POWERED, blockState.getValue(POWERED)));
-    }
+            blockState = redstoneStrength(entity, blockState);}
+        world.setBlockAndUpdate(blockPos, blockState.setValue(POWERED, blockState.getValue(POWERED)));    }
+
 
     @Nonnull
     private BlockState redstoneStrength(Entity infected, BlockState state) {
@@ -53,6 +52,6 @@ public class InfectionScanner extends Block {
         return state.setValue(POWERED, logic);
     }
     @Override
-    public int getSignal (BlockState state, IBlockReader blockAccess, BlockPos pos, Direction side) { return state.getValue(POWERED) ? 15 : 0; }
+    public int getSignal (BlockState state, BlockGetter blockAccess, BlockPos pos, Direction side) { return state.getValue(POWERED) ? 15 : 0; }
 
 }

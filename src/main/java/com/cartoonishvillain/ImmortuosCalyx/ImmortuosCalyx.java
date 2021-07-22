@@ -9,10 +9,10 @@ import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedHumanEntity;
 import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedIGEntity;
 import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedPlayerEntity;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -60,11 +60,11 @@ public class ImmortuosCalyx
     {
         InfectionManagerCapability.register();
         DeferredWorkQueue.runLater(() -> {
-            GlobalEntityTypeAttributes.put(Register.INFECTEDHUMAN.get(), InfectedHumanEntity.customAttributes().build());
-            GlobalEntityTypeAttributes.put(Register.INFECTEDDIVER.get(), InfectedDiverEntity.customAttributes().build());
-            GlobalEntityTypeAttributes.put(Register.INFECTEDVILLAGER.get(), InfectedDiverEntity.customAttributes().build());
-            GlobalEntityTypeAttributes.put(Register.INFECTEDIG.get(), InfectedIGEntity.customAttributes().build());
-            GlobalEntityTypeAttributes.put(Register.INFECTEDPLAYER.get(), InfectedPlayerEntity.customAttributes().build());
+            DefaultAttributes.put(Register.INFECTEDHUMAN.get(), InfectedHumanEntity.customAttributes().build());
+            DefaultAttributes.put(Register.INFECTEDDIVER.get(), InfectedDiverEntity.customAttributes().build());
+            DefaultAttributes.put(Register.INFECTEDVILLAGER.get(), InfectedDiverEntity.customAttributes().build());
+            DefaultAttributes.put(Register.INFECTEDIG.get(), InfectedIGEntity.customAttributes().build());
+            DefaultAttributes.put(Register.INFECTEDPLAYER.get(), InfectedPlayerEntity.customAttributes().build());
 
         });
     }
@@ -87,7 +87,7 @@ public class ImmortuosCalyx
     public void onServerStarting(FMLServerStartingEvent event) {
 
     }
-    public static final ItemGroup TAB = new ItemGroup("ImmortuosCalyx") {
+    public static final CreativeModeTab TAB = new CreativeModeTab("ImmortuosCalyx") {
         @Override
         public ItemStack makeIcon() {
             return new ItemStack(Register.IMMORTUOSCALYXEGGS.get());

@@ -1,7 +1,7 @@
 package com.cartoonishvillain.ImmortuosCalyx.Infection;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
@@ -9,7 +9,7 @@ import net.minecraftforge.common.util.LazyOptional;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-public class InfectionManager implements IInfectionManager, ICapabilityProvider, INBTSerializable<CompoundNBT> {
+public class InfectionManager implements IInfectionManager, ICapabilityProvider, INBTSerializable<CompoundTag> {
     protected int infectionProgress = 0;
     protected int infectionTimer = 0;
     protected double resistance = 1;
@@ -45,8 +45,8 @@ public class InfectionManager implements IInfectionManager, ICapabilityProvider,
     }
 
     @Override
-    public CompoundNBT serializeNBT() {
-        CompoundNBT tag = new CompoundNBT();
+    public CompoundTag serializeNBT() {
+        CompoundTag tag = new CompoundTag();
         tag.putInt("infectionProgression", infectionProgress);
         tag.putInt("infectionTimer", infectionTimer);
         tag.putDouble("infectionResistance", resistance);
@@ -54,7 +54,7 @@ public class InfectionManager implements IInfectionManager, ICapabilityProvider,
     }
 
     @Override
-    public void deserializeNBT(CompoundNBT nbt) {
+    public void deserializeNBT(CompoundTag nbt) {
         infectionProgress = nbt.getInt("infectionProgression");
         infectionTimer = nbt.getInt("infectionTimer");
         resistance = nbt.getFloat("infectionResistance");

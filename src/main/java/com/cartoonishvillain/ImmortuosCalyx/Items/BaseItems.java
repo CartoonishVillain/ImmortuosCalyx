@@ -1,12 +1,12 @@
 package com.cartoonishvillain.ImmortuosCalyx.Items;
 
 import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -25,15 +25,15 @@ public class BaseItems extends Item{
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         if(lore1 != ""){
-            tooltip.add(new StringTextComponent(lore1));
+            tooltip.add(new TextComponent(lore1));
             if(lore2 != ""){
-                tooltip.add(new StringTextComponent(lore2));
+                tooltip.add(new TextComponent(lore2));
                 if(lore3 != ""){
-                    tooltip.add(new StringTextComponent(lore3));
+                    tooltip.add(new TextComponent(lore3));
                     if(lore4 != ""){
-                        tooltip.add(new StringTextComponent(lore4));
+                        tooltip.add(new TextComponent(lore4));
                     }
                 }
             }

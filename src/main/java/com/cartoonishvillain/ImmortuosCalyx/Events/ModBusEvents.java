@@ -5,7 +5,7 @@ import com.cartoonishvillain.ImmortuosCalyx.Entity.Spawns;
 import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
 import com.cartoonishvillain.ImmortuosCalyx.Items.ImmortuosSpawnEggItem;
 import com.cartoonishvillain.ImmortuosCalyx.Register;
-import net.minecraft.entity.EntityType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;

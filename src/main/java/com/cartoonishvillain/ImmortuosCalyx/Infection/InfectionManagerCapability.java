@@ -1,8 +1,8 @@
 package com.cartoonishvillain.ImmortuosCalyx.Infection;
 
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.INBT;
-import net.minecraft.util.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.Tag;
+import net.minecraft.core.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -18,8 +18,8 @@ public class InfectionManagerCapability {
         CapabilityManager.INSTANCE.register(IInfectionManager.class, new Capability.IStorage<IInfectionManager>() {
             @Nullable
             @Override
-            public INBT writeNBT(Capability<IInfectionManager> capability, IInfectionManager instance, Direction side) {
-                CompoundNBT tag = new CompoundNBT();
+            public Tag writeNBT(Capability<IInfectionManager> capability, IInfectionManager instance, Direction side) {
+                CompoundTag tag = new CompoundTag();
                 tag.putInt("infectionProgression", instance.getInfectionProgress());
                 tag.putInt("infectionTimer", instance.getInfectionTimer());
                 tag.putDouble("infectionResistance", instance.getResistance());
@@ -27,8 +27,8 @@ public class InfectionManagerCapability {
             }
 
             @Override
-            public void readNBT(Capability<IInfectionManager> capability, IInfectionManager instance, Direction side, INBT nbt) {
-                CompoundNBT tag = (CompoundNBT) nbt;
+            public void readNBT(Capability<IInfectionManager> capability, IInfectionManager instance, Direction side, Tag nbt) {
+                CompoundTag tag = (CompoundTag) nbt;
                 instance.setInfectionProgress(tag.getInt("infectionProgression"));
                 instance.setInfectionTimer(tag.getInt("infectionTimer"));
                 instance.setResistance(tag.getDouble("infectionResistance"));
