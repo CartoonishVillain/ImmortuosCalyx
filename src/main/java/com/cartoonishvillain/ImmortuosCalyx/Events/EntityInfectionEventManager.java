@@ -8,37 +8,37 @@ import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionDamage;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
 import com.cartoonishvillain.ImmortuosCalyx.Register;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.GoalSelector;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.WrappedGoal;
-import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.animal.IronGolem;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Pillager;
 import net.minecraft.world.entity.monster.Zombie;
-import net.minecraft.world.entity.animal.AbstractGolem;
-import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.npc.AbstractVillager;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.level.Level;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -153,7 +153,7 @@ public class EntityInfectionEventManager {
         if (Lentity instanceof InfectedEntity){
             if (!ImmortuosCalyx.DimensionExclusion.contains(Lentity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) {
                 if (rand.nextInt(ImmortuosCalyx.config.INFECTEDAERIALRATE.get()) < 2) {
-                    ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), null);
+                    ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), entity -> true);
                     ArrayList<LivingEntity> realBois = new ArrayList<LivingEntity>();
                     for (Entity entity : entities) {
                         if (entity instanceof LivingEntity) {
@@ -177,7 +177,7 @@ public class EntityInfectionEventManager {
         else if (Lentity instanceof Zombie) {
             if (!ImmortuosCalyx.DimensionExclusion.contains(Lentity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) {
                 if (rand.nextInt(ImmortuosCalyx.config.ZOMBIEAERIALRATE.get()) < 2) {
-                ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), null);
+                ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), entity -> true);
                 ArrayList<LivingEntity> realBois = new ArrayList<LivingEntity>();
                 for (Entity entity : entities) {
                     if (entity instanceof LivingEntity) {
@@ -200,7 +200,7 @@ public class EntityInfectionEventManager {
         }
         else {
           if(rand.nextInt(ImmortuosCalyx.config.COMMONAERIALRATE.get()) < 2){
-              ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), null);
+              ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), entity -> true);
               ArrayList<LivingEntity> realBois = new ArrayList<LivingEntity>();
               for (Entity entity : entities){
                   if (entity instanceof LivingEntity){realBois.add((LivingEntity) entity);}
@@ -231,7 +231,7 @@ public class EntityInfectionEventManager {
         Entity sEntity = event.getEntity();
         if(sEntity instanceof InfectedIGEntity && !sEntity.level.isClientSide()){
             InfectedIGEntity entity = (InfectedIGEntity) sEntity;
-            Set<WrappedGoal> prioritizedGoals = ObfuscationReflectionHelper.getPrivateValue(GoalSelector.class, entity.targetSelector, "field_220892_d");
+            Set<WrappedGoal> prioritizedGoals = ObfuscationReflectionHelper.getPrivateValue(GoalSelector.class, entity.targetSelector, "f_25345_");
             ArrayList<Goal> toRemove = new ArrayList<>();
             if(prioritizedGoals != null) {
                 for (WrappedGoal prioritizedGoal : prioritizedGoals) {
@@ -264,7 +264,7 @@ public class EntityInfectionEventManager {
         Entity sEntity = event.getEntity();
         if(sEntity instanceof InfectedDiverEntity && !sEntity.level.isClientSide()){
             InfectedDiverEntity entity = (InfectedDiverEntity) sEntity;
-            Set<WrappedGoal> prioritizedGoals = ObfuscationReflectionHelper.getPrivateValue(GoalSelector.class, entity.targetSelector, "field_220892_d");
+            Set<WrappedGoal> prioritizedGoals = ObfuscationReflectionHelper.getPrivateValue(GoalSelector.class, entity.targetSelector, "f_25345_");
             ArrayList<Goal> toRemove = new ArrayList<>();
             if(prioritizedGoals != null) {
                 for (WrappedGoal prioritizedGoal : prioritizedGoals) {

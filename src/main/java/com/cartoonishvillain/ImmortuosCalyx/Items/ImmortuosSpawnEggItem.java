@@ -30,7 +30,7 @@ public class ImmortuosSpawnEggItem extends SpawnEggItem {
     }
 
     public static void initSpawnEggs(){
-        final Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class,null, "field_195987_b");
+        final Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class,null, "f_43201_");
         DefaultDispenseItemBehavior dispenseBehaviour = new DefaultDispenseItemBehavior() {
             @Override
             protected ItemStack execute(BlockSource source, ItemStack stack) {

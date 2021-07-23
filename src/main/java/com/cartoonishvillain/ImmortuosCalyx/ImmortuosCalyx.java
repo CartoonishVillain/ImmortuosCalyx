@@ -4,25 +4,17 @@ package com.cartoonishvillain.ImmortuosCalyx;
 import com.cartoonishvillain.ImmortuosCalyx.Configs.CommonConfig;
 import com.cartoonishvillain.ImmortuosCalyx.Configs.ConfigHelper;
 import com.cartoonishvillain.ImmortuosCalyx.Configs.ServerConfig;
-import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedDiverEntity;
-import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedHumanEntity;
-import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedIGEntity;
-import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedPlayerEntity;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
-import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModEnqueueEvent;
 import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
-import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -59,14 +51,6 @@ public class ImmortuosCalyx
     private void setup(final FMLCommonSetupEvent event)
     {
         InfectionManagerCapability.register();
-        DeferredWorkQueue.runLater(() -> {
-            DefaultAttributes.put(Register.INFECTEDHUMAN.get(), InfectedHumanEntity.customAttributes().build());
-            DefaultAttributes.put(Register.INFECTEDDIVER.get(), InfectedDiverEntity.customAttributes().build());
-            DefaultAttributes.put(Register.INFECTEDVILLAGER.get(), InfectedDiverEntity.customAttributes().build());
-            DefaultAttributes.put(Register.INFECTEDIG.get(), InfectedIGEntity.customAttributes().build());
-            DefaultAttributes.put(Register.INFECTEDPLAYER.get(), InfectedPlayerEntity.customAttributes().build());
-
-        });
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
@@ -83,10 +67,7 @@ public class ImmortuosCalyx
         // some example code to receive and process InterModComms from other mods
     }
     // You can use SubscribeEvent and let the Event Bus discover methods to call
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
 
-    }
     public static final CreativeModeTab TAB = new CreativeModeTab("ImmortuosCalyx") {
         @Override
         public ItemStack makeIcon() {

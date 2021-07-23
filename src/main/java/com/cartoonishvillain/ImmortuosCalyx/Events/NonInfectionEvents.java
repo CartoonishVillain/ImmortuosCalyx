@@ -126,22 +126,22 @@ public class NonInfectionEvents {
             if (event.getHand() == InteractionHand.MAIN_HAND) {
                 if (event.getTarget() instanceof Slime && event.getEntity() instanceof Player) {
                     Player player = (Player) event.getEntity();
-                    if (player.getMainHandItem().getItem().equals(Register.SYRINGE.get().getItem())) {
+                    if (player.getMainHandItem().getItem().equals(Register.SYRINGE.get())) {
                         ItemStack olditemstack = player.getMainHandItem();
                         olditemstack.shrink(1);
                         ItemStack itemStack = new ItemStack(Register.GENERALANTIPARASITIC.get());
-                        player.inventory.add(itemStack);
+                        player.getInventory().add(itemStack);
                         if (!event.getEntity().level.isClientSide()) {
                             target.getCommandSenderWorld().playSound(null, target.getX(), target.getY(), target.getZ(), Register.EXTRACT.get(), SoundSource.PLAYERS, 1f, 1f);
                         }
                     }
                 } else if ((event.getTarget() instanceof InfectedHumanEntity) || (event.getTarget() instanceof InfectedDiverEntity) || (event.getTarget() instanceof InfectedVillagerEntity) || (event.getTarget() instanceof InfectedIGEntity) && event.getEntity() instanceof Player) {
                     Player player = (Player) event.getEntity();
-                    if (player.getMainHandItem().getItem().equals(Register.SYRINGE.get().getItem())) {
+                    if (player.getMainHandItem().getItem().equals(Register.SYRINGE.get())) {
                         ItemStack olditemstack = player.getMainHandItem();
                         olditemstack.shrink(1);
                         ItemStack itemStack = new ItemStack(Register.IMMORTUOSCALYXEGGS.get());
-                        player.inventory.add(itemStack);
+                        player.getInventory().add(itemStack);
                         if (!target.getCommandSenderWorld().isClientSide()) {
                             target.getCommandSenderWorld().playSound(null, target.getX(), target.getY(), target.getZ(), Register.EXTRACT.get(), SoundSource.PLAYERS, 1f, 1f);
                         }
