@@ -14,7 +14,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-version = '1.444444'
+version = '1.17.1-1.4'
 group = 'com.cartoonishvillain.immortuoscalyx' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'immortuoscalyx'
 

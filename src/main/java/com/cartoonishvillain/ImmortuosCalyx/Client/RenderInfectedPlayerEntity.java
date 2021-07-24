@@ -20,6 +20,7 @@ public class RenderInfectedPlayerEntity extends HumanoidMobRenderer<InfectedPlay
 
     public RenderInfectedPlayerEntity(EntityRendererProvider.Context p_174169_) {
         super(p_174169_, new HumanoidModel<InfectedPlayerEntity>(p_174169_.bakeLayer(ModelLayers.PLAYER)), 0.5f);
+        this.addLayer(new BloodiedPlayerLayer(this));
     }
 
 
