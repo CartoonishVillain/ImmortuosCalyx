@@ -25,7 +25,6 @@ public class Spawns {
         event.getSpawns().addSpawn(MobCategory.MONSTER, spawners);}
         else if (event.getCategory() != Biome.BiomeCategory.THEEND || event.getCategory() != Biome.BiomeCategory.NETHER){
             ArrayList<MobSpawnSettings.SpawnerData> spawners = new ArrayList<>();
-            spawners.add(new MobSpawnSettings.SpawnerData(Register.INFECTEDIG.get(), ImmortuosCalyx.commonConfig.IG.get(), 1, 1 ));
             spawners.add(new MobSpawnSettings.SpawnerData(Register.INFECTEDHUMAN.get(), ImmortuosCalyx.commonConfig.HUMAN.get(), 1, 1 ));
             spawners.add(new MobSpawnSettings.SpawnerData(Register.INFECTEDVILLAGER.get(), ImmortuosCalyx.commonConfig.VILLAGER.get(), 1, 1 ));
             for(MobSpawnSettings.SpawnerData spawner : spawners){event.getSpawns().addSpawn(MobCategory.MONSTER, spawner);}
@@ -34,7 +33,6 @@ public class Spawns {
 
     public static void PlacementManager(){
         SpawnPlacements.register(Register.INFECTEDDIVER.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.OCEAN_FLOOR, Mob::checkMobSpawnRules);
-        SpawnPlacements.register(Register.INFECTEDIG.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules);
         SpawnPlacements.register(Register.INFECTEDHUMAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules);
         SpawnPlacements.register(Register.INFECTEDVILLAGER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Mob::checkMobSpawnRules);
     }
