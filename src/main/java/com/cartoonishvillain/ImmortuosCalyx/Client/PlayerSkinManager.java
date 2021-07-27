@@ -6,12 +6,13 @@ import com.mojang.authlib.minecraft.MinecraftProfileTexture.Type;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.entity.SkullBlockEntity;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 /*
-    All functions in this class were sourced from HenkleMax's code for their corelib here: https://github.com/henkelmax/corelib/tree/1.16.4
+    All functions in this class were sourced from HenkleMax's code for their corelib here: https://github.com/henkelmax/corelib
     This code is used with permission, and I thank them for said permission!
  */
 public class PlayerSkinManager {
@@ -22,7 +23,9 @@ public class PlayerSkinManager {
             return players.get(uuid.toString());
         } else {
             GameProfile profile = new GameProfile(uuid, name);
-            players.put(uuid.toString(), profile);
+            SkullBlockEntity.updateGameprofile(profile, updatedGameProfile ->{
+                players.put(uuid.toString(), updatedGameProfile);
+            });
             return profile;
         }
     }
