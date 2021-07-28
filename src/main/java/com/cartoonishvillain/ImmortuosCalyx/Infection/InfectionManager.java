@@ -13,11 +13,20 @@ public class InfectionManager implements IInfectionManager, ICapabilityProvider,
     protected int infectionProgress = 0;
     protected int infectionTimer = 0;
     protected double resistance = 1;
+    protected boolean follower = false;
     public final LazyOptional<IInfectionManager> holder = LazyOptional.of(()->this);
     @Override
     public int getInfectionProgress() { return this.infectionProgress; } //grabs the infection %
     @Override
     public void setInfectionProgress(int infectionProgress) { this.infectionProgress = infectionProgress; } //sets infection %. Maybe for a command later or something.
+
+    @Override
+    public void setInfectionProgressIfLower(int infectionProgress) {
+        if(this.infectionProgress < infectionProgress){
+            this.infectionProgress = infectionProgress;
+        }
+    }
+
     @Override
     public void addInfectionProgress(int infectionProgress) { this.infectionProgress += infectionProgress; } //ticks infection % up
     @Override
@@ -37,6 +46,16 @@ public class InfectionManager implements IInfectionManager, ICapabilityProvider,
     @Override
     public void setResistance(double resistance) { this.resistance = resistance;}
 
+    @Override
+    public void setFollower(boolean isFollower) {
+        follower = isFollower;
+    }
+
+    @Override
+    public boolean isFollower() {
+        return follower;
+    }
+
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
@@ -50,6 +69,7 @@ public class InfectionManager implements IInfectionManager, ICapabilityProvider,
         tag.putInt("infectionProgression", infectionProgress);
         tag.putInt("infectionTimer", infectionTimer);
         tag.putDouble("infectionResistance", resistance);
+        tag.putBoolean("infectionFollower", follower);
         return tag;
     }
 
@@ -58,5 +78,6 @@ public class InfectionManager implements IInfectionManager, ICapabilityProvider,
         infectionProgress = nbt.getInt("infectionProgression");
         infectionTimer = nbt.getInt("infectionTimer");
         resistance = nbt.getFloat("infectionResistance");
+        follower = nbt.getBoolean("infectionFollower");
     }
 }

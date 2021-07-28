@@ -43,6 +43,7 @@ import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = ImmortuosCalyx.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -70,29 +71,47 @@ public class EntityInfectionEventManager {
     @SubscribeEvent
     public static void InfectionLogic(LivingEvent.LivingUpdateEvent event){
         AtomicInteger infectionlevel = new AtomicInteger(0);
+        AtomicBoolean isFollower = new AtomicBoolean(false);
         LivingEntity entity = event.getEntityLiving();
         entity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
             infectionlevel.getAndSet(h.getInfectionProgress());
+            isFollower.set(h.isFollower());
         });
         int level = infectionlevel.get();
         if(level > 0){
-            if(entity instanceof Villager){VillagerLogic((Villager) entity, level);}
+            if(entity instanceof Villager){VillagerLogic((Villager) entity, level, isFollower.get());}
             if(entity instanceof IronGolem && !(entity instanceof InfectedIGEntity)){IGLogic((IronGolem) entity, level);}
         }
     }
 
 
-    public static void VillagerLogic(Villager entity, int level){
-        if(level >= ImmortuosCalyx.config.VILLAGERSLOWTWO.get()){ // greater than or equal to 25
-            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 2, false, false));
-        }  else if(level >= ImmortuosCalyx.config.VILLAGERSLOWONE.get()){ //5-24%
-            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 1, false, false));
+    public static void VillagerLogic(Villager entity, int level, boolean isFollower){
+        if(!isFollower) {
+            if (level >= ImmortuosCalyx.config.VILLAGERSLOWTWO.get()) { // greater than or equal to 25
+                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 2, false, false));
+            } else if (level >= ImmortuosCalyx.config.VILLAGERSLOWONE.get()) { //5-24%
+                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 1, false, false));
+            }
+            if (level >= ImmortuosCalyx.config.VILLAGERLETHAL.get()) {
+                Random rand = new Random();
+                int random = rand.nextInt(100);
+                if (random < 1 && ImmortuosCalyx.config.INFECTIONDAMAGE.get() > 0) {
+                    entity.hurt(InfectionDamage.causeInfectionDamage(entity), ImmortuosCalyx.config.INFECTIONDAMAGE.get());
+                }
+            }
         }
-        if(level >= ImmortuosCalyx.config.VILLAGERLETHAL.get()){
-            Random rand = new Random();
-            int random = rand.nextInt(100);
-            if(random < 1 && ImmortuosCalyx.config.INFECTIONDAMAGE.get() > 0){
-                entity.hurt(InfectionDamage.causeInfectionDamage(entity), ImmortuosCalyx.config.INFECTIONDAMAGE.get());
+        else {
+            if (level >= ImmortuosCalyx.config.VILLAGERSLOWTWO.get() * ImmortuosCalyx.config.VILLAGERFOLLOWERIMMUNITY.get()) { // greater than or equal to 25
+                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 2, false, false));
+            } else if (level >= ImmortuosCalyx.config.VILLAGERSLOWONE.get() * ImmortuosCalyx.config.VILLAGERFOLLOWERIMMUNITY.get()) { //5-24%
+                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 1, false, false));
+            }
+            if (level >= ImmortuosCalyx.config.VILLAGERLETHAL.get() * ImmortuosCalyx.config.VILLAGERFOLLOWERIMMUNITY.get()) {
+                Random rand = new Random();
+                int random = rand.nextInt(100);
+                if (random < 1 && ImmortuosCalyx.config.INFECTIONDAMAGE.get() > 0) {
+                    entity.hurt(InfectionDamage.causeInfectionDamage(entity), ImmortuosCalyx.config.INFECTIONDAMAGE.get());
+                }
             }
         }
     }
@@ -154,20 +173,20 @@ public class EntityInfectionEventManager {
             if (!ImmortuosCalyx.DimensionExclusion.contains(Lentity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) {
                 if (rand.nextInt(ImmortuosCalyx.config.INFECTEDAERIALRATE.get()) < 2) {
                     ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), entity -> true);
-                    ArrayList<LivingEntity> realBois = new ArrayList<LivingEntity>();
+                    ArrayList<LivingEntity> livingEntities = new ArrayList<LivingEntity>();
                     for (Entity entity : entities) {
                         if (entity instanceof LivingEntity) {
-                            realBois.add((LivingEntity) entity);
+                            livingEntities.add((LivingEntity) entity);
                         }
                     }
 
-                    for (LivingEntity livingEntities : realBois) {
-                        livingEntities.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
+                    for (LivingEntity livingEntity : livingEntities) {
+                        livingEntity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
                             Double res = h.getResistance();
                             Double chance = 100 / res;
                             int roll = rand.nextInt(100);
                             if (roll < chance) {
-                                h.setInfectionProgress(1);
+                                h.setInfectionProgressIfLower(1);
                             }
                         });
                     }
@@ -177,33 +196,57 @@ public class EntityInfectionEventManager {
         else if (Lentity instanceof Zombie) {
             if (!ImmortuosCalyx.DimensionExclusion.contains(Lentity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) {
                 if (rand.nextInt(ImmortuosCalyx.config.ZOMBIEAERIALRATE.get()) < 2) {
-                ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), entity -> true);
-                ArrayList<LivingEntity> realBois = new ArrayList<LivingEntity>();
-                for (Entity entity : entities) {
-                    if (entity instanceof LivingEntity) {
-                        realBois.add((LivingEntity) entity);
-                    }
-                }
-
-                for (LivingEntity livingEntities : realBois) {
-                    livingEntities.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-                        Double res = h.getResistance();
-                        Double chance = 100 / res;
-                        int roll = rand.nextInt(100);
-                        if (roll < chance) {
-                            h.setInfectionProgress(1);
+                    ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), entity -> true);
+                    ArrayList<LivingEntity> livingEntities = new ArrayList<LivingEntity>();
+                    for (Entity entity : entities) {
+                        if (entity instanceof LivingEntity) {
+                            livingEntities.add((LivingEntity) entity);
                         }
-                    });
+                    }
+
+                    for (LivingEntity livingEntity : livingEntities) {
+                        livingEntity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
+                            Double res = h.getResistance();
+                            Double chance = 100 / res;
+                            int roll = rand.nextInt(100);
+                            if (roll < chance) {
+                                h.setInfectionProgressIfLower(1);
+                            }
+                        });
+                    }
                 }
             }
         }
+        else if(Lentity instanceof Villager){
+            if(!ImmortuosCalyx.DimensionExclusion.contains(Lentity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()){
+                if(rand.nextInt(ImmortuosCalyx.config.FOLLOWERAERIALRATE.get()) < 2){
+                    ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), entity -> true);
+                    ArrayList<LivingEntity> livingEntities = new ArrayList<LivingEntity>();
+                    for (Entity entity : entities) {
+                        if (entity instanceof LivingEntity) {
+                            livingEntities.add((LivingEntity) entity);
+                        }
+                    }
+
+                    for (LivingEntity livingEntity : livingEntities) {
+                        livingEntity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
+                            Double res = h.getResistance();
+                            Double chance = h.getInfectionProgress() *5 / res;
+                            int roll = rand.nextInt(100);
+                            if (roll < chance) {
+                                h.setInfectionProgressIfLower(1);
+                            }
+                        });
+                    }
+                }
+            }
         }
         else {
           if(rand.nextInt(ImmortuosCalyx.config.COMMONAERIALRATE.get()) < 2){
               ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AABB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), entity -> true);
-              ArrayList<LivingEntity> realBois = new ArrayList<LivingEntity>();
+              ArrayList<LivingEntity> livingEntities = new ArrayList<LivingEntity>();
               for (Entity entity : entities){
-                  if (entity instanceof LivingEntity){realBois.add((LivingEntity) entity);}
+                  if (entity instanceof LivingEntity){livingEntities.add((LivingEntity) entity);}
               }
 
               AtomicInteger integer = new AtomicInteger();
@@ -211,14 +254,14 @@ public class EntityInfectionEventManager {
                   integer.getAndSet(h.getInfectionProgress());
               });
 
-              for (LivingEntity livingEntities : realBois){
-                  livingEntities.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
+              for (LivingEntity livingEntity : livingEntities){
+                  livingEntity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
                       Double res = h.getResistance();
                       if (integer.get() > 150){integer.getAndSet(150);}
                       Double chance = integer.get()/res;
                       int roll = rand.nextInt(100);
                       if(roll < chance){
-                          h.setInfectionProgress(1);
+                          h.setInfectionProgressIfLower(1);
                       }
                   });
               }
@@ -277,6 +320,18 @@ public class EntityInfectionEventManager {
             entity.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(entity, Player.class, 10, true, false, entity::okTarget));
             entity.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(entity, AbstractVillager.class, 10, true, false, entity::okTarget));
             entity.targetSelector.addGoal(3, new NearestAttackableTargetGoal<AbstractGolem>(entity, AbstractGolem.class, 10, true, false, entity::shouldAttackMonster));
+        }
+    }
+
+    @SubscribeEvent
+    public static void VillagerSpawnEvent(EntityJoinWorldEvent event){
+        Entity sEntity = event.getEntity();
+        if(sEntity instanceof Villager && !((Villager) sEntity).isBaby() && !event.getWorld().isClientSide()){
+            sEntity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
+                if(event.getWorld().getRandom().nextInt(ImmortuosCalyx.config.VILLAGERFOLLOWERCHANCE.get()) < 2){
+                h.setInfectionProgressIfLower(1);
+                h.setFollower(true);}
+            });
         }
     }
 

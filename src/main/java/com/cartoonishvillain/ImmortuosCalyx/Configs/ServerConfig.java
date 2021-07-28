@@ -32,6 +32,7 @@ public class ServerConfig {
     public ConfigHelper.ConfigValueListener<Integer> INFECTEDAERIALRATE;
     public ConfigHelper.ConfigValueListener<Integer> ZOMBIEAERIALRATE;
     public ConfigHelper.ConfigValueListener<Integer> COMMONAERIALRATE;
+    public ConfigHelper.ConfigValueListener<Integer> FOLLOWERAERIALRATE;
 
 
     public ConfigHelper.ConfigValueListener<Integer> EFFECTMESSAGEONE;
@@ -51,6 +52,8 @@ public class ServerConfig {
     public ConfigHelper.ConfigValueListener<Integer> INFECTIONTIMER;
     public ConfigHelper.ConfigValueListener<Boolean> FORMATTEDINFECTCHAT;
 
+    public ConfigHelper.ConfigValueListener<Integer> VILLAGERFOLLOWERCHANCE;
+    public ConfigHelper.ConfigValueListener<Integer> VILLAGERFOLLOWERIMMUNITY;
     public ConfigHelper.ConfigValueListener<Integer> VILLAGERINFECTIONTIMER;
     public ConfigHelper.ConfigValueListener<Integer> VILLAGERSLOWONE;
     public ConfigHelper.ConfigValueListener<Integer> VILLAGERSLOWTWO;
@@ -85,6 +88,7 @@ public class ServerConfig {
         this.INFECTEDAERIALRATE = subscriber.subscribe(builder.comment("Higher numbers reduces aerosol infection attempts from custom infected entities").define("infectedAerosol", 5000));
         this.ZOMBIEAERIALRATE = subscriber.subscribe(builder.comment("Higher numbers reduces aerosol infection attempts from zombies, and zombie-like mobs").define("zombieAerosol", 7500));
         this.COMMONAERIALRATE = subscriber.subscribe(builder.comment("Higher numbers reduces aerosol infection attempts from any entity with partial infections.").define("commonAerosol", 10000));
+        this.FOLLOWERAERIALRATE = subscriber.subscribe(builder.comment("Higher numbers reduces aerosol infection attempts from follower villagers to fellow villagers and iron golems").define("followerAerosol", 10000));
         builder.pop();
 
         builder.comment("Modify Infection Side effects - when do side effects occur when enabled?").push(SCATEGORY_EFFECTS);
@@ -108,6 +112,8 @@ public class ServerConfig {
         builder.pop();
 
         builder.comment("Modify the infections of Villagers").push(SCATEGORY_VILLAGERINF);
+        this.VILLAGERFOLLOWERCHANCE = subscriber.subscribe(builder.comment("Chance of a newly generated villager (that is not a baby) will be a follower, intentionally carrying Immortuos Calyx. Higher numbers increase rarity. (2 is 1 in 2 villagers, etc)").defineInRange("villagerFollowerChance", 25, 1, 50));
+        this.VILLAGERFOLLOWERIMMUNITY = subscriber.subscribe(builder.comment("Multicative factor of how long willingly infected villagers will take per symptom").defineInRange("villagerFollowerImmunity", 2, 1, 3));
         this.VILLAGERINFECTIONTIMER = subscriber.subscribe(builder.comment("Changes how long it takes for the infection to go up 1% in ticks (assuming no lag, 20 per second)").define("villagerInfectionTicker", 450));
         this.VILLAGERSLOWONE = subscriber.subscribe(builder.comment("How much infection a villager needs for slowness 1").define("villagerSlowOne", 5));
         this.VILLAGERSLOWTWO = subscriber.subscribe(builder.comment("How much infection a villager needs for slowness 2").define("villagerSlowTwo", 25));
