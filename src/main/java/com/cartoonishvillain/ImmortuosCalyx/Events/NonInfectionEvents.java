@@ -11,6 +11,7 @@ import com.cartoonishvillain.ImmortuosCalyx.InternalOrganDamage;
 import com.cartoonishvillain.ImmortuosCalyx.Register;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.SlimeEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -191,6 +192,9 @@ public class NonInfectionEvents {
                         player.sendMessage(new StringTextComponent("===(" + entity.getName().getString() + "'s stats)==="), player.getUniqueID());
                         player.sendMessage(new StringTextComponent("Health: " + entity.getHealth()), player.getUniqueID());
                         player.sendMessage(new StringTextComponent("Infection Rate: " + h.getInfectionProgress() + "%"), player.getUniqueID());
+                        if(player.isCreative() && entity instanceof VillagerEntity){
+                            player.sendMessage(new StringTextComponent("Immortuos Follower: " + h.isFollower()), player.getUniqueID());
+                        }
                     });
                 } else {
                     event.getEntity().sendMessage(new StringTextComponent("Invalid Target."), event.getEntity().getUniqueID());

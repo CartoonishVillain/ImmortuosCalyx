@@ -23,6 +23,7 @@ public class InfectionManagerCapability {
                 tag.putInt("infectionProgression", instance.getInfectionProgress());
                 tag.putInt("infectionTimer", instance.getInfectionTimer());
                 tag.putDouble("infectionResistance", instance.getResistance());
+                tag.putBoolean("infectionFollower", instance.isFollower());
                 return tag;
             }
 
@@ -32,6 +33,7 @@ public class InfectionManagerCapability {
                 instance.setInfectionProgress(tag.getInt("infectionProgression"));
                 instance.setInfectionTimer(tag.getInt("infectionTimer"));
                 instance.setResistance(tag.getDouble("infectionResistance"));
+                instance.setFollower(tag.getBoolean("infectionFollower"));
             }
         }, new Callable<InfectionManager>(){
             @Override
