@@ -22,8 +22,6 @@ import net.minecraft.world.entity.ai.goal.WrappedGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.animal.AbstractGolem;
 import net.minecraft.world.entity.animal.IronGolem;
-import net.minecraft.world.entity.monster.Monster;
-import net.minecraft.world.entity.monster.Pillager;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.npc.Villager;
@@ -269,29 +267,29 @@ public class EntityInfectionEventManager {
         }
     }
 
-    @SubscribeEvent
-    public static void InfectedIGSpawnEvent(EntityJoinWorldEvent event){
-        Entity sEntity = event.getEntity();
-        if(sEntity instanceof InfectedIGEntity && !sEntity.level.isClientSide()){
-            InfectedIGEntity entity = (InfectedIGEntity) sEntity;
-            Set<WrappedGoal> prioritizedGoals = ObfuscationReflectionHelper.getPrivateValue(GoalSelector.class, entity.targetSelector, "f_25345_");
-            ArrayList<Goal> toRemove = new ArrayList<>();
-            if(prioritizedGoals != null) {
-                for (WrappedGoal prioritizedGoal : prioritizedGoals) {
-                    toRemove.add(prioritizedGoal.getGoal());
-                }
-            }
-            for(Goal goal : toRemove){
-                entity.targetSelector.removeGoal(goal);
-            }
-            entity.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(entity, Pillager.class, 16, true, false,  entity::shouldAttack));
-            entity.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(entity, Monster.class, 16, true, false,  entity::shouldAttackMonster));
-            entity.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(entity, AbstractVillager.class, 16, true, false,  entity::shouldAttack));
-            entity.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(entity, Player.class, 16, true, false,  entity::shouldAttack));
-            entity.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(entity, AbstractGolem.class, 16, true, false,  entity::shouldAttackMonster));
-
-        }
-    }
+//    @SubscribeEvent
+//    public static void InfectedIGSpawnEvent(EntityJoinWorldEvent event){
+//        Entity sEntity = event.getEntity();
+//        if(sEntity instanceof InfectedIGEntity && !sEntity.level.isClientSide()){
+//            InfectedIGEntity entity = (InfectedIGEntity) sEntity;
+//            Set<WrappedGoal> prioritizedGoals = ObfuscationReflectionHelper.getPrivateValue(GoalSelector.class, entity.targetSelector, "f_25345_");
+//            ArrayList<Goal> toRemove = new ArrayList<>();
+//            if(prioritizedGoals != null) {
+//                for (WrappedGoal prioritizedGoal : prioritizedGoals) {
+//                    toRemove.add(prioritizedGoal.getGoal());
+//                }
+//            }
+//            for(Goal goal : toRemove){
+//                entity.targetSelector.removeGoal(goal);
+//            }
+//            entity.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(entity, Pillager.class, 16, true, false,  entity::shouldAttack));
+//            entity.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(entity, Monster.class, 16, true, false,  entity::shouldAttackMonster));
+//            entity.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(entity, AbstractVillager.class, 16, true, false,  entity::shouldAttack));
+//            entity.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(entity, Player.class, 16, true, false,  entity::shouldAttack));
+//            entity.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(entity, AbstractGolem.class, 16, true, false,  entity::shouldAttackMonster));
+//
+//        }
+//    }
 
     @SubscribeEvent
     public static void GolemSpawnEvent(EntityJoinWorldEvent event){
