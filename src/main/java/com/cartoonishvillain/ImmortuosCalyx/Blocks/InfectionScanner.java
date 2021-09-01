@@ -12,7 +12,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.common.ToolType;
 
 import javax.annotation.Nonnull;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,7 +19,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class InfectionScanner extends Block {
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public InfectionScanner() {
-        super(Properties.of(Material.STONE).strength(3f).harvestTool(ToolType.PICKAXE).requiresCorrectToolForDrops());
+        super(Properties.of(Material.STONE).strength(3f).requiresCorrectToolForDrops());
         this.registerDefaultState(defaultBlockState().setValue(POWERED, false));
     }
 

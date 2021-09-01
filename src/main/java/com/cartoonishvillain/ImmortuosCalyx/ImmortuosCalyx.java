@@ -4,7 +4,6 @@ package com.cartoonishvillain.ImmortuosCalyx;
 import com.cartoonishvillain.ImmortuosCalyx.Configs.CommonConfig;
 import com.cartoonishvillain.ImmortuosCalyx.Configs.ConfigHelper;
 import com.cartoonishvillain.ImmortuosCalyx.Configs.ServerConfig;
-import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -50,7 +49,6 @@ public class ImmortuosCalyx
 
     private void setup(final FMLCommonSetupEvent event)
     {
-        InfectionManagerCapability.register();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
