@@ -30,6 +30,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = ImmortuosCalyx.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -124,20 +126,14 @@ public class PlayerInfectionEventManager {
     }
 
 
-    static Item[] rawItem = new Item[]{Items.BEEF, Items.RABBIT, Items.CHICKEN, Items.PORKCHOP, Items.MUTTON, Items.COD, Items.SALMON, Items.ROTTEN_FLESH};
+    static ArrayList<Item> rawItem = new ArrayList<>(Arrays.asList(Items.BEEF, Items.RABBIT, Items.CHICKEN, Items.PORKCHOP, Items.MUTTON, Items.COD, Items.SALMON, Items.ROTTEN_FLESH));
     @SubscribeEvent
     public static void rawFood(LivingEntityUseItemEvent.Finish event){
         if(event.getEntity() instanceof PlayerEntity && (!ImmortuosCalyx.DimensionExclusion.contains(event.getEntity().level.dimension().location()) || !ImmortuosCalyx.commonConfig.RAWFOODINFECTIONINCLEANSE.get())){
             PlayerEntity player = (PlayerEntity) event.getEntity();
-            boolean raw = false;
-            for(Item item : rawItem){if(item.equals(event.getItem().getItem())){raw = true; break;}}
+            boolean raw = rawItem.contains(event.getItem().getItem());
             if(raw){
-                player.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                    if(h.getInfectionProgress() == 0){
-                        Random rand = new Random();
-                        if(rand.nextInt(100) < (ImmortuosCalyx.config.RAWFOODINFECTIONVALUE.get()/(h.getResistance()))) h.setInfectionProgress(1);
-                    }
-                });
+                InfectionHandler.bioInfect(player,  ImmortuosCalyx.config.RAWFOODINFECTIONVALUE.get(), 1);
             }
         }
     }

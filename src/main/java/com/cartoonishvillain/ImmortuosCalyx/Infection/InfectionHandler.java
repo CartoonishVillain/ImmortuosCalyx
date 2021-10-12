@@ -41,6 +41,7 @@ public class InfectionHandler {
         });
     }
 
+    //Infected player attacks a non-player entity.
     public static void infectEntityByPlayer(PlayerEntity aggressor, LivingEntity victim, int amount){
         AtomicInteger infectChance = new AtomicInteger(0);
         aggressor.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
@@ -57,6 +58,7 @@ public class InfectionHandler {
         });
     }
 
+    //PVP Contagion
     public static void infectPlayerByPlayer(PlayerEntity aggressor, PlayerEntity victim, int amount) {
         if (ImmortuosCalyx.config.PVPCONTAGION.get() && (!ImmortuosCalyx.DimensionExclusion.contains(victim.level.dimension().location()) || !ImmortuosCalyx.commonConfig.PLAYERINFECTIONINCLEANSE.get())) {
             AtomicInteger infectChance = new AtomicInteger(0);
@@ -84,4 +86,23 @@ public class InfectionHandler {
             }
         }
     }
+
+    //Guaranteed Contagion.
+    public static void staticInfect(LivingEntity entity, int amount){
+        entity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
+            h.setInfectionProgressIfLower(amount);
+        });
+    }
+
+    //Non-Attack Vector infection. Armor ignored.
+    public static void bioInfect(LivingEntity victim, float infectChance, int amount){
+        victim.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
+            double bioResist = h.getResistance();
+            int InfectThreshold = (int) ((infectChance)/bioResist);
+            if(InfectThreshold > victim.getRandom().nextInt(100)){
+                h.setInfectionProgressIfLower(amount);
+            }
+        });
+    }
+
 }
