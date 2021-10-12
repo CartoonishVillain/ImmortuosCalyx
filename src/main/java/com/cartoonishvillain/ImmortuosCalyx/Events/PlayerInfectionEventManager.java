@@ -1,16 +1,17 @@
 package com.cartoonishvillain.ImmortuosCalyx.Events;
 
-import com.google.common.util.concurrent.AtomicDouble;
 import com.cartoonishvillain.ImmortuosCalyx.Entity.*;
 import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionDamage;
+import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionHandler;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManager;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
 import com.cartoonishvillain.ImmortuosCalyx.Register;
+import com.google.common.util.concurrent.AtomicDouble;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
+import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -24,6 +25,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -142,58 +144,26 @@ public class PlayerInfectionEventManager {
         }
     }
 
-    @SubscribeEvent public static void InfectFromMobAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event){
-        if (event.getSource().getEntity() instanceof LivingEntity && (!ImmortuosCalyx.DimensionExclusion.contains(event.getEntity().level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEINFECTIONINCLEANSE.get())) {
+    @SubscribeEvent
+    public static void InfectMobFromAttack(LivingAttackEvent event){
+        if(event.getSource().getEntity() instanceof LivingEntity && (!ImmortuosCalyx.DimensionExclusion.contains(event.getEntity().level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEINFECTIONINCLEANSE.get())){
             LivingEntity aggro = (LivingEntity) event.getSource().getEntity();
-            LivingEntity target = event.getEntityLiving();
-            int convert = 0;
-            int protection = (int) (target.getArmorValue() * ImmortuosCalyx.config.ARMORRESISTMULTIPLIER.get());
-            AtomicDouble InfectionResGrabber = new AtomicDouble(1);
-            AtomicBoolean InfectedGrabber = new AtomicBoolean(false);
-            target.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-                InfectionResGrabber.set(h.getResistance());
-                if (h.getInfectionProgress() > 0) {
-                    InfectedGrabber.getAndSet(true);
-                }
-            });
-            double resist = InfectionResGrabber.get();
-            if (!InfectedGrabber.get()) { // if target is already infected, it isn't worth running all of this.
-                if (aggro instanceof PlayerEntity) {
-                    if(target instanceof  PlayerEntity) return;
-                    else{
-                        AtomicInteger inf = new AtomicInteger();
-                        aggro.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                            if(h.getInfectionProgress() >= ImmortuosCalyx.config.PLAYERINFECTIONTHRESHOLD.get()){
-                                inf.set(h.getInfectionProgress());
-                            }
-                        });
-                        convert = inf.get();
-                    }
-                } else if (aggro instanceof InfectedHumanEntity || aggro instanceof InfectedDiverEntity || aggro instanceof InfectedPlayerEntity) {
-                    convert = 95;
-                } else if (aggro instanceof InfectedIGEntity) {
-                    convert = 75;
-                } else if (aggro instanceof InfectedVillagerEntity) {
-                    if (target instanceof IronGolemEntity || target instanceof AbstractVillagerEntity) {
-                        convert = 100; //villagers have a higher chance of infecting iron golems and other villagers.
-                    } else convert = 55;
-                } else {
-                    AtomicInteger inf = new AtomicInteger(0);
-                    aggro.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-                        inf.set(h.getInfectionProgress());
-                    });
-                    convert = inf.get();
-                }
-                int InfectThreshold = (int) ((convert - protection)/resist);
-                Random rand = new Random();
-                if(InfectThreshold > rand.nextInt(100)){
-                    target.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                        h.addInfectionProgress(1);
-                    });
-                }
+            LivingEntity victim = event.getEntityLiving();
+
+            if(aggro instanceof PlayerEntity){
+                if(victim instanceof PlayerEntity) return; //TODO: Circle back to this, can flatten with an additional method.
+                else InfectionHandler.infectEntityByPlayer((PlayerEntity) aggro, victim, 1);
             }
+            else if (aggro instanceof InfectedHumanEntity || aggro instanceof InfectedDiverEntity || aggro instanceof InfectedPlayerEntity) InfectionHandler.infectEntity(victim, 95, 1);
+            else if (aggro instanceof InfectedIGEntity) InfectionHandler.infectEntity(victim, 75, 1);
+            else if (aggro instanceof InfectedVillagerEntity){
+                if(victim instanceof AbstractVillagerEntity || victim instanceof GolemEntity) InfectionHandler.infectEntity(victim, 100, 1);
+                else InfectionHandler.infectEntity(victim, 55, 1);
+            }
+            else InfectionHandler.infectEntity(aggro, victim, 1);
         }
     }
+
 
     static Item[] rawItem = new Item[]{Items.BEEF, Items.RABBIT, Items.CHICKEN, Items.PORKCHOP, Items.MUTTON, Items.COD, Items.SALMON, Items.ROTTEN_FLESH};
     @SubscribeEvent
