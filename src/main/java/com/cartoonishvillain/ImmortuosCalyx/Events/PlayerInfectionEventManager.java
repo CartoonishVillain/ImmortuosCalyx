@@ -1,38 +1,38 @@
 package com.cartoonishvillain.ImmortuosCalyx.Events;
 
-import com.google.common.util.concurrent.AtomicDouble;
 import com.cartoonishvillain.ImmortuosCalyx.Entity.*;
 import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionDamage;
+import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionHandler;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManager;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
 import com.cartoonishvillain.ImmortuosCalyx.Register;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.npc.AbstractVillager;
-import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.AbstractGolem;
+import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.ChatFormatting;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
-import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = ImmortuosCalyx.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class PlayerInfectionEventManager {
@@ -105,110 +105,34 @@ public class PlayerInfectionEventManager {
         });
     }
 
-    @SubscribeEvent public static void InfectOtherPlayer(AttackEntityEvent event){
-        if(event.getEntity() instanceof Player && event.getTarget() instanceof Player && ImmortuosCalyx.config.PVPCONTAGION.get() && (!ImmortuosCalyx.DimensionExclusion.contains(event.getTarget().level.dimension().location()) || !ImmortuosCalyx.commonConfig.PLAYERINFECTIONINCLEANSE.get())){
-            Player target = (Player) event.getTarget(); //the player who got hit
-            Player aggro = (Player) event.getEntity(); //the player that hit
-            int protection = target.getArmorValue(); //grabs the armor value of the target
-            AtomicInteger infectionRateGrabber = new AtomicInteger(); //funky value time
-            aggro.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                int infectionProgression = h.getInfectionProgress();
-                infectionRateGrabber.addAndGet(infectionProgression); // sets the atomic int equal to the infection % of the attacker
 
-            });
-            AtomicDouble resistRateGrabber = new AtomicDouble(); //grab resistance from
-            target.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                Double resist = Double.valueOf(h.getResistance());
-                resistRateGrabber.addAndGet(resist);
-            });
-            AtomicBoolean infectedGrabber = new AtomicBoolean(false); //A surprise bool that will help us later
-            int convert = infectionRateGrabber.intValue();// converts the atomic int into a normal int for better math
-            double resist = (double) resistRateGrabber.get();
-            int threshold = ImmortuosCalyx.config.PLAYERINFECTIONTHRESHOLD.get();
-            double armorInfectResist = ImmortuosCalyx.config.ARMORRESISTMULTIPLIER.get();
-            if(convert >= threshold){ // if the attacker's infection rate is at or above the threshold.
-                int conversionThreshold = (int) ((convert - (protection*armorInfectResist))/resist); // creates mimimum score needed to not get infected
-                Random rand = new Random();
-                if(conversionThreshold > rand.nextInt(100)){ // rolls for infection. If random value rolls below threshold, target is at risk of infection.
-                    target.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                        int infect = ImmortuosCalyx.config.PVPCONTAGIONAMOUNT.get();
-                        if(h.getInfectionProgress() == 0){h.addInfectionProgress(infect); infectedGrabber.set(true);} // if target is not already infected, and the risk for infection exists, they are freshly infected. Surprise bool gets activated
-                    });
-                }
-            }
-            if(infectedGrabber.get()){aggro.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{ //if surprise bool is activated, it means the aggressor player successfully infected someone. Removing part of the parasite and having it get on someone else.
-                h.addInfectionProgress(-ImmortuosCalyx.config.PVPCONTAGIONRELIEF.get()); });//because of that, symptoms are reduced.
-                if(!aggro.getCommandSenderWorld().isClientSide)aggro.level.playSound(null, aggro.blockPosition(), Register.HUMANHURT.get(), SoundSource.PLAYERS, 1f, 1.2f);}
-        }
-    }
-
-    @SubscribeEvent public static void InfectFromMobAttack(net.minecraftforge.event.entity.living.LivingAttackEvent event){
-        if (event.getSource().getEntity() instanceof LivingEntity && (!ImmortuosCalyx.DimensionExclusion.contains(event.getEntity().level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEINFECTIONINCLEANSE.get())) {
-            LivingEntity aggro = (LivingEntity) event.getSource().getEntity();
-            LivingEntity target = event.getEntityLiving();
-            int convert = 0;
-            int protection = (int) (target.getArmorValue() * ImmortuosCalyx.config.ARMORRESISTMULTIPLIER.get());
-            AtomicDouble InfectionResGrabber = new AtomicDouble(1);
-            AtomicBoolean InfectedGrabber = new AtomicBoolean(false);
-            target.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-                InfectionResGrabber.set(h.getResistance());
-                if (h.getInfectionProgress() > 0) {
-                    InfectedGrabber.getAndSet(true);
-                }
-            });
-            double resist = InfectionResGrabber.get();
-            if (!InfectedGrabber.get()) { // if target is already infected, it isn't worth running all of this.
-                if (aggro instanceof Player) {
-                    if(target instanceof  Player) return;
-                    else{
-                        AtomicInteger inf = new AtomicInteger();
-                        aggro.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                            if(h.getInfectionProgress() >= ImmortuosCalyx.config.PLAYERINFECTIONTHRESHOLD.get()){
-                                inf.set(h.getInfectionProgress());
-                            }
-                        });
-                        convert = inf.get();
-                    }
-                } else if (aggro instanceof InfectedHumanEntity || aggro instanceof InfectedDiverEntity || aggro instanceof InfectedPlayerEntity) {
-                    convert = 95;
-                } else if (aggro instanceof InfectedIGEntity) {
-                    convert = 75;
-                } else if (aggro instanceof InfectedVillagerEntity) {
-                    if (target instanceof IronGolem || target instanceof AbstractVillager) {
-                        convert = 100; //villagers have a higher chance of infecting iron golems and other villagers.
-                    } else convert = 55;
-                } else {
-                    AtomicInteger inf = new AtomicInteger(0);
-                    aggro.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-                        inf.set(h.getInfectionProgress());
-                    });
-                    convert = inf.get();
-                }
-                int InfectThreshold = (int) ((convert - protection)/resist);
-                Random rand = new Random();
-                if(InfectThreshold > rand.nextInt(100)){
-                    target.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                        h.addInfectionProgress(1);
-                    });
-                }
-            }
-        }
-    }
-
-    static Item[] rawItem = new Item[]{Items.BEEF, Items.RABBIT, Items.CHICKEN, Items.PORKCHOP, Items.MUTTON, Items.COD, Items.SALMON, Items.ROTTEN_FLESH};
     @SubscribeEvent
+    public static void InfectMobFromAttack(LivingAttackEvent event){
+        if(event.getSource().getEntity() instanceof LivingEntity && (!ImmortuosCalyx.DimensionExclusion.contains(event.getEntity().level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEINFECTIONINCLEANSE.get() && !event.getEntityLiving().level.isClientSide())){
+            LivingEntity aggro = (LivingEntity) event.getSource().getEntity();
+            LivingEntity victim = event.getEntityLiving();
+
+            if(aggro instanceof Player){
+                if(victim instanceof Player) InfectionHandler.infectPlayerByPlayer((Player) aggro,(Player) victim, 1);
+                else InfectionHandler.infectEntityByPlayer((Player) aggro, victim, 1);
+            }
+            else if (aggro instanceof InfectedHumanEntity || aggro instanceof InfectedDiverEntity || aggro instanceof InfectedPlayerEntity) InfectionHandler.infectEntity(victim, 95, 1);
+            else if (aggro instanceof InfectedIGEntity) InfectionHandler.infectEntity(victim, 75, 1);
+            else if (aggro instanceof InfectedVillagerEntity){
+                if(victim instanceof Villager || victim instanceof AbstractGolem) InfectionHandler.infectEntity(victim, 100, 1);
+                else InfectionHandler.infectEntity(victim, 55, 1);
+            }
+            else InfectionHandler.infectEntity(aggro, victim, 1);
+        }
+    }
+
+    static ArrayList<Item> rawItem = new ArrayList<>(Arrays.asList(Items.BEEF, Items.RABBIT, Items.CHICKEN, Items.PORKCHOP, Items.MUTTON, Items.COD, Items.SALMON, Items.ROTTEN_FLESH));    @SubscribeEvent
     public static void rawFood(LivingEntityUseItemEvent.Finish event){
         if(event.getEntity() instanceof Player && (!ImmortuosCalyx.DimensionExclusion.contains(event.getEntity().level.dimension().location()) || !ImmortuosCalyx.commonConfig.RAWFOODINFECTIONINCLEANSE.get())){
             Player player = (Player) event.getEntity();
-            boolean raw = false;
-            for(Item item : rawItem){if(item.equals(event.getItem().getItem())){raw = true; break;}}
+            boolean raw = rawItem.contains(event.getItem().getItem());
             if(raw){
-                player.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                    if(h.getInfectionProgress() == 0){
-                        Random rand = new Random();
-                        if(rand.nextInt(100) < (ImmortuosCalyx.config.RAWFOODINFECTIONVALUE.get()/(h.getResistance()))) h.setInfectionProgress(1);
-                    }
-                });
+                InfectionHandler.bioInfect(player,  ImmortuosCalyx.config.RAWFOODINFECTIONVALUE.get(), 1);
             }
         }
     }
