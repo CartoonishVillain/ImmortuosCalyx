@@ -105,4 +105,20 @@ public class InfectionHandler {
         });
     }
 
+    //Non-Attack Vector infection. Unknown chance.
+    public static void commonAerosol(LivingEntity victim, LivingEntity transmissionVector, int amount){
+        AtomicInteger infectChance = new AtomicInteger(0);
+        transmissionVector.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
+            infectChance.set(h.getInfectionProgress());
+        });
+
+        victim.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
+            double bioResist = h.getResistance();
+            int InfectThreshold = (int) ((infectChance.get())/bioResist);
+            if(InfectThreshold > victim.getRandom().nextInt(100)){
+                h.setInfectionProgressIfLower(amount);
+            }
+        });
+    }
+
 }

@@ -6,6 +6,7 @@ import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedIGEntity;
 import com.cartoonishvillain.ImmortuosCalyx.Entity.InfectedPlayerEntity;
 import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionDamage;
+import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionHandler;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
 import com.cartoonishvillain.ImmortuosCalyx.Register;
 import net.minecraft.entity.Entity;
@@ -29,7 +30,6 @@ import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -145,110 +145,41 @@ public class EntityInfectionEventManager {
         }
     }
 
+
     @SubscribeEvent
-    public static void InfectionByAir(LivingEvent.LivingUpdateEvent event) {
-        LivingEntity Lentity = event.getEntityLiving();
+    public static void AerosolInfection(LivingEvent.LivingUpdateEvent event){
+        LivingEntity sourceEntity = event.getEntityLiving();
         Random rand = new Random();
+        if ((!ImmortuosCalyx.DimensionExclusion.contains(sourceEntity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) && !sourceEntity.level.isClientSide()){
+            int AerosolRate = Integer.MAX_VALUE;
+            boolean common = false;
 
-        if (Lentity instanceof InfectedEntity) {
-            if (!ImmortuosCalyx.DimensionExclusion.contains(Lentity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) {
-                if (rand.nextInt(ImmortuosCalyx.config.INFECTEDAERIALRATE.get()) < 2) {
-                    ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AxisAlignedBB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), null);
-                    ArrayList<LivingEntity> livingEntityList = new ArrayList<LivingEntity>();
-                    for (Entity entity : entities) {
-                        if (entity instanceof LivingEntity) {
-                            livingEntityList.add((LivingEntity) entity);
-                        }
-                    }
+            if(sourceEntity instanceof InfectedEntity) AerosolRate = ImmortuosCalyx.config.INFECTEDAERIALRATE.get();
+            else if(sourceEntity instanceof ZombieEntity) AerosolRate = ImmortuosCalyx.config.ZOMBIEAERIALRATE.get();
+            else if(sourceEntity instanceof VillagerEntity) AerosolRate = ImmortuosCalyx.config.FOLLOWERAERIALRATE.get();
+            else {common = true; AerosolRate = ImmortuosCalyx.config.COMMONAERIALRATE.get();}
 
-                    for (LivingEntity livingEntities : livingEntityList) {
-                        livingEntities.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-                            Double res = h.getResistance();
-                            Double chance = 100 / res;
-                            int roll = rand.nextInt(100);
-                            if (roll < chance) {
-                                h.setInfectionProgressIfLower(1);
-                            }
-                        });
-                    }
+            ArrayList<Entity> entities = (ArrayList<Entity>) sourceEntity.level.getEntities(sourceEntity, sourceEntity.getBoundingBox().inflate(4), null);
+            ArrayList<LivingEntity> livingEntityList = new ArrayList<LivingEntity>();
+            for (Entity entity : entities) {
+                if (entity instanceof LivingEntity) {
+                    livingEntityList.add((LivingEntity) entity);
                 }
             }
-        } else if (Lentity instanceof ZombieEntity) {
-            if (!ImmortuosCalyx.DimensionExclusion.contains(Lentity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) {
-                if (rand.nextInt(ImmortuosCalyx.config.ZOMBIEAERIALRATE.get()) < 2) {
-                    ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AxisAlignedBB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), null);
-                    ArrayList<LivingEntity> livingEntityList = new ArrayList<LivingEntity>();
-                    for (Entity entity : entities) {
-                        if (entity instanceof LivingEntity) {
-                            livingEntityList.add((LivingEntity) entity);
-                        }
-                    }
 
-                    for (LivingEntity livingEntities : livingEntityList) {
-                        livingEntities.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-                            Double res = h.getResistance();
-                            Double chance = 100 / res;
-                            int roll = rand.nextInt(100);
-                            if (roll < chance) {
-                                h.setInfectionProgressIfLower(1);
-                            }
-                        });
-                    }
+
+            if(!common) {
+                for (LivingEntity victim : livingEntityList) {
+                    InfectionHandler.bioInfect(victim, AerosolRate, 1);
+                }
+            }else{
+                for (LivingEntity victim : livingEntityList) {
+                    InfectionHandler.commonAerosol(victim, sourceEntity, 1);
                 }
             }
-        } else if (Lentity instanceof VillagerEntity) {
-            if (!ImmortuosCalyx.DimensionExclusion.contains(Lentity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) {
-                if (rand.nextInt(ImmortuosCalyx.config.FOLLOWERAERIALRATE.get()) < 2) {
-                    ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AxisAlignedBB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), entity -> true);
-                    ArrayList<LivingEntity> livingEntities = new ArrayList<LivingEntity>();
-                    for (Entity entity : entities) {
-                        if (entity instanceof LivingEntity) {
-                            livingEntities.add((LivingEntity) entity);
-                        }
-                    }
 
-                    for (LivingEntity livingEntity : livingEntities) {
-                        livingEntity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-                            Double res = h.getResistance();
-                            Double chance = h.getInfectionProgress() * 5 / res;
-                            int roll = rand.nextInt(100);
-                            if (roll < chance) {
-                                h.setInfectionProgressIfLower(1);
-                            }
-                        });
-                    }
-                }
-            }
-        } else {
-            if (rand.nextInt(ImmortuosCalyx.config.COMMONAERIALRATE.get()) < 2) {
-                ArrayList<Entity> entities = (ArrayList<Entity>) Lentity.level.getEntities(Lentity, new AxisAlignedBB((Lentity.getX() - 4), (Lentity.getY() - 4), (Lentity.getZ() - 4), (Lentity.getX() + 4), (Lentity.getY() + 4), (Lentity.getZ() + 4)), null);
-                ArrayList<LivingEntity> livingEntityList = new ArrayList<LivingEntity>();
-                for (Entity entity : entities) {
-                    if (entity instanceof LivingEntity) {
-                        livingEntityList.add((LivingEntity) entity);
-                    }
-                }
-
-                AtomicInteger integer = new AtomicInteger();
-                Lentity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-                    integer.getAndSet(h.getInfectionProgress());
-                });
-
-                for (LivingEntity livingEntities : livingEntityList) {
-                    livingEntities.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-                        Double res = h.getResistance();
-                        if (integer.get() > 150) {
-                            integer.getAndSet(150);
-                        }
-                        Double chance = integer.get() / res;
-                        int roll = rand.nextInt(100);
-                        if (roll < chance) {
-                            h.setInfectionProgressIfLower(1);
-                        }
-                    });
-                }
-            }
         }
+
     }
 
     @SubscribeEvent
