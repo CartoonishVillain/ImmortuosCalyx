@@ -1,11 +1,10 @@
 package com.cartoonishvillain.ImmortuosCalyx.Items;
 
-import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
-import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
@@ -16,8 +15,8 @@ public class BaseItems extends Item{
     String lore2;
     String lore3;
     String lore4;
-    public BaseItems(String lore1, String lore2, String lore3, String lore4) {
-        super(new Item.Properties().tab(ImmortuosCalyx.TAB));
+    public BaseItems(Item.Properties properties, String lore1, String lore2, String lore3, String lore4) {
+        super(properties);
         this.lore1 = lore1;
         this.lore2 = lore2;
         this.lore3 = lore3;

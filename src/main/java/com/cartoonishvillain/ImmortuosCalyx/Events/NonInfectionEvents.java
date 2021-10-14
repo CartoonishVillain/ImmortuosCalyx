@@ -9,6 +9,7 @@ import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
 import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
 import com.cartoonishvillain.ImmortuosCalyx.InternalOrganDamage;
 import com.cartoonishvillain.ImmortuosCalyx.Register;
+import com.cartoonishvillain.ImmortuosCalyx.commands.SetInfectionRateCommand;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -21,6 +22,7 @@ import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -31,6 +33,12 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = ImmortuosCalyx.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class NonInfectionEvents {
+
+    @SubscribeEvent
+    public static void commandRegister(RegisterCommandsEvent event){
+        SetInfectionRateCommand.register(event.getDispatcher());
+    }
+
     @SubscribeEvent
     public static void selfUseCalyxide(PlayerInteractEvent.RightClickItem event){
         if(event.getEntity() instanceof Player && event.getItemStack().getItem().equals(Register.CALYXANIDE.get())){
