@@ -17,5 +17,6 @@
   "item.immortuoscalyx.infig_spawn_egg": "Infected Iron Golem Spawn Egg",
   "item.immortuoscalyx.infplayer_spawn_egg": "Infected Player Spawn Egg",
   "item.immortuoscalyx.healthscanner": "Health Scanner",
-  "itemGroup.ImmortuosCalyx": "Immortuos Calyx"
+  "itemGroup.ImmortuosCalyx": "Immortuos Calyx",
+  "progress.immortuoscalyx.set": "Target's infection progress set to %1$s percent."
 }
