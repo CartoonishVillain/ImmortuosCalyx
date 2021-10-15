@@ -176,23 +176,24 @@ public class EntityInfectionEventManager {
             else if(sourceEntity instanceof Villager) AerosolRate = ImmortuosCalyx.config.FOLLOWERAERIALRATE.get();
             else {common = true; AerosolRate = ImmortuosCalyx.config.COMMONAERIALRATE.get();}
 
-            ArrayList<Entity> entities = (ArrayList<Entity>) sourceEntity.level.getEntities(sourceEntity, sourceEntity.getBoundingBox().inflate(4), entity -> true);
-            ArrayList<LivingEntity> livingEntityList = new ArrayList<LivingEntity>();
-            for (Entity entity : entities) {
-                if (entity instanceof LivingEntity) {
-                    livingEntityList.add((LivingEntity) entity);
+            if(AerosolRate != Integer.MAX_VALUE && rand.nextInt(AerosolRate) == 2) {
+                ArrayList<Entity> entities = (ArrayList<Entity>) sourceEntity.level.getEntities(sourceEntity, sourceEntity.getBoundingBox().inflate(2), entity -> true);
+                ArrayList<LivingEntity> livingEntityList = new ArrayList<LivingEntity>();
+                for (Entity entity : entities) {
+                    if (entity instanceof LivingEntity) {
+                        livingEntityList.add((LivingEntity) entity);
+                    }
+                }
+                if (!common) {
+                    for (LivingEntity victim : livingEntityList) {
+                        InfectionHandler.bioInfect(victim, AerosolRate, 1);
+                    }
+                } else {
+                    for (LivingEntity victim : livingEntityList) {
+                        InfectionHandler.commonAerosol(victim, sourceEntity, 1);
+                    }
                 }
             }
-            if(!common) {
-                for (LivingEntity victim : livingEntityList) {
-                    InfectionHandler.bioInfect(victim, AerosolRate, 1);
-                }
-            }else{
-                for (LivingEntity victim : livingEntityList) {
-                    InfectionHandler.commonAerosol(victim, sourceEntity, 1);
-                }
-            }
-
         }
     }
 
