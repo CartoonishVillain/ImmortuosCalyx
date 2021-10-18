@@ -10,6 +10,7 @@ import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability
 import com.cartoonishvillain.ImmortuosCalyx.InternalOrganDamage;
 import com.cartoonishvillain.ImmortuosCalyx.Register;
 import com.cartoonishvillain.ImmortuosCalyx.commands.SetInfectionRateCommand;
+import com.google.common.util.concurrent.AtomicDouble;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -25,11 +26,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.AttackEntityEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = ImmortuosCalyx.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class NonInfectionEvents {
@@ -37,6 +41,33 @@ public class NonInfectionEvents {
     @SubscribeEvent
     public static void commandRegister(RegisterCommandsEvent event){
         SetInfectionRateCommand.register(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public static void playerCloneEvent(PlayerEvent.Clone event){
+        if(!event.isWasDeath()){
+            AtomicInteger infectionProgress = new AtomicInteger(Integer.MAX_VALUE);
+            AtomicInteger infectionTimer = new AtomicInteger(Integer.MAX_VALUE);
+            AtomicDouble resistance = new AtomicDouble(Double.MAX_VALUE);
+
+            Player originalPlayer = event.getOriginal();
+            Player newPlayer = event.getPlayer();
+
+            originalPlayer.revive();
+            originalPlayer.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
+                infectionProgress.set(h.getInfectionProgress());
+                infectionTimer.set(h.getInfectionTimer());
+                resistance.set(h.getResistance());
+            });
+
+            originalPlayer.kill();
+
+            newPlayer.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
+                h.setInfectionProgress(infectionProgress.get());
+                h.setInfectionTimer(infectionTimer.get());
+                h.setResistance(resistance.get());
+            });
+        }
     }
 
     @SubscribeEvent
