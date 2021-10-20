@@ -29,7 +29,7 @@ public class RenderInfectedPlayerEntity extends BipedRenderer<InfectedPlayerEnti
     @Override
     public ResourceLocation getTextureLocation(InfectedPlayerEntity entity) {
         try{
-        return PlayerSkinManager.getSkin(entity.getUUID(), entity.getName().getString());
+        return PlayerSkinManager.getSkin(entity.getPUUID(), entity.getName().getString());
         } catch (NullPointerException e){
             return TEXTURE;
         }

@@ -46,12 +46,12 @@ public class InfectedPlayerEntity extends MonsterEntity implements InfectedEntit
     }
 
 
-    public void setUUID(UUID uuid){
+    public void setPUUID(UUID uuid){
         this.getEntityData().set(PUUID, Optional.of(uuid));
     }
 
 
-    public UUID getUUID(){
+    public UUID getPUUID(){
         return getEntityData().get(PUUID).orElse(new UUID(0L,0L));
     }
 

@@ -136,7 +136,7 @@ public class EntityInfectionEventManager {
                 if(entity instanceof PlayerEntity){
                     InfectedPlayerEntity infectedPlayerEntity = new InfectedPlayerEntity(Register.INFECTEDPLAYER.get(), world);
                     infectedPlayerEntity.setCustomName(entity.getName());
-                    infectedPlayerEntity.setUUID(entity.getUUID());
+                    infectedPlayerEntity.setPUUID(entity.getUUID());
                     infectedPlayerEntity.setPos(entity.getX(), entity.getY() + 0.1, entity.getZ());
                     world.addFreshEntity(infectedPlayerEntity);}
                 else if(entity instanceof AbstractVillagerEntity){Register.INFECTEDVILLAGER.get().spawn(serverWorld, new ItemStack(Items.AIR), null, entity.blockPosition(), SpawnReason.TRIGGERED, true, false); }
