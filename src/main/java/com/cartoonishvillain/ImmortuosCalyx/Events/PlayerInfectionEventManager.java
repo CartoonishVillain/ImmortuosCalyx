@@ -50,7 +50,7 @@ public class PlayerInfectionEventManager {
         if(event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.START){
         Player player = event.player;
         player.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h ->{
-            if(h.getInfectionProgress() >= 1){
+            if(h.getInfectionProgress() >= 1 && ValidPlayer(event.player)){
                 h.addInfectionTimer(1);
                 int timer = ImmortuosCalyx.config.INFECTIONTIMER.get();
                 if(h.getInfectionTimer() >= timer){
@@ -63,7 +63,7 @@ public class PlayerInfectionEventManager {
     }
 
     @SubscribeEvent public static void InfectionTickEffects(TickEvent.PlayerTickEvent event){
-        if(event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.START){
+        if(event.side == LogicalSide.SERVER && event.phase == TickEvent.Phase.START && ValidPlayer(event.player)){
             Player player = event.player;
             player.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
                 if(h.getInfectionProgress() >= ImmortuosCalyx.config.EFFECTSPEED.get()){
@@ -96,23 +96,30 @@ public class PlayerInfectionEventManager {
     @SubscribeEvent
     public static void InfectionChat(ServerChatEvent event){
         Player player = event.getPlayer();
-        player.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-            String name = player.getName().getString();
-            String format = "<" + name + "> ";
-            if(h.getInfectionProgress() >= ImmortuosCalyx.config.EFFECTCHAT.get() && ImmortuosCalyx.config.ANTICHAT.get() && ImmortuosCalyx.config.FORMATTEDINFECTCHAT.get()) {event.setComponent(new TextComponent(format +ChatFormatting.OBFUSCATED + event.getMessage()));}
-            if(h.getInfectionProgress() >= ImmortuosCalyx.config.EFFECTCHAT.get() && ImmortuosCalyx.config.ANTICHAT.get() && !ImmortuosCalyx.config.FORMATTEDINFECTCHAT.get()) {event.setCanceled(true);};//if the player's infection is @ or above 40%, they can no longer speak in text chat.
-            if((h.getInfectionProgress() >= ImmortuosCalyx.config.EFFECTCHAT.get() && !player.getCommandSenderWorld().isClientSide() && ImmortuosCalyx.config.INFECTEDCHATNOISE.get()))player.level.playSound(null, player.blockPosition(), Register.HUMANAMBIENT.get(), SoundSource.PLAYERS, 0.5f, 2f);
-        });
+        if(ValidPlayer(player)) {
+            player.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
+                String name = player.getName().getString();
+                String format = "<" + name + "> ";
+                if (h.getInfectionProgress() >= ImmortuosCalyx.config.EFFECTCHAT.get() && ImmortuosCalyx.config.ANTICHAT.get() && ImmortuosCalyx.config.FORMATTEDINFECTCHAT.get()) {
+                    event.setComponent(new TextComponent(format + ChatFormatting.OBFUSCATED + event.getMessage()));
+                }
+                if (h.getInfectionProgress() >= ImmortuosCalyx.config.EFFECTCHAT.get() && ImmortuosCalyx.config.ANTICHAT.get() && !ImmortuosCalyx.config.FORMATTEDINFECTCHAT.get()) {
+                    event.setCanceled(true);
+                }
+                ;//if the player's infection is @ or above 40%, they can no longer speak in text chat.
+                if ((h.getInfectionProgress() >= ImmortuosCalyx.config.EFFECTCHAT.get() && !player.getCommandSenderWorld().isClientSide() && ImmortuosCalyx.config.INFECTEDCHATNOISE.get()))
+                    player.level.playSound(null, player.blockPosition(), Register.HUMANAMBIENT.get(), SoundSource.PLAYERS, 0.5f, 2f);
+            });
+        }
     }
-
 
     @SubscribeEvent
     public static void InfectMobFromAttack(LivingAttackEvent event){
-        if(event.getSource().getEntity() instanceof LivingEntity && (!ImmortuosCalyx.DimensionExclusion.contains(event.getEntity().level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEINFECTIONINCLEANSE.get() && !event.getEntityLiving().level.isClientSide())){
+        if(event.getSource().getEntity() instanceof LivingEntity && !event.getEntityLiving().level.isClientSide && (!ImmortuosCalyx.DimensionExclusion.contains(event.getEntity().level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEINFECTIONINCLEANSE.get() && !event.getEntityLiving().level.isClientSide())){
             LivingEntity aggro = (LivingEntity) event.getSource().getEntity();
             LivingEntity victim = event.getEntityLiving();
 
-            if(aggro instanceof Player){
+            if(aggro instanceof Player && ValidPlayer((Player) aggro)){
                 if(victim instanceof Player) InfectionHandler.infectPlayerByPlayer((Player) aggro,(Player) victim, 1);
                 else InfectionHandler.infectEntityByPlayer((Player) aggro, victim, 1);
             }
@@ -122,7 +129,7 @@ public class PlayerInfectionEventManager {
                 if(victim instanceof Villager || victim instanceof AbstractGolem) InfectionHandler.infectEntity(victim, 100, 1);
                 else InfectionHandler.infectEntity(victim, 55, 1);
             }
-            else InfectionHandler.infectEntity(aggro, victim, 1);
+            else if(!(aggro instanceof Player)) InfectionHandler.infectEntity(aggro, victim, 1);
         }
     }
 
@@ -178,5 +185,9 @@ public class PlayerInfectionEventManager {
                     if(ImmortuosCalyx.config.INFECTIONDAMAGE.get() > 0)
                     inflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You feel an overwhelming pain in your head..."), inflictedPlayer.getUUID());}
         });
+    }
+
+    private static boolean ValidPlayer(Player player){
+        return !player.isCreative() && !player.isSpectator();
     }
 }
