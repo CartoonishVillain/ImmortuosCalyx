@@ -23,7 +23,7 @@ public class Spawns {
         if(event.getCategory() == Biome.Category.OCEAN){
         MobSpawnInfo.Spawners spawners = new MobSpawnInfo.Spawners(Register.INFECTEDDIVER.get(), ImmortuosCalyx.commonConfig.DIVER.get(),1,1);
         event.getSpawns().addSpawn(EntityClassification.MONSTER, spawners);}
-        else if (event.getCategory() != Biome.Category.THEEND || event.getCategory() != Biome.Category.NETHER){
+        else if (event.getCategory() != Biome.Category.THEEND && event.getCategory() != Biome.Category.NETHER && event.getCategory() != Biome.Category.MUSHROOM){
             ArrayList<MobSpawnInfo.Spawners> spawners = new ArrayList<>();
             spawners.add(new MobSpawnInfo.Spawners(Register.INFECTEDHUMAN.get(), ImmortuosCalyx.commonConfig.HUMAN.get(), 1, 1 ));
             spawners.add(new MobSpawnInfo.Spawners(Register.INFECTEDVILLAGER.get(), ImmortuosCalyx.commonConfig.VILLAGER.get(), 1, 1 ));
