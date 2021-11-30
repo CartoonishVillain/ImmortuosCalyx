@@ -1,6 +1,6 @@
 package com.cartoonishvillain.ImmortuosCalyx.commands;
 
-import com.cartoonishvillain.ImmortuosCalyx.Infection.InfectionManagerCapability;
+import com.cartoonishvillain.ImmortuosCalyx.infection.InfectionManagerCapability;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.IntegerArgumentType;

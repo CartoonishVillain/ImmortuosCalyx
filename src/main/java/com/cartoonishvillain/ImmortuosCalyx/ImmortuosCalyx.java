@@ -1,9 +1,9 @@
 package com.cartoonishvillain.ImmortuosCalyx;
 
 
-import com.cartoonishvillain.ImmortuosCalyx.Configs.CommonConfig;
-import com.cartoonishvillain.ImmortuosCalyx.Configs.ConfigHelper;
-import com.cartoonishvillain.ImmortuosCalyx.Configs.ServerConfig;
+import com.cartoonishvillain.ImmortuosCalyx.configs.CommonConfig;
+import com.cartoonishvillain.ImmortuosCalyx.configs.ConfigHelper;
+import com.cartoonishvillain.ImmortuosCalyx.configs.ServerConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;

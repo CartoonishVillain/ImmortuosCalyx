@@ -1,10 +1,10 @@
 package com.cartoonishvillain.ImmortuosCalyx;
 
-import com.cartoonishvillain.ImmortuosCalyx.Blocks.InfectionScanner;
-import com.cartoonishvillain.ImmortuosCalyx.Blocks.ScannerBlockItem;
-import com.cartoonishvillain.ImmortuosCalyx.Entity.*;
-import com.cartoonishvillain.ImmortuosCalyx.Items.BaseItems;
-import com.cartoonishvillain.ImmortuosCalyx.Items.ImmortuosSpawnEggItem;
+import com.cartoonishvillain.ImmortuosCalyx.blocks.InfectionScanner;
+import com.cartoonishvillain.ImmortuosCalyx.blocks.ScannerBlockItem;
+import com.cartoonishvillain.ImmortuosCalyx.entity.*;
+import com.cartoonishvillain.ImmortuosCalyx.items.BaseItems;
+import com.cartoonishvillain.ImmortuosCalyx.items.ImmortuosSpawnEggItem;
 import net.minecraft.ChatFormatting;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -13,9 +13,9 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fmllegacy.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 public class Register {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ImmortuosCalyx.MOD_ID);
