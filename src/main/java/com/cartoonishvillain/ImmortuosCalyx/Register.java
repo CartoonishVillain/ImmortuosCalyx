@@ -62,6 +62,9 @@ public class Register {
     public static final RegistryObject<SoundEvent> VILIDLE = SOUND_EVENT.register("villagerinfected_idle", () -> new SoundEvent(new ResourceLocation(ImmortuosCalyx.MOD_ID, "villagerinfected_idle")));
     public static final RegistryObject<SoundEvent> VILHURT = SOUND_EVENT.register("villagerinfected_hurt", () -> new SoundEvent(new ResourceLocation(ImmortuosCalyx.MOD_ID, "villagerinfected_hurt")));
     public static final RegistryObject<SoundEvent> VILDEATH = SOUND_EVENT.register("villagerinfected_death", () -> new SoundEvent(new ResourceLocation(ImmortuosCalyx.MOD_ID, "villagerinfected_death")));
+    public static final RegistryObject<SoundEvent> SCANBAD = SOUND_EVENT.register("scan_bad", () -> new SoundEvent(new ResourceLocation(ImmortuosCalyx.MOD_ID, "scan_bad")));
+    public static final RegistryObject<SoundEvent> SCANCLEAR = SOUND_EVENT.register("scan_clear", () -> new SoundEvent(new ResourceLocation(ImmortuosCalyx.MOD_ID, "scan_clear")));
+
 
 
 }

@@ -1,8 +1,10 @@
 package com.cartoonishvillain.ImmortuosCalyx.blocks;
 
+import com.cartoonishvillain.ImmortuosCalyx.Register;
 import com.cartoonishvillain.ImmortuosCalyx.infection.InfectionManagerCapability;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -17,6 +19,7 @@ import javax.annotation.Nonnull;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InfectionScanner extends Block {
+    int tickdelay = 0;
     public static final BooleanProperty POWERED = BlockStateProperties.POWERED;
     public InfectionScanner() {
         super(Properties.of(Material.STONE).strength(3f).requiresCorrectToolForDrops());
@@ -37,7 +40,17 @@ public class InfectionScanner extends Block {
     public void stepOn(Level world, BlockPos blockPos, BlockState p_152433_, Entity entity) {
         BlockState blockState = world.getBlockState(blockPos);
         if(!world.isClientSide()){
-            blockState = redstoneStrength(entity, blockState);}
+            blockState = redstoneStrength(entity, blockState);
+            if (tickdelay <= 0) {
+                if (blockState.getValue(POWERED)) {
+                    world.playSound(null, blockPos, Register.SCANBAD.get(), SoundSource.BLOCKS, 1, 1);
+                    tickdelay = 30;
+                } else {
+                    world.playSound(null, blockPos, Register.SCANCLEAR.get(), SoundSource.BLOCKS, 1, 1);
+                    tickdelay = 30;
+                }
+            } else tickdelay--;
+        }
         world.setBlockAndUpdate(blockPos, blockState.setValue(POWERED, blockState.getValue(POWERED)));    }
 
 
