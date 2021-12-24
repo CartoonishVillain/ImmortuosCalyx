@@ -20,6 +20,8 @@ public class ServerConfig {
     public ConfigHelper.ConfigValueListener<Boolean> PVPCONTAGION;
     public ConfigHelper.ConfigValueListener<Boolean> HEATSLOW;
     public ConfigHelper.ConfigValueListener<Boolean> COLDFAST;
+    public ConfigHelper.ConfigValueListener<Boolean> WATERBREATHING;
+    public ConfigHelper.ConfigValueListener<Boolean> COLDCONDUITPOWER;
     public ConfigHelper.ConfigValueListener<Boolean> WARMWEAKNESS;
     public ConfigHelper.ConfigValueListener<Boolean> COLDSTRENGTH;
     public ConfigHelper.ConfigValueListener<Boolean> BLINDNESS;
@@ -40,6 +42,7 @@ public class ServerConfig {
     public ConfigHelper.ConfigValueListener<Integer> EFFECTCHAT;
     public ConfigHelper.ConfigValueListener<Integer> PLAYERINFECTIONTHRESHOLD;
     public ConfigHelper.ConfigValueListener<Integer> EFFECTSPEED;
+    public ConfigHelper.ConfigValueListener<Integer> EFFECTWATERBREATH;
     public ConfigHelper.ConfigValueListener<Integer> EFFECTSTRENGTH;
     public ConfigHelper.ConfigValueListener<Integer> EFFECTBLIND;
     public ConfigHelper.ConfigValueListener<Integer> EFFECTDAMAGE;
@@ -75,6 +78,9 @@ public class ServerConfig {
         this.PVPCONTAGION = subscriber.subscribe(builder.comment("Enables or disables contracting the virus from being hit by players with a high enough infection.").define("pvpContagion", true));
         this.HEATSLOW = subscriber.subscribe(builder.comment("Enables or disables the slowing down of players at 60% in warm environments").define("heatSlow", true));
         this.COLDFAST = subscriber.subscribe(builder.comment("Enables or disables the speeding up of players at 60% in cold environments").define("coldFast", true));
+        this.WATERBREATHING = subscriber.subscribe(builder.comment("Enables or disables water breathing for players at 67%").define("waterBreathing", true));
+        this.COLDCONDUITPOWER = subscriber.subscribe(builder.comment("Enables or disables conduit power for players at 67%, in cold biomes, while also in the water.").define("waterBreathing", true));
+        this.COLDSTRENGTH = subscriber.subscribe(builder.comment("Enables or disables Conduit Power in players at 67% in cold waters").define("coldConduitPower", true));
         this.WARMWEAKNESS = subscriber.subscribe(builder.comment("Enables or disables the weakening of players at 85% outside of cold environments").define("warmWeakness", true));
         this.COLDSTRENGTH = subscriber.subscribe(builder.comment("Enables or disables the stregthening of players at 85% in cold environments").define("coldStrength", true));
         this.BLINDNESS = subscriber.subscribe(builder.comment("Enables or disables the blindness of players at 95% infection").define("theColdDarkAbyss", true));
@@ -98,6 +104,7 @@ public class ServerConfig {
         this.EFFECTCHAT = subscriber.subscribe(builder.comment("Changes when the chat blocking side effect occurs").defineInRange("effectChatTime", 40, 0, Integer.MAX_VALUE));
         this.PLAYERINFECTIONTHRESHOLD = subscriber.subscribe(builder.comment("Changes where players can start infecting each other in infection percentage").defineInRange("effectContagionTime", 50, 0, Integer.MAX_VALUE));
         this.EFFECTSPEED = subscriber.subscribe(builder.comment("Changes when the speed/slowdown side effects occurs").defineInRange("effectSpeedTime", 60, 0, Integer.MAX_VALUE));
+        this.EFFECTWATERBREATH = subscriber.subscribe(builder.comment("Changes when the water breathing side effects occurs").defineInRange("effectWaterBreathing", 67, 0, Integer.MAX_VALUE));
         this.EFFECTSTRENGTH = subscriber.subscribe(builder.comment("Changes then the strength/weakness side effects occurs").defineInRange("effectStrengthTime", 85, 0, Integer.MAX_VALUE));
         this.EFFECTBLIND = subscriber.subscribe(builder.comment("Changes then the blindness side effects occur").defineInRange("effectBlindnessTime", 95, 0, Integer.MAX_VALUE));
         this.EFFECTDAMAGE = subscriber.subscribe(builder.comment("Changes when players will be attacked by the parasite").defineInRange("effectAttackTime", 100, 0, Integer.MAX_VALUE));

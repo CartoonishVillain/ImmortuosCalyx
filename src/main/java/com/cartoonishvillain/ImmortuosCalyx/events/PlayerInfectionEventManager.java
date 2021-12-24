@@ -72,6 +72,12 @@ public class PlayerInfectionEventManager {
                     if(temperature > 0.9 && ImmortuosCalyx.config.HEATSLOW.get()){player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 0, true, false));}
                     else if(temperature < 0.275 && ImmortuosCalyx.config.COLDFAST.get()){player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 5, 0, true, false));}
                 }
+                if(h.getInfectionProgress() >= ImmortuosCalyx.config.EFFECTWATERBREATH.get()){
+                    BlockPos CurrentPosition = new BlockPos(player.getX(), player.getY(), player.getZ());
+                    float temperature = player.level.getBiomeManager().getBiome(CurrentPosition).getBaseTemperature();
+                    if(ImmortuosCalyx.config.WATERBREATHING.get()){player.addEffect(new MobEffectInstance(MobEffects.WATER_BREATHING, 5, 0, true, false));}
+                    if(ImmortuosCalyx.config.COLDCONDUITPOWER.get() && (temperature <= 0.3 || player.level.getBiomeManager().getBiome(CurrentPosition).getRegistryName().getPath().contains("cold")) && player.isInWaterOrBubble()){player.addEffect(new MobEffectInstance(MobEffects.CONDUIT_POWER, 5, 0, true, false));}
+                }
                 if(h.getInfectionProgress() >= ImmortuosCalyx.config.EFFECTSTRENGTH.get()){
                     BlockPos CurrentPosition = new BlockPos(player.getX(), player.getY(), player.getZ());
                     float temperature = player.level.getBiomeManager().getBiome(CurrentPosition).getBaseTemperature();
@@ -169,6 +175,12 @@ public class PlayerInfectionEventManager {
                         inflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You begin to feel better in cool environments.."), inflictedPlayer.getUUID());
                     else if (ImmortuosCalyx.config.HEATSLOW.get() && !ImmortuosCalyx.config.COLDFAST.get())
                         inflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You begin feeling ill in warm environments..."), inflictedPlayer.getUUID());}
+
+                else if(progressionLogic == ImmortuosCalyx.config.EFFECTWATERBREATH.get()){
+                    if(ImmortuosCalyx.config.WATERBREATHING.get()){
+                        inflictedPlayer.sendMessage(new TextComponent(ChatFormatting.BLUE + "You begin to feel relieved while diving into the murky depths..."), inflictedPlayer.getUUID());
+                    }
+                }
 
                 else if(progressionLogic == ImmortuosCalyx.config.EFFECTSTRENGTH.get()){
                     if (ImmortuosCalyx.config.COLDSTRENGTH.get() && ImmortuosCalyx.config.WARMWEAKNESS.get())
