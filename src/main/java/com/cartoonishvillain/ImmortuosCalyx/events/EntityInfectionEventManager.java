@@ -1,14 +1,14 @@
 package com.cartoonishvillain.ImmortuosCalyx.events;
 
+import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
+import com.cartoonishvillain.ImmortuosCalyx.Register;
 import com.cartoonishvillain.ImmortuosCalyx.entity.InfectedDiverEntity;
 import com.cartoonishvillain.ImmortuosCalyx.entity.InfectedEntity;
 import com.cartoonishvillain.ImmortuosCalyx.entity.InfectedIGEntity;
 import com.cartoonishvillain.ImmortuosCalyx.entity.InfectedPlayerEntity;
-import com.cartoonishvillain.ImmortuosCalyx.ImmortuosCalyx;
 import com.cartoonishvillain.ImmortuosCalyx.infection.InfectionDamage;
 import com.cartoonishvillain.ImmortuosCalyx.infection.InfectionHandler;
 import com.cartoonishvillain.ImmortuosCalyx.infection.InfectionManagerCapability;
-import com.cartoonishvillain.ImmortuosCalyx.Register;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -34,11 +34,13 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -143,22 +145,45 @@ public class EntityInfectionEventManager {
         }
     }
 
-    @SubscribeEvent
+    private static final ArrayList<String> DISQUALIFYINGDAMAGE = new ArrayList<>(List.of("lightningBolt", "lava", "outOfWorld", "explosion"));
+    @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void deathEntityReplacement(LivingDeathEvent event){
         LivingEntity entity = event.getEntityLiving();
-        if (event.getSource().msgId.equals("infection")){
-            Level world = event.getEntityLiving().getCommandSenderWorld();
-            if(!world.isClientSide()){
-                ServerLevel serverWorld = (ServerLevel) world;
-                if(entity instanceof Player){
-                    InfectedPlayerEntity infectedPlayerEntity = new InfectedPlayerEntity(Register.INFECTEDPLAYER.get(), world);
-                    infectedPlayerEntity.setCustomName(entity.getName());
-                    infectedPlayerEntity.setPUUID(entity.getUUID());
-                    infectedPlayerEntity.setPos(entity.getX(), entity.getY() + 0.1, entity.getZ());
-                    world.addFreshEntity(infectedPlayerEntity);}
-                else if(entity instanceof AbstractVillager){Register.INFECTEDVILLAGER.get().spawn(serverWorld, new ItemStack(Items.AIR), null, entity.blockPosition(), MobSpawnType.TRIGGERED, true, false); }
-                else if(entity instanceof IronGolem){Register.INFECTEDIG.get().spawn(serverWorld, new ItemStack(Items.AIR), null, entity.blockPosition(), MobSpawnType.TRIGGERED, true, false);}
+        if(!event.isCanceled()) { // if the death is not canceled for some reason.
+            if (event.getSource().msgId.equals("infection")) {
+                Level world = event.getEntityLiving().getCommandSenderWorld();
+                if (!world.isClientSide()) {
+                    ServerLevel serverWorld = (ServerLevel) world;
+                    summonConversion(serverWorld, entity);
+                }
+                //If the target doesn't die through very extensive means such as lava, struck by lightning, the void, or explosions, and the config is enabled, we may still go through with this.
+            } else if (!DISQUALIFYINGDAMAGE.contains(event.getSource().msgId) && ImmortuosCalyx.config.INFECTONDEATH.get()) {
+                Level world = event.getEntity().getCommandSenderWorld();
+                if (!world.isClientSide()) {
+                    entity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
+                        //Chance to be converted is multiplied by 2 for every % above 50.
+                        float chance = (h.getInfectionProgress() - 50) * 2;
+                        if(chance > world.getRandom().nextInt(100)){
+                            ServerLevel serverWorld = (ServerLevel) world;
+                            summonConversion(serverWorld, entity);
+                        }
+                    });
+                }
             }
+        }
+    }
+
+    private static void summonConversion(ServerLevel serverWorld, LivingEntity entity){
+        if (entity instanceof Player) {
+            InfectedPlayerEntity infectedPlayerEntity = new InfectedPlayerEntity(Register.INFECTEDPLAYER.get(), serverWorld);
+            infectedPlayerEntity.setCustomName(entity.getName());
+            infectedPlayerEntity.setPUUID(entity.getUUID());
+            infectedPlayerEntity.setPos(entity.getX(), entity.getY() + 0.1, entity.getZ());
+            serverWorld.addFreshEntity(infectedPlayerEntity);
+        } else if (entity instanceof AbstractVillager) {
+            Register.INFECTEDVILLAGER.get().spawn(serverWorld, new ItemStack(Items.AIR), null, entity.blockPosition(), MobSpawnType.TRIGGERED, true, false);
+        } else if (entity instanceof IronGolem) {
+            Register.INFECTEDIG.get().spawn(serverWorld, new ItemStack(Items.AIR), null, entity.blockPosition(), MobSpawnType.TRIGGERED, true, false);
         }
     }
 
