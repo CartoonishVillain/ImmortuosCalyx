@@ -159,7 +159,8 @@ public class EntityInfectionEventManager {
                 //If the target doesn't die through very extensive means such as lava, struck by lightning, the void, or explosions, and the config is enabled, we may still go through with this.
             } else if (!DISQUALIFYINGDAMAGE.contains(event.getSource().msgId) && ImmortuosCalyx.config.INFECTONDEATH.get()) {
                 Level world = event.getEntity().getCommandSenderWorld();
-                if (!world.isClientSide()) {
+                //if I let villagers do this as well, they could turn into zombie villagers AND infected villagers, which isn't ideal.
+                if (!world.isClientSide() && !(entity instanceof Villager)) {
                     entity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
                         //Chance to be converted is multiplied by 2 for every % above 50.
                         float chance = (h.getInfectionProgress() - 50) * 2;
