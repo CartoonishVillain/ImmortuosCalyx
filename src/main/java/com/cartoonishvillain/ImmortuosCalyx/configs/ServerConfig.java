@@ -79,8 +79,7 @@ public class ServerConfig {
         this.HEATSLOW = subscriber.subscribe(builder.comment("Enables or disables the slowing down of players at 60% in warm environments").define("heatSlow", true));
         this.COLDFAST = subscriber.subscribe(builder.comment("Enables or disables the speeding up of players at 60% in cold environments").define("coldFast", true));
         this.WATERBREATHING = subscriber.subscribe(builder.comment("Enables or disables water breathing for players at 67%").define("waterBreathing", true));
-        this.COLDCONDUITPOWER = subscriber.subscribe(builder.comment("Enables or disables conduit power for players at 67%, in cold biomes, while also in the water.").define("waterBreathing", true));
-        this.COLDSTRENGTH = subscriber.subscribe(builder.comment("Enables or disables Conduit Power in players at 67% in cold waters").define("coldConduitPower", true));
+        this.COLDCONDUITPOWER = subscriber.subscribe(builder.comment("Enables or disables conduit power for players at 67%, in cold biomes, while also in the water.").define("coldConduitPower", true));
         this.WARMWEAKNESS = subscriber.subscribe(builder.comment("Enables or disables the weakening of players at 85% outside of cold environments").define("warmWeakness", true));
         this.COLDSTRENGTH = subscriber.subscribe(builder.comment("Enables or disables the stregthening of players at 85% in cold environments").define("coldStrength", true));
         this.BLINDNESS = subscriber.subscribe(builder.comment("Enables or disables the blindness of players at 95% infection").define("theColdDarkAbyss", true));
