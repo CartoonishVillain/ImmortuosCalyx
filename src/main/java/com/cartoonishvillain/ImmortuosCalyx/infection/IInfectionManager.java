@@ -13,4 +13,6 @@ public interface IInfectionManager {
      void setResistance(double resistance);
      void setFollower(boolean isFollower);
      boolean isFollower();
+     boolean isResistant();
+     void setResistant(boolean isResistant);
 }

@@ -14,6 +14,8 @@ public class InfectionManager implements IInfectionManager, ICapabilityProvider,
     protected int infectionTimer = 0;
     protected double resistance = 1;
     protected boolean follower = false;
+    protected boolean resistantDosage = false;
+
     public final LazyOptional<IInfectionManager> holder = LazyOptional.of(()->this);
     @Override
     public int getInfectionProgress() { return this.infectionProgress; } //grabs the infection %
@@ -56,6 +58,16 @@ public class InfectionManager implements IInfectionManager, ICapabilityProvider,
         return follower;
     }
 
+    @Override
+    public boolean isResistant() {
+        return resistantDosage;
+    }
+
+    @Override
+    public void setResistant(boolean isResistant) {
+        resistantDosage = isResistant;
+    }
+
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
@@ -70,6 +82,7 @@ public class InfectionManager implements IInfectionManager, ICapabilityProvider,
         tag.putInt("infectionTimer", infectionTimer);
         tag.putDouble("infectionResistance", resistance);
         tag.putBoolean("infectionFollower", follower);
+        tag.putBoolean("infectionImpedement", resistantDosage);
         return tag;
     }
 
@@ -79,5 +92,6 @@ public class InfectionManager implements IInfectionManager, ICapabilityProvider,
         infectionTimer = nbt.getInt("infectionTimer");
         resistance = nbt.getFloat("infectionResistance");
         follower = nbt.getBoolean("infectionFollower");
+        resistantDosage = nbt.getBoolean("infectionImpedement");
     }
 }

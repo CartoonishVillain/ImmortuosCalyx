@@ -16,7 +16,9 @@
   "item.immortuoscalyx.infvillager_spawn_egg": "Infected Villager Spawn Egg",
   "item.immortuoscalyx.infig_spawn_egg": "Infected Iron Golem Spawn Egg",
   "item.immortuoscalyx.infplayer_spawn_egg": "Infected Player Spawn Egg",
+  "item.immortuoscalyx.unstablestrand": "Unstable Immortuos Strand",
   "item.immortuoscalyx.healthscanner": "Health Scanner",
+  "item.immortuoscalyx.stablizedstrand": "Stabilized Immortuos Injection",
   "itemGroup.ImmortuosCalyx": "Immortuos Calyx",
   "progress.immortuoscalyx.set": "Target's infection progress set to %1$s percent."
 }

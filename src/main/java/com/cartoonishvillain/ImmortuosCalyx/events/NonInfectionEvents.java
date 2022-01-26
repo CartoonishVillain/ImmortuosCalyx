@@ -33,6 +33,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Mod.EventBusSubscriber(modid = ImmortuosCalyx.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -49,6 +50,7 @@ public class NonInfectionEvents {
             AtomicInteger infectionProgress = new AtomicInteger(Integer.MAX_VALUE);
             AtomicInteger infectionTimer = new AtomicInteger(Integer.MAX_VALUE);
             AtomicDouble resistance = new AtomicDouble(Double.MAX_VALUE);
+            AtomicBoolean impedance = new AtomicBoolean(false);
 
             Player originalPlayer = event.getOriginal();
             Player newPlayer = event.getPlayer();
@@ -58,6 +60,7 @@ public class NonInfectionEvents {
                 infectionProgress.set(h.getInfectionProgress());
                 infectionTimer.set(h.getInfectionTimer());
                 resistance.set(h.getResistance());
+                impedance.set(h.isResistant());
             });
 
             originalPlayer.kill();
@@ -66,7 +69,32 @@ public class NonInfectionEvents {
                 h.setInfectionProgress(infectionProgress.get());
                 h.setInfectionTimer(infectionTimer.get());
                 h.setResistance(resistance.get());
+                h.setResistant(impedance.get());
             });
+        }
+    }
+
+    @SubscribeEvent
+    public static void selfStableStrain(PlayerInteractEvent.RightClickItem event){
+        if(event.getEntity() instanceof Player && event.getItemStack().getItem().equals(Register.STABLIZEDSTRAND.get())){
+            Player player = (Player) event.getEntity();
+            if(player.isCrouching()) {AddResistance(player);
+                event.getItemStack().shrink(1);
+                if(event.getSide() == LogicalSide.SERVER){event.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), Register.INJECT.get(), SoundSource.PLAYERS, 1f, 1f);}
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public static void StableStrain(AttackEntityEvent event){
+        Entity target = event.getTarget();
+        Player user = (Player) event.getEntity();
+        if(user.getMainHandItem().getItem().equals(Register.STABLIZEDSTRAND.get())){
+            user.getMainHandItem().shrink(1);
+            AddResistance(target);
+            event.setCanceled(true);
+            if(!event.getTarget().level.isClientSide()){target.getCommandSenderWorld().playSound(null, target.getX(), target.getY(), target.getZ(), Register.INJECT.get(), SoundSource.PLAYERS, 1f, 1f);}
+
         }
     }
 
@@ -78,8 +106,6 @@ public class NonInfectionEvents {
             event.getItemStack().shrink(1);
             if(event.getSide() == LogicalSide.SERVER){event.getWorld().playSound(null, player.getX(), player.getY(), player.getZ(), Register.INJECT.get(), SoundSource.PLAYERS, 1f, 1f);}
             }
-
-
         }
     }
 
@@ -201,6 +227,7 @@ public class NonInfectionEvents {
                     p.sendMessage(new TextComponent("Saturation level: " + p.getFoodData().getSaturationLevel()), p.getUUID());
                     p.sendMessage(new TextComponent("Infection Level: " + h.getInfectionProgress() + "%"), p.getUUID());
                     p.sendMessage(new TextComponent("Resistance Multiplier: " + h.getResistance()), p.getUUID());
+                    p.sendMessage(new TextComponent("Stabilized: " + h.isResistant()), p.getUUID());
                 });
             }
         }
@@ -221,6 +248,7 @@ public class NonInfectionEvents {
                         a.sendMessage(new TextComponent("Food: " + t.getFoodData().getFoodLevel()), a.getUUID());
                         a.sendMessage(new TextComponent("Infection Level: " + h.getInfectionProgress() + "%"), a.getUUID());
                         a.sendMessage(new TextComponent("Resistance Multiplier: " + h.getResistance()), a.getUUID());
+                        a.sendMessage(new TextComponent("Stabilized: " + h.isResistant()), a.getUUID());
                     });
                 } else if (event.getTarget() instanceof InfectedHumanEntity || event.getTarget() instanceof InfectedDiverEntity || event.getTarget() instanceof InfectedIGEntity || event.getTarget() instanceof InfectedVillagerEntity) {
                     event.getEntity().sendMessage(new TextComponent("===(Target completely infected)==="), event.getEntity().getUUID());
@@ -231,6 +259,7 @@ public class NonInfectionEvents {
                         player.sendMessage(new TextComponent("===(" + entity.getName().getString() + "'s stats)==="), player.getUUID());
                         player.sendMessage(new TextComponent("Health: " + entity.getHealth()), player.getUUID());
                         player.sendMessage(new TextComponent("Infection Rate: " + h.getInfectionProgress() + "%"), player.getUUID());
+                        player.sendMessage(new TextComponent("Stabilized: " + h.isResistant()), player.getUUID());
                         if(player.isCreative() && entity instanceof Villager){
                             player.sendMessage(new TextComponent("Immortuos Follower: " + h.isFollower()), player.getUUID());
                         }
@@ -263,6 +292,12 @@ public class NonInfectionEvents {
 
             h.addInfectionProgress(-40);
             if(h.getInfectionProgress() < 0) h.setInfectionProgress(0);
+        });
+    }
+
+    private static void AddResistance(Entity target){
+        target.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
+            h.setResistant(true);
         });
     }
 

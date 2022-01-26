@@ -60,6 +60,8 @@ public class EntityInfectionEventManager {
                  else if(entity instanceof IronGolem){timer = ImmortuosCalyx.config.IRONGOLEMTIMER.get();}
                  else {timer = ImmortuosCalyx.config.INFECTIONTIMER.get();}
                     if(h.getInfectionTimer() >= timer){
+                        if(h.isResistant() && h.getInfectionProgress() == ImmortuosCalyx.config.EFFECTIMPEDEMENT.get()) {return;}
+                        if(h.isResistant() && h.getInfectionProgress() > ImmortuosCalyx.config.EFFECTIMPEDEMENT.get()) {h.setInfectionProgress(ImmortuosCalyx.config.EFFECTIMPEDEMENT.get()); return;}
                        h.addInfectionProgress(1);
                         h.addInfectionTimer(-timer);
                     }

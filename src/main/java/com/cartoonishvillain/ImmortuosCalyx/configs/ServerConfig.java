@@ -46,6 +46,7 @@ public class ServerConfig {
     public ConfigHelper.ConfigValueListener<Integer> EFFECTSTRENGTH;
     public ConfigHelper.ConfigValueListener<Integer> EFFECTBLIND;
     public ConfigHelper.ConfigValueListener<Integer> EFFECTDAMAGE;
+    public ConfigHelper.ConfigValueListener<Integer> EFFECTIMPEDEMENT;
 
 
     public ConfigHelper.ConfigValueListener<Integer> EGGINFECTIONSTART;
@@ -107,6 +108,7 @@ public class ServerConfig {
         this.EFFECTSTRENGTH = subscriber.subscribe(builder.comment("Changes then the strength/weakness side effects occurs").defineInRange("effectStrengthTime", 85, 0, Integer.MAX_VALUE));
         this.EFFECTBLIND = subscriber.subscribe(builder.comment("Changes then the blindness side effects occur").defineInRange("effectBlindnessTime", 95, 0, Integer.MAX_VALUE));
         this.EFFECTDAMAGE = subscriber.subscribe(builder.comment("Changes when players will be attacked by the parasite").defineInRange("effectAttackTime", 100, 0, Integer.MAX_VALUE));
+        this.EFFECTIMPEDEMENT = subscriber.subscribe(builder.comment("Changes when players will stop gaining infection when injected with a stablized sample.").defineInRange("effectImpedementTime", 89, 0, Integer.MAX_VALUE));
         builder.pop();
 
         builder.comment("Modify other properties of the mod, for the more wacky fun times.").push(SCATEGORY_OTHERS);
