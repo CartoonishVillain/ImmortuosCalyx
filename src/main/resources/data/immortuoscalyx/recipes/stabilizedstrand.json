@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#H#",
+    " # ",
+    "IKQ"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:sugar"
+    },
+    "H": {
+      "item": "minecraft:honey_bottle"
+    },
+    "I": {
+      "item": "immortuoscalyx:antiparasitic"
+    },
+    "K": {
+      "item": "immortuoscalyx:unstablestrand"
+    },
+    "Q": {
+      "item": "immortuoscalyx:immortuoseggs"
+    }
+  },
+  "result": {
+    "item": "immortuoscalyx:stablizedstrand",
+    "count": 1
+  }
+}
