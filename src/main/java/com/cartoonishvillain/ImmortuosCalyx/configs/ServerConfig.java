@@ -31,6 +31,7 @@ public class ServerConfig {
     public ConfigHelper.ConfigValueListener<Integer> INFECTEDENTITYINFECTIONVALUE;
     public ConfigHelper.ConfigValueListener<Integer> ZOMBIEINFECTIONVALUE;
     public ConfigHelper.ConfigValueListener<Integer> RAWFOODINFECTIONVALUE;
+    public ConfigHelper.ConfigValueListener<Boolean> AEROSOLIZEDINFECTION;
     public ConfigHelper.ConfigValueListener<Integer> INFECTEDAERIALRATE;
     public ConfigHelper.ConfigValueListener<Integer> ZOMBIEAERIALRATE;
     public ConfigHelper.ConfigValueListener<Integer> COMMONAERIALRATE;
@@ -92,6 +93,7 @@ public class ServerConfig {
         this.INFECTEDENTITYINFECTIONVALUE = subscriber.subscribe(builder.comment("Changes the base infection chance provided by fully converted entities.").define("infectedEntityInfection", 95));
         this.ZOMBIEINFECTIONVALUE = subscriber.subscribe(builder.comment("Changes the base infection chance provided by ZombieEntity and it's derivatives").define("zombieEntityInfection", 20));
         this.RAWFOODINFECTIONVALUE = subscriber.subscribe(builder.comment("Changes the base infection chance provided by eating vanilla raw food").define("rawFoodInfection", 10));
+        this.AEROSOLIZEDINFECTION = subscriber.subscribe(builder.comment("Enables aerosolized infections, which allow zombies, heavily infected entities, and other entities that are infected to occasionally infect randomly, configurable by the other \"aerosol\" configs in this group.").define("aerosolizedInfections", false));
         this.INFECTEDAERIALRATE = subscriber.subscribe(builder.comment("Higher numbers reduces aerosol infection attempts from custom infected entities").define("infectedAerosol", 5000));
         this.ZOMBIEAERIALRATE = subscriber.subscribe(builder.comment("Higher numbers reduces aerosol infection attempts from zombies, and zombie-like mobs").define("zombieAerosol", 7500));
         this.COMMONAERIALRATE = subscriber.subscribe(builder.comment("Higher numbers reduces aerosol infection attempts from any entity with partial infections.").define("commonAerosol", 10000));

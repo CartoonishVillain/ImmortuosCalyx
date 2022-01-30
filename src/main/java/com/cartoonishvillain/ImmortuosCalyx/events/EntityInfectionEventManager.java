@@ -195,7 +195,7 @@ public class EntityInfectionEventManager {
         LivingEntity sourceEntity = event.getEntityLiving();
         Random rand = new Random();
 
-        if ((!ImmortuosCalyx.DimensionExclusion.contains(sourceEntity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) && !sourceEntity.level.isClientSide()){
+        if (ImmortuosCalyx.config.AEROSOLIZEDINFECTION.get() && (!ImmortuosCalyx.DimensionExclusion.contains(sourceEntity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) && !sourceEntity.level.isClientSide()){
             int AerosolRate = Integer.MAX_VALUE;
             boolean common = false;
 
@@ -225,29 +225,6 @@ public class EntityInfectionEventManager {
         }
     }
 
-//    @SubscribeEvent
-//    public static void InfectedIGSpawnEvent(EntityJoinWorldEvent event){
-//        Entity sEntity = event.getEntity();
-//        if(sEntity instanceof InfectedIGEntity && !sEntity.level.isClientSide()){
-//            InfectedIGEntity entity = (InfectedIGEntity) sEntity;
-//            Set<WrappedGoal> prioritizedGoals = ObfuscationReflectionHelper.getPrivateValue(GoalSelector.class, entity.targetSelector, "f_25345_");
-//            ArrayList<Goal> toRemove = new ArrayList<>();
-//            if(prioritizedGoals != null) {
-//                for (WrappedGoal prioritizedGoal : prioritizedGoals) {
-//                    toRemove.add(prioritizedGoal.getGoal());
-//                }
-//            }
-//            for(Goal goal : toRemove){
-//                entity.targetSelector.removeGoal(goal);
-//            }
-//            entity.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(entity, Pillager.class, 16, true, false,  entity::shouldAttack));
-//            entity.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(entity, Monster.class, 16, true, false,  entity::shouldAttackMonster));
-//            entity.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(entity, AbstractVillager.class, 16, true, false,  entity::shouldAttack));
-//            entity.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(entity, Player.class, 16, true, false,  entity::shouldAttack));
-//            entity.targetSelector.addGoal(5, new NearestAttackableTargetGoal<>(entity, AbstractGolem.class, 16, true, false,  entity::shouldAttackMonster));
-//
-//        }
-//    }
 
     @SubscribeEvent
     public static void GolemSpawnEvent(EntityJoinWorldEvent event){
