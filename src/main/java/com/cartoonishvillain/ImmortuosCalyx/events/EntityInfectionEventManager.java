@@ -49,20 +49,29 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Mod.EventBusSubscriber(modid = ImmortuosCalyx.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class EntityInfectionEventManager {
     @SubscribeEvent
-    public static void InfectionTicker(LivingEvent.LivingUpdateEvent event){
+    public static void InfectionTicker(LivingEvent.LivingUpdateEvent event) {
         LivingEntity entity = event.getEntityLiving();
-        if(!(entity instanceof Player)){
-        entity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-            if(h.getInfectionProgress() >= 1){
-                 h.addInfectionTimer(1);
-                 int timer = -1;
-                 if (entity instanceof Villager){timer = ImmortuosCalyx.config.VILLAGERINFECTIONTIMER.get();}
-                 else if(entity instanceof IronGolem){timer = ImmortuosCalyx.config.IRONGOLEMTIMER.get();}
-                 else {timer = ImmortuosCalyx.config.INFECTIONTIMER.get();}
-                    if(h.getInfectionTimer() >= timer){
-                        if(h.isResistant() && h.getInfectionProgress() == ImmortuosCalyx.config.EFFECTIMPEDEMENT.get()) {return;}
-                        if(h.isResistant() && h.getInfectionProgress() > ImmortuosCalyx.config.EFFECTIMPEDEMENT.get()) {h.setInfectionProgress(ImmortuosCalyx.config.EFFECTIMPEDEMENT.get()); return;}
-                       h.addInfectionProgress(1);
+        if (!(entity instanceof Player)) {
+            entity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
+                if (h.getInfectionProgress() >= 1) {
+                    h.addInfectionTimer(1);
+                    int timer = -1;
+                    if (entity instanceof Villager) {
+                        timer = ImmortuosCalyx.config.VILLAGERINFECTIONTIMER.get();
+                    } else if (entity instanceof IronGolem) {
+                        timer = ImmortuosCalyx.config.IRONGOLEMTIMER.get();
+                    } else {
+                        timer = ImmortuosCalyx.config.INFECTIONTIMER.get();
+                    }
+                    if (h.getInfectionTimer() >= timer) {
+                        if (h.isResistant() && h.getInfectionProgress() == ImmortuosCalyx.config.EFFECTIMPEDEMENT.get()) {
+                            return;
+                        }
+                        if (h.isResistant() && h.getInfectionProgress() > ImmortuosCalyx.config.EFFECTIMPEDEMENT.get()) {
+                            h.setInfectionProgress(ImmortuosCalyx.config.EFFECTIMPEDEMENT.get());
+                            return;
+                        }
+                        h.addInfectionProgress(1);
                         h.addInfectionTimer(-timer);
                     }
                 }
@@ -71,24 +80,28 @@ public class EntityInfectionEventManager {
     }
 
     @SubscribeEvent
-    public static void InfectionLogic(LivingEvent.LivingUpdateEvent event){
+    public static void InfectionLogic(LivingEvent.LivingUpdateEvent event) {
         AtomicInteger infectionlevel = new AtomicInteger(0);
         AtomicBoolean isFollower = new AtomicBoolean(false);
         LivingEntity entity = event.getEntityLiving();
-        entity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
+        entity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
             infectionlevel.getAndSet(h.getInfectionProgress());
             isFollower.set(h.isFollower());
         });
         int level = infectionlevel.get();
-        if(level > 0){
-            if(entity instanceof Villager){VillagerLogic((Villager) entity, level, isFollower.get());}
-            if(entity instanceof IronGolem && !(entity instanceof InfectedIGEntity)){IGLogic((IronGolem) entity, level);}
+        if (level > 0) {
+            if (entity instanceof Villager) {
+                VillagerLogic((Villager) entity, level, isFollower.get());
+            }
+            if (entity instanceof IronGolem && !(entity instanceof InfectedIGEntity)) {
+                IGLogic((IronGolem) entity, level);
+            }
         }
     }
 
 
-    public static void VillagerLogic(Villager entity, int level, boolean isFollower){
-        if(!isFollower) {
+    public static void VillagerLogic(Villager entity, int level, boolean isFollower) {
+        if (!isFollower) {
             if (level >= ImmortuosCalyx.config.VILLAGERSLOWTWO.get()) { // greater than or equal to 25
                 entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 2, false, false));
             } else if (level >= ImmortuosCalyx.config.VILLAGERSLOWONE.get()) { //5-24%
@@ -101,8 +114,7 @@ public class EntityInfectionEventManager {
                     entity.hurt(InfectionDamage.causeInfectionDamage(entity), ImmortuosCalyx.config.INFECTIONDAMAGE.get());
                 }
             }
-        }
-        else {
+        } else {
             if (level >= ImmortuosCalyx.config.VILLAGERSLOWTWO.get() * ImmortuosCalyx.config.VILLAGERFOLLOWERIMMUNITY.get()) { // greater than or equal to 25
                 entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 2, false, false));
             } else if (level >= ImmortuosCalyx.config.VILLAGERSLOWONE.get() * ImmortuosCalyx.config.VILLAGERFOLLOWERIMMUNITY.get()) { //5-24%
@@ -118,13 +130,17 @@ public class EntityInfectionEventManager {
         }
     }
 
-    public static void IGLogic(IronGolem entity, int level){
-        if(level >= ImmortuosCalyx.config.IRONGOLEMSLOW.get()){ entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 1, false, false)); }
-        if(level >= ImmortuosCalyx.config.IRONGOLEMWEAK.get()){ entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 5, 1, false, false)); }
-        if(level >= ImmortuosCalyx.config.IRONGOLEMLETHAL.get()){
+    public static void IGLogic(IronGolem entity, int level) {
+        if (level >= ImmortuosCalyx.config.IRONGOLEMSLOW.get()) {
+            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 5, 1, false, false));
+        }
+        if (level >= ImmortuosCalyx.config.IRONGOLEMWEAK.get()) {
+            entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, 5, 1, false, false));
+        }
+        if (level >= ImmortuosCalyx.config.IRONGOLEMLETHAL.get()) {
             Random rand = new Random();
             int random = rand.nextInt(100);
-            if(random < 1 && ImmortuosCalyx.config.INFECTIONDAMAGE.get() > 0){
+            if (random < 1 && ImmortuosCalyx.config.INFECTIONDAMAGE.get() > 0) {
                 entity.hurt(InfectionDamage.causeInfectionDamage(entity), ImmortuosCalyx.config.INFECTIONDAMAGE.get());
             }
         }
@@ -133,25 +149,26 @@ public class EntityInfectionEventManager {
 
     @SubscribeEvent
     public static void antiTrade(PlayerInteractEvent.EntityInteract event) {//villager specific interaction modifier.
-        if(!event.getTarget().getCommandSenderWorld().isClientSide() && event.getHand() == InteractionHand.MAIN_HAND){
-            if(event.getTarget() instanceof Villager){
-            Villager villager = (Villager) event.getTarget();
-            villager.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                if(h.getInfectionProgress() >= ImmortuosCalyx.config.VILLAGERNOTRADE.get()){
-                    event.setCanceled(true);
-                    villager.setUnhappyCounter(40);
-                    villager.getCommandSenderWorld().playSound(null, villager.getX(), villager.getY(), villager.getZ(), Register.VILIDLE.get(), SoundSource.NEUTRAL, 1f, 1f);
-                }
-            });
+        if (!event.getTarget().getCommandSenderWorld().isClientSide() && event.getHand() == InteractionHand.MAIN_HAND) {
+            if (event.getTarget() instanceof Villager) {
+                Villager villager = (Villager) event.getTarget();
+                villager.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
+                    if (h.getInfectionProgress() >= ImmortuosCalyx.config.VILLAGERNOTRADE.get()) {
+                        event.setCanceled(true);
+                        villager.setUnhappyCounter(40);
+                        villager.getCommandSenderWorld().playSound(null, villager.getX(), villager.getY(), villager.getZ(), Register.VILIDLE.get(), SoundSource.NEUTRAL, 1f, 1f);
+                    }
+                });
             }
         }
     }
 
     private static final ArrayList<String> DISQUALIFYINGDAMAGE = new ArrayList<>(List.of("lightningBolt", "lava", "outOfWorld", "explosion"));
+
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public static void deathEntityReplacement(LivingDeathEvent event){
+    public static void deathEntityReplacement(LivingDeathEvent event) {
         LivingEntity entity = event.getEntityLiving();
-        if(!event.isCanceled()) { // if the death is not canceled for some reason.
+        if (!event.isCanceled()) { // if the death is not canceled for some reason.
             if (event.getSource().msgId.equals("infection")) {
                 Level world = event.getEntityLiving().getCommandSenderWorld();
                 if (!world.isClientSide()) {
@@ -162,21 +179,20 @@ public class EntityInfectionEventManager {
             } else if (!DISQUALIFYINGDAMAGE.contains(event.getSource().msgId) && ImmortuosCalyx.config.INFECTONDEATH.get()) {
                 Level world = event.getEntity().getCommandSenderWorld();
                 //if I let villagers do this as well, they could turn into zombie villagers AND infected villagers, which isn't ideal.
-                if (!world.isClientSide() && !(entity instanceof Villager)) {
+                if (!world.isClientSide() && !(entity instanceof Villager) && !(entity instanceof InfectedEntity))
                     entity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
                         //Chance to be converted is multiplied by 2 for every % above 50.
                         float chance = (h.getInfectionProgress() - 50) * 2;
-                        if(chance > world.getRandom().nextInt(100)){
+                        if (chance > world.getRandom().nextInt(100)) {
                             ServerLevel serverWorld = (ServerLevel) world;
                             summonConversion(serverWorld, entity);
                         }
                     });
-                }
             }
         }
     }
 
-    private static void summonConversion(ServerLevel serverWorld, LivingEntity entity){
+    private static void summonConversion(ServerLevel serverWorld, LivingEntity entity) {
         if (entity instanceof Player) {
             InfectedPlayerEntity infectedPlayerEntity = new InfectedPlayerEntity(Register.INFECTEDPLAYER.get(), serverWorld);
             infectedPlayerEntity.setCustomName(entity.getName());
@@ -191,20 +207,23 @@ public class EntityInfectionEventManager {
     }
 
     @SubscribeEvent
-    public static void InfectionByAir(LivingEvent.LivingUpdateEvent event){
+    public static void InfectionByAir(LivingEvent.LivingUpdateEvent event) {
         LivingEntity sourceEntity = event.getEntityLiving();
         Random rand = new Random();
 
-        if (ImmortuosCalyx.config.AEROSOLIZEDINFECTION.get() && (!ImmortuosCalyx.DimensionExclusion.contains(sourceEntity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) && !sourceEntity.level.isClientSide()){
+        if (ImmortuosCalyx.config.AEROSOLIZEDINFECTION.get() && (!ImmortuosCalyx.DimensionExclusion.contains(sourceEntity.level.dimension().location()) || !ImmortuosCalyx.commonConfig.HOSTILEAEROSOLINFECTIONINCLEANSE.get()) && !sourceEntity.level.isClientSide()) {
             int AerosolRate = Integer.MAX_VALUE;
             boolean common = false;
 
-            if(sourceEntity instanceof InfectedEntity) AerosolRate = ImmortuosCalyx.config.INFECTEDAERIALRATE.get();
-            else if(sourceEntity instanceof Zombie) AerosolRate = ImmortuosCalyx.config.ZOMBIEAERIALRATE.get();
-            else if(sourceEntity instanceof Villager) AerosolRate = ImmortuosCalyx.config.FOLLOWERAERIALRATE.get();
-            else {common = true; AerosolRate = ImmortuosCalyx.config.COMMONAERIALRATE.get();}
+            if (sourceEntity instanceof InfectedEntity) AerosolRate = ImmortuosCalyx.config.INFECTEDAERIALRATE.get();
+            else if (sourceEntity instanceof Zombie) AerosolRate = ImmortuosCalyx.config.ZOMBIEAERIALRATE.get();
+            else if (sourceEntity instanceof Villager) AerosolRate = ImmortuosCalyx.config.FOLLOWERAERIALRATE.get();
+            else {
+                common = true;
+                AerosolRate = ImmortuosCalyx.config.COMMONAERIALRATE.get();
+            }
 
-            if(AerosolRate != Integer.MAX_VALUE && rand.nextInt(AerosolRate) == 2) {
+            if (AerosolRate != Integer.MAX_VALUE && rand.nextInt(AerosolRate) == 2) {
                 ArrayList<Entity> entities = (ArrayList<Entity>) sourceEntity.level.getEntities(sourceEntity, sourceEntity.getBoundingBox().inflate(2), entity -> true);
                 ArrayList<LivingEntity> livingEntityList = new ArrayList<LivingEntity>();
                 for (Entity entity : entities) {
@@ -227,27 +246,27 @@ public class EntityInfectionEventManager {
 
 
     @SubscribeEvent
-    public static void GolemSpawnEvent(EntityJoinWorldEvent event){
+    public static void GolemSpawnEvent(EntityJoinWorldEvent event) {
         Entity sEntity = event.getEntity();
-        if(sEntity instanceof AbstractGolem && !sEntity.level.isClientSide() && !(sEntity instanceof InfectedEntity)){
+        if (sEntity instanceof AbstractGolem && !sEntity.level.isClientSide() && !(sEntity instanceof InfectedEntity)) {
             AbstractGolem golemEntity = (AbstractGolem) sEntity;
             golemEntity.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(golemEntity, InfectedIGEntity.class, true, false));
         }
     }
 
     @SubscribeEvent
-    public static void DiverSpawnEvent(EntityJoinWorldEvent event){
+    public static void DiverSpawnEvent(EntityJoinWorldEvent event) {
         Entity sEntity = event.getEntity();
-        if(sEntity instanceof InfectedDiverEntity && !sEntity.level.isClientSide()){
+        if (sEntity instanceof InfectedDiverEntity && !sEntity.level.isClientSide()) {
             InfectedDiverEntity entity = (InfectedDiverEntity) sEntity;
             Set<WrappedGoal> prioritizedGoals = ObfuscationReflectionHelper.getPrivateValue(GoalSelector.class, entity.targetSelector, "f_25345_");
             ArrayList<Goal> toRemove = new ArrayList<>();
-            if(prioritizedGoals != null) {
+            if (prioritizedGoals != null) {
                 for (WrappedGoal prioritizedGoal : prioritizedGoals) {
                     toRemove.add(prioritizedGoal.getGoal());
                 }
             }
-            for(Goal goal : toRemove){
+            for (Goal goal : toRemove) {
                 entity.targetSelector.removeGoal(goal);
             }
             entity.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(entity, Player.class, 10, true, false, entity::okTarget));
@@ -257,13 +276,14 @@ public class EntityInfectionEventManager {
     }
 
     @SubscribeEvent
-    public static void VillagerSpawnEvent(EntityJoinWorldEvent event){
+    public static void VillagerSpawnEvent(EntityJoinWorldEvent event) {
         Entity sEntity = event.getEntity();
-        if(sEntity instanceof Villager && !((Villager) sEntity).isBaby() && !event.getWorld().isClientSide()){
-            sEntity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h->{
-                if(event.getWorld().getRandom().nextInt(ImmortuosCalyx.config.VILLAGERFOLLOWERCHANCE.get()) < 2){
-                h.setInfectionProgressIfLower(1);
-                h.setFollower(true);}
+        if (sEntity instanceof Villager && !((Villager) sEntity).isBaby() && !event.getWorld().isClientSide()) {
+            sEntity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
+                if (event.getWorld().getRandom().nextInt(ImmortuosCalyx.config.VILLAGERFOLLOWERCHANCE.get()) < 2) {
+                    h.setInfectionProgressIfLower(1);
+                    h.setFollower(true);
+                }
             });
         }
     }
