@@ -14,7 +14,7 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply from: 'https://raw.githubusercontent.com/SizableShrimp/Forge-Class-Remapper/main/classremapper.gradle'
 
-version = '1.18-1.6.4'
+version = '1.18.2-1.6.4'
 group = 'com.cartoonishvillain.immortuoscalyx' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'immortuoscalyx'
 
@@ -45,7 +45,7 @@ minecraft {
     //
     // Use non-default mappings at your own risk. They may not always work.
     // Simply re-run your setup task after changing the mappings to update your workspace.
-    mappings channel: 'official', version: '1.18.1'
+    mappings channel: 'official', version: '1.18.2'
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 
@@ -140,10 +140,14 @@ dependencies {
     // Specify the version of Minecraft to use. If this is any group other than 'net.minecraft', it is assumed
     // that the dep is a ForgeGradle 'patcher' dependency, and its patches will be applied.
     // The userdev artifact is a special name and will get all sorts of transformations applied to it.
-    minecraft 'net.minecraftforge:forge:1.18.1-39.0.59'
+    minecraft 'net.minecraftforge:forge:1.18.2-40.0.3'
 
-    implementation fg.deobf("curse.maven:coldsnap-426031:3573125")
-//    compileOnly fg.deobf("curse.maven:coldsnap-426031:3573125")
+    implementation fg.deobf("curse.maven:coldsnap-426031:3679856")
+//    compileOnly fg.deobf("curse.maven:coldsnap-426031:3679856")
+
+    implementation fg.deobf("curse.maven:hordelib-571315:3620533")
+//    compileOnly fg.deobf("curse.maven:hordelib-571315:3620533")
+
 
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
