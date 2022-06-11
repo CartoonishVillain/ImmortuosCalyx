@@ -10,13 +10,18 @@ import com.cartoonishvillain.immortuoscalyx.entities.InfectedPlayerEntity;
 import com.cartoonishvillain.immortuoscalyx.infection.IInfectionManager;
 import com.cartoonishvillain.immortuoscalyx.infection.InfectionManagerCapability;
 import com.cartoonishvillain.immortuoscalyx.items.ImmortuosSpawnEggItem;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.monster.Drowned;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -25,11 +30,17 @@ public class ModBusEvents {
     public static void capabilityRegister(final RegisterCapabilitiesEvent event){
         event.register(IInfectionManager.class);
         InfectionManagerCapability.INSTANCE = CapabilityManager.get(new CapabilityToken<IInfectionManager>() {});
+
     }
     @SubscribeEvent
     public static void entityRegister(RegisterEvent event){
-//        Spawns.PlacementManager();
         ImmortuosSpawnEggItem.initSpawnEggs();
+        event.register(ForgeRegistries.Keys.ENTITY_TYPES, helper -> {
+            SpawnPlacements.register(Register.INFECTEDDIVER.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.OCEAN_FLOOR, InfectedDiverEntity::checkDiverSpawnRules);
+            SpawnPlacements.register(Register.INFECTEDHUMAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+            SpawnPlacements.register(Register.INFECTEDVILLAGER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        });
+//        Spawns.PlacementManager();
     }
 
     @SubscribeEvent

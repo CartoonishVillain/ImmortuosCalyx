@@ -1,8 +1,10 @@
 package com.cartoonishvillain.immortuoscalyx;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.SpawnPlacements;
@@ -12,10 +14,10 @@ import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraftforge.common.world.BiomeModifier;
 import net.minecraftforge.common.world.ModifiableBiomeInfo;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraft.world.level.biome.MobSpawnSettings.SpawnerData;
 import net.minecraftforge.fml.common.Mod;
-
-import java.util.ArrayList;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -34,13 +36,13 @@ public class Spawns {
 //        }
 //    }
 
-//    public static void PlacementManager(){
-//        SpawnPlacements.register(Register.INFECTEDDIVER.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.OCEAN_FLOOR, Mob::checkMobSpawnRules);
-//        SpawnPlacements.register(Register.INFECTEDHUMAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
-//        SpawnPlacements.register(Register.INFECTEDVILLAGER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
-//    }
+    public static void PlacementManager() {
+        SpawnPlacements.register(Register.INFECTEDDIVER.get(), SpawnPlacements.Type.IN_WATER, Heightmap.Types.OCEAN_FLOOR, Mob::checkMobSpawnRules);
+        SpawnPlacements.register(Register.INFECTEDHUMAN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        SpawnPlacements.register(Register.INFECTEDVILLAGER.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+    }
 //
-//    public record spawnModifiers(HolderSet<Biome> biomes) implements BiomeModifier {
+//    public record SpawnModifiers(HolderSet<Biome> biomes) implements BiomeModifier {
 //
 //        @Override
 //        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
@@ -55,4 +57,20 @@ public class Spawns {
 //            return null;
 //        }
 //    }
+
+    public record SpawnModifiers(HolderSet<Biome> biomes, SpawnerData spawn) implements BiomeModifier {
+        @Override
+        public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
+            if (phase == Phase.ADD && this.biomes.contains(biome)) {
+                builder.getMobSpawnSettings().addSpawn(MobCategory.MONSTER, this.spawn);
+                //Logging statement, in a vague attempt to see if anything shows up.
+                Constants.LOG.info(this.spawn.type.toString() + "Has been registered! Registered in: " + biome.toString());
+            }
+        }
+
+        @Override
+        public Codec<? extends BiomeModifier> codec() {
+            return ForgeImmortuosCalyx.SPAWNCODEC.get();
+        }
+    }
 }

@@ -1,0 +1,10 @@
+{
+  "type": "immortuoscalyx:spawnmodifiers",
+  "biomes": "#minecraft:is_ocean",
+  "spawn": {
+    "type": "immortuoscalyx:infecteddiver",
+    "maxCount": 1,
+    "minCount": 1,
+    "weight": 5
+  }
+}
