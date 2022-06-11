@@ -8,6 +8,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.GameProfileArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.Collection;
@@ -32,7 +33,7 @@ public class SetInfectionRateCommand {
                 Services.PLATFORM.setInfectionProgress(amount, serverPlayerEntity);
            }
         }
-        source.sendSuccess(Component.translatable("progress.immortuoscalyx.set", amount), false);
+        source.sendSuccess(new TranslatableComponent("progress.immortuoscalyx.set", amount), false);
         return 0;
     }
 }

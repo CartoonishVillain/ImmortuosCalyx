@@ -14,10 +14,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.RegisterEvent;
 
 @Mod.EventBusSubscriber(modid = Constants.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModBusEvents {
@@ -27,9 +27,9 @@ public class ModBusEvents {
         InfectionManagerCapability.INSTANCE = CapabilityManager.get(new CapabilityToken<IInfectionManager>() {});
     }
     @SubscribeEvent
-    public static void entityRegister(RegisterEvent event){
-//        Spawns.PlacementManager();
-        ImmortuosSpawnEggItem.initSpawnEggs();
+    public static void entityRegister(final RegistryEvent.Register<EntityType<?>> event){
+        event.getRegistry().registerAll(Register.INFECTEDDIVER.get(), Register.INFECTEDHUMAN.get(), Register.INFECTEDIG.get(), Register.INFECTEDPLAYER.get(), Register.INFECTEDVILLAGER.get());
+        Spawns.PlacementManager();
     }
 
     @SubscribeEvent

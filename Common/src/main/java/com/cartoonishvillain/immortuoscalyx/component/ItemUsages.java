@@ -2,7 +2,9 @@ package com.cartoonishvillain.immortuoscalyx.component;
 
 import com.cartoonishvillain.immortuoscalyx.damage.InternalOrganDamage;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedEntity;
+import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -49,31 +51,31 @@ public class ItemUsages {
 
     private static void scan(Player a, LivingEntity t){
         if(t instanceof Player){
-            a.sendSystemMessage(Component.literal("===(" + t.getScoreboardName() + "'s stats)==="));
-            a.sendSystemMessage(Component.literal("Health: " + t.getHealth()));
-            a.sendSystemMessage(Component.literal("Food: " + ((Player) t).getFoodData().getFoodLevel()));
-            a.sendSystemMessage(Component.literal("Infection Level: " + PLATFORM.getInfectionProgress(t) + "%"));
-            a.sendSystemMessage(Component.literal("Resistance Multiplier: " + PLATFORM.getResistance(t)));
-            a.sendSystemMessage(Component.literal("Stabilized: " + PLATFORM.getResistantDosage(t)));
+            a.sendMessage(new TextComponent("===(" + t.getScoreboardName() + "'s stats)==="), a.getUUID());
+            a.sendMessage(new TextComponent("Health: " + t.getHealth()), a.getUUID());
+            a.sendMessage(new TextComponent("Food: " + ((Player) t).getFoodData().getFoodLevel()), a.getUUID());
+            a.sendMessage(new TextComponent("Infection Level: " + PLATFORM.getInfectionProgress(t) + "%"), a.getUUID());
+            a.sendMessage(new TextComponent("Resistance Multiplier: " + PLATFORM.getResistance(t)), a.getUUID());
+            a.sendMessage(new TextComponent("Stabilized: " + PLATFORM.getResistantDosage(t)), a.getUUID());
         } else if(t instanceof InfectedEntity){
-            a.sendSystemMessage(Component.literal("===(Target completely infected)==="));
+            a.sendMessage(new TextComponent("===(Target completely infected)==="), a.getUUID());
         } else {
-                a.sendSystemMessage(Component.literal("===(" + t.getName().getString() + "'s stats)==="));
-                a.sendSystemMessage(Component.literal("Health: " + t.getHealth()));
-                a.sendSystemMessage(Component.literal("Infection Rate: " + PLATFORM.getInfectionProgress(t) + "%"));
-                a.sendSystemMessage(Component.literal("Stabilized: " + PLATFORM.getResistantDosage(t)));
+                a.sendMessage(new TextComponent("===(" + t.getName().getString() + "'s stats)==="), a.getUUID());
+                a.sendMessage(new TextComponent("Health: " + t.getHealth()), a.getUUID());
+                a.sendMessage(new TextComponent("Infection Rate: " + PLATFORM.getInfectionProgress(t) + "%"), a.getUUID());
+                a.sendMessage(new TextComponent("Stabilized: " + PLATFORM.getResistantDosage(t)), a.getUUID());
                 if(a.isCreative() && t instanceof Villager){
-                    a.sendSystemMessage(Component.literal("Immortuos Follower: " + PLATFORM.getFollowerStatus(t)));
+                    a.sendMessage(new TextComponent("Immortuos Follower: " + PLATFORM.getFollowerStatus(t)), a.getUUID());
                 }
         }
     }
 
     private static void selfScan(Player p){
-            p.sendSystemMessage(Component.literal("===(" + p.getScoreboardName() + "'s stats)==="));
-            p.sendSystemMessage(Component.literal("Saturation level: " + p.getFoodData().getSaturationLevel()));
-            p.sendSystemMessage(Component.literal("Infection Level: " + PLATFORM.getInfectionProgress(p) + "%"));
-            p.sendSystemMessage(Component.literal("Resistance Multiplier: " + PLATFORM.getResistance(p)));
-            p.sendSystemMessage(Component.literal("Stabilized: " + PLATFORM.getResistantDosage(p)));
+            p.sendMessage(new TextComponent("===(" + p.getScoreboardName() + "'s stats)==="), p.getUUID());
+            p.sendMessage(new TextComponent("Saturation level: " + p.getFoodData().getSaturationLevel()), p.getUUID());
+            p.sendMessage(new TextComponent("Infection Level: " + PLATFORM.getInfectionProgress(p) + "%"), p.getUUID());
+            p.sendMessage(new TextComponent("Resistance Multiplier: " + PLATFORM.getResistance(p)), p.getUUID());
+            p.sendMessage(new TextComponent("Stabilized: " + PLATFORM.getResistantDosage(p)), p.getUUID());
     }
 
     private static void AntiParasiticCure(LivingEntity target) {
@@ -82,7 +84,7 @@ public class ItemUsages {
             }
             if(PLATFORM.getInfectionProgress(target) < 0) PLATFORM.setInfectionProgress(0, target);
             //TODO: ImmortuosCalyx.config.RESISTGIVENAP.get()
-            PLATFORM.setResistance(6, target);
+            PLATFORM.setResistance(PLATFORM.getAPResist(), target);
         target.hurt(InternalOrganDamage.causeInternalDamage(target), 2f);  //divide the reduced infection rate by 5, multiply by 4. 100 infection rate -> 25/5 = 5, * 4 = 20. Vanilla instant kill.
     }
 

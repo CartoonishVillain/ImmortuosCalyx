@@ -4,6 +4,7 @@ import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import net.minecraft.ChatFormatting;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -20,9 +21,9 @@ public class ScannerBlockItem extends BlockItem {
 
     @Override
     public void appendHoverText(ItemStack p_77624_1_, @Nullable Level p_77624_2_, List<Component> list, TooltipFlag p_77624_4_) {
-        list.add(Component.literal(ChatFormatting.BLUE + "Scans for infection when stepped on."));
-        list.add(Component.literal(ChatFormatting.BLUE + "If an infection is found, sends redstone signal."));
-        list.add(Component.literal(ChatFormatting.BLUE + "If one is not found, it removes it's signal."));
+        list.add(new TextComponent(ChatFormatting.BLUE + "Scans for infection when stepped on."));
+        list.add(new TextComponent(ChatFormatting.BLUE + "If an infection is found, sends redstone signal."));
+        list.add(new TextComponent(ChatFormatting.BLUE + "If one is not found, it removes it's signal."));
 
     }
 }

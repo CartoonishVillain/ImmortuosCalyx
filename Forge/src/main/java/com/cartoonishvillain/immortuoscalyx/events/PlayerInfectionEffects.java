@@ -7,7 +7,7 @@ import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionRateCommand;
 import com.cartoonishvillain.immortuoscalyx.infection.InfectionManager;
 import com.cartoonishvillain.immortuoscalyx.infection.InfectionManagerCapability;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -43,7 +43,7 @@ public class PlayerInfectionEffects {
                 String name = player.getName().getString();
                 String format = "<" + name + "> ";
                 if (h.getInfectionProgress() >= ForgeImmortuosCalyx.config.EFFECTCHAT.get() && ForgeImmortuosCalyx.config.ANTICHAT.get() && ForgeImmortuosCalyx.config.FORMATTEDINFECTCHAT.get()) {
-                    event.setComponent(Component.literal(format + ChatFormatting.OBFUSCATED + event.getMessage()));
+                    event.setComponent(new TextComponent(format + ChatFormatting.OBFUSCATED + event.getMessage()));
                 }
                 if (h.getInfectionProgress() >= ForgeImmortuosCalyx.config.EFFECTCHAT.get() && ForgeImmortuosCalyx.config.ANTICHAT.get() && !ForgeImmortuosCalyx.config.FORMATTEDINFECTCHAT.get()) {
                     event.setCanceled(true);

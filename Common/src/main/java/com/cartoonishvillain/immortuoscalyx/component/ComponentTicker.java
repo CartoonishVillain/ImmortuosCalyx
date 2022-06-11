@@ -6,6 +6,7 @@ import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -141,47 +142,47 @@ public class ComponentTicker {
     private static void PlayerMessageSender(Player afflictedPlayer){
         int progressionLogic = Services.PLATFORM.getInfectionProgress(afflictedPlayer); //this used to be a switch. I love switches. But switches require constants. These are not constant values anymore. Too bad.
         if(progressionLogic == Services.PLATFORM.getEffectMsgOne()){
-            afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "Your throat feels sore"));}
+            afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "Your throat feels sore"), afflictedPlayer.getUUID());}
 
         else if(progressionLogic == Services.PLATFORM.getEffectMsgTwo()){
-            afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "Your mind feels foggy"));}
+            afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "Your mind feels foggy"), afflictedPlayer.getUUID());}
 
         else if(progressionLogic == Services.PLATFORM.getEffectChat()){
             if (Services.PLATFORM.getAntiChat())
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "You feel something moving around in your head, you try to yell, but nothing comes out"));}
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You feel something moving around in your head, you try to yell, but nothing comes out"), afflictedPlayer.getUUID());}
 
         else if(progressionLogic == Services.PLATFORM.getPlayerInfection()){
             if (Services.PLATFORM.getPVPContagion())
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "There is something on your skin and you can't get it off.."));}
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "There is something on your skin and you can't get it off.."), afflictedPlayer.getUUID());}
 
         else if(progressionLogic == Services.PLATFORM.getEffectSpeed()){
             if (Services.PLATFORM.getColdFast() && Services.PLATFORM.getHeatSlow())
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "You start feeling ill in warm environments, and better in cool ones.."));
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You start feeling ill in warm environments, and better in cool ones.."), afflictedPlayer.getUUID());
             else if (Services.PLATFORM.getColdFast() && !Services.PLATFORM.getHeatSlow())
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "You begin to feel better in cool environments.."));
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You begin to feel better in cool environments.."), afflictedPlayer.getUUID());
             else if (Services.PLATFORM.getHeatSlow() && !Services.PLATFORM.getColdFast())
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "You begin feeling ill in warm environments..."));}
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You begin feeling ill in warm environments..."), afflictedPlayer.getUUID());}
 
         else if(progressionLogic == Services.PLATFORM.getEffectWaterBreathing()){
             if(Services.PLATFORM.getWaterBreathing()){
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.BLUE + "You begin to feel relieved while diving into the murky depths..."));
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.BLUE + "You begin to feel relieved while diving into the murky depths..."), afflictedPlayer.getUUID());
             }
         }
         else if(progressionLogic == Services.PLATFORM.getEffectStrength()){
             if (Services.PLATFORM.getColdStrength() && Services.PLATFORM.getWarmWeakness())
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "You begin to feel weak in all but the coldest environments.."));
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You begin to feel weak in all but the coldest environments.."), afflictedPlayer.getUUID());
             else if (Services.PLATFORM.getColdStrength() && !Services.PLATFORM.getWarmWeakness())
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "You begin to feel strong in cold environments.."));
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You begin to feel strong in cold environments.."), afflictedPlayer.getUUID());
             else if (Services.PLATFORM.getWarmWeakness() && !Services.PLATFORM.getColdStrength())
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "You begin to feel weak in warm environments.."));}
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You begin to feel weak in warm environments.."), afflictedPlayer.getUUID());}
 
         else if(progressionLogic == Services.PLATFORM.getEffectBlind()){
             if(Services.PLATFORM.getBlindness())
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "Your vision gets darker and darker.."));}
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "Your vision gets darker and darker.."), afflictedPlayer.getUUID());}
 
         else if(progressionLogic == Services.PLATFORM.getEffectDamage()){
             if(Services.PLATFORM.getInfectionDamage() > 0)
-                afflictedPlayer.sendSystemMessage(Component.literal(ChatFormatting.RED + "You feel an overwhelming pain in your head..."));}
+                afflictedPlayer.sendMessage(new TextComponent(ChatFormatting.RED + "You feel an overwhelming pain in your head..."), afflictedPlayer.getUUID());}
     }
 
     private static final ArrayList<String> DISQUALIFYINGDAMAGE = new ArrayList<>(List.of("lightningBolt", "lava", "outOfWorld", "explosion"));

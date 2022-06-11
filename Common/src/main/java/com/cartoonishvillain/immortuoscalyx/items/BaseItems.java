@@ -2,6 +2,7 @@ package com.cartoonishvillain.immortuoscalyx.items;
 
 import com.cartoonishvillain.immortuoscalyx.component.ItemUsages;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
@@ -47,7 +48,7 @@ public class BaseItems extends Item{
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
         for(String loreItem : listOfLore) {
-            tooltip.add(Component.literal(loreItem));
+            tooltip.add(new TextComponent(loreItem));
         }
     }
 
