@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "immortuoscalyx",
+  "version": "${version}",
+
+  "custom": {
+    "cardinal-components": [
+      "immortuoscalyx:infection"
+    ]
+  },
+
+  "accessWidener" : "immortuoscalyx.accesswidener",
+
+  "name": "Immortuos Calyx",
+  "description": "A new parasitic infection has spread across the world. Try not to get infected... Inspired by the Velonaceps Calyx from Barotrauma.",
+  "authors": [
+    "Cartoonish Villain"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+
+  "license": "MIT",
+  "icon": "assets/immortuoscalyx/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.cartoonishvillain.immortuoscalyx.FabricImmortuosCalyx"
+    ],
+    "client":[
+      "com.cartoonishvillain.immortuoscalyx.ClientImmortuosInitalizer"
+    ],
+    "cardinal-components-entity": [
+      "com.cartoonishvillain.immortuoscalyx.component.ComponentStarter"
+    ],
+    "voicechat": [
+      "com.cartoonishvillain.immortuoscalyx.VoicePlugin"
+    ]
+  },
+    "mixins": [
+      "immortuoscalyx.mixins.json",
+      "immortuoscalyx.fabric.mixins.json"
+    ],
+
+  "fabricloader": ">=0.12.5",
+  "fabric": "*",
+  "minecraft": "1.18.x",
+  "java": ">=17",
+  "cloth-config2": "*"
+  }
+  

@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.cartoonishvillain.immortuoscalyx.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "client": [
+    "AntiChatMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  
