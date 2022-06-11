@@ -4,6 +4,7 @@ import com.cartoonishvillain.immortuoscalyx.config.ImmortuosConfig;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.minecraft.tags.BiomeTags;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.level.biome.Biome;
 
@@ -25,31 +26,15 @@ public class Spawns {
     }
 
     public static Predicate<BiomeSelectionContext> overWorldNoOceanNoGoZones() {
-        return BiomeSelectors.all().and(shroomExclusion()).and(netherExclusion()).and(endExclusion()).and(oceanExclusion()).and(onlyVanillia());
+        return BiomeSelectors.tag(BiomeTags.IS_OVERWORLD).and(shroomExclusion());
     }
 
     public static Predicate<BiomeSelectionContext> shroomExclusion() {
-        return Predicate.not(BiomeSelectors.categories(Biome.BiomeCategory.MUSHROOM));
-    }
-
-    public static Predicate<BiomeSelectionContext> netherExclusion() {
-        return Predicate.not(BiomeSelectors.categories(Biome.BiomeCategory.NETHER));
-    }
-
-    public static Predicate<BiomeSelectionContext> endExclusion() {
-        return Predicate.not(BiomeSelectors.categories(Biome.BiomeCategory.THEEND));
-    }
-
-    public static Predicate<BiomeSelectionContext> oceanExclusion() {
-        return Predicate.not(BiomeSelectors.categories(Biome.BiomeCategory.OCEAN));
+        return Predicate.not(BiomeSelectors.tag(ModdedBiomeTags.MushroomBiomes));
     }
 
     public static Predicate<BiomeSelectionContext> onlyOcean() {
-        return BiomeSelectors.categories(Biome.BiomeCategory.OCEAN).and(onlyVanillia());
-    }
-
-    public static Predicate<BiomeSelectionContext> onlyVanillia() {
-        return BiomeSelectors.vanilla();
+        return BiomeSelectors.tag(BiomeTags.IS_OCEAN);
     }
 }
 

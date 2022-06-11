@@ -81,9 +81,5 @@ public class InfectedDiverEntity extends Drowned implements InfectedEntity {
             } else {
                 return p_218960_.nextInt(40) == 0 && flag;
             }
-
     }
-
-
-
 }

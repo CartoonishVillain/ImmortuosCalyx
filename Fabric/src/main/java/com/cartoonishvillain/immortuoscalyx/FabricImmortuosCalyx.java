@@ -7,9 +7,8 @@ import io.netty.buffer.Unpooled;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -17,7 +16,7 @@ import net.fabricmc.fabric.mixin.object.builder.SpawnRestrictionAccessor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ChatType;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
@@ -48,8 +47,8 @@ public class FabricImmortuosCalyx implements ModInitializer {
 
         CommonImmortuos.init();
 
-        CommandRegistrationCallback.EVENT.register(((dispatcher, dedicated) -> {
-            SetInfectionRateCommand.register(dispatcher);
+        CommandRegistrationCallback.EVENT.register(((dispatcher, registryAccess, dedicated) -> {
+                SetInfectionRateCommand.register(dispatcher);
         }));
 
         registerPackets();
@@ -98,7 +97,7 @@ public class FabricImmortuosCalyx implements ModInitializer {
             String name = (String) buffer.readCharSequence(length, Charset.defaultCharset());
             length = buffer.readInt();
             String message = (String) buffer.readCharSequence(length, Charset.defaultCharset());
-            server.getPlayerList().broadcastMessage(new TextComponent(name + ChatFormatting.OBFUSCATED + message), ChatType.CHAT, player.getUUID());
+            server.getPlayerList().broadcastSystemMessage(Component.literal(name + ChatFormatting.OBFUSCATED + message), ChatType.CHAT);
         })));
     }
 }

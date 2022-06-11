@@ -1,18 +1,16 @@
 package com.cartoonishvillain.immortuoscalyx;
 
+import com.cartoonishvillain.immortuoscalyx.Spawns.SpawnModifiers;
 import com.cartoonishvillain.immortuoscalyx.configs.CommonConfig;
 import com.cartoonishvillain.immortuoscalyx.configs.ConfigHelper;
 import com.cartoonishvillain.immortuoscalyx.configs.ServerConfig;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
@@ -20,7 +18,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import com.cartoonishvillain.immortuoscalyx.Spawns.SpawnModifiers;
 
 @Mod(Constants.MOD_ID)
 public class ForgeImmortuosCalyx {
