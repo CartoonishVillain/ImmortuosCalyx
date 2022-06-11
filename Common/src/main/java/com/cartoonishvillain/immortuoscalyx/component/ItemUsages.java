@@ -99,7 +99,7 @@ public class ItemUsages {
 
     private static void AddResistance(Entity target){
         if(target instanceof LivingEntity)
-        PLATFORM.setResistantDosage(true, (LivingEntity) target);
+         PLATFORM.setResistantDosage(true, (LivingEntity) target);
     }
 
     private static void ImmortuosEggsInfection(LivingEntity target){

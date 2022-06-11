@@ -135,7 +135,7 @@ public class ForgePlatformHelper implements IPlatformHelper {
     public boolean getResistantDosage(LivingEntity entity) {
         AtomicBoolean val = new AtomicBoolean(false);
         entity.getCapability(InfectionManagerCapability.INSTANCE).ifPresent(h -> {
-            val.set(h.isFollower());
+            val.set(h.isResistant());
         });
         return val.get();
     }
