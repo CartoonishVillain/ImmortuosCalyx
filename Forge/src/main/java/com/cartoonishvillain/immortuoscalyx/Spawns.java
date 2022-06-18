@@ -18,8 +18,6 @@ public class Spawns {
         public void modify(Holder<Biome> biome, Phase phase, ModifiableBiomeInfo.BiomeInfo.Builder builder) {
             if (phase == Phase.ADD && this.biomes.contains(biome)) {
                 builder.getMobSpawnSettings().addSpawn(MobCategory.MONSTER, this.spawn);
-                //Logging statement, in a vague attempt to see if anything shows up.
-                Constants.LOG.info(this.spawn.type.toString() + "Has been registered! Registered in: " + biome.toString());
             }
         }
 

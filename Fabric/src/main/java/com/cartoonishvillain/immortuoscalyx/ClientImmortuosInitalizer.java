@@ -21,10 +21,10 @@ public class ClientImmortuosInitalizer implements ClientModInitializer {
         EntityRendererRegistry.register(Register.INFECTEDHUMAN, RenderInfectedHumanEntity::new);
         EntityRendererRegistry.register(Register.INFECTEDIG, RenderInfectedIGEntity::new);
         EntityRendererRegistry.register(Register.INFECTEDVILLAGER, RenderInfectedVillagerEntity::new);
-        chatDisabledEnabled = FabricImmortuosCalyx.config.playerToggles.ANTICHAT;
-        chatScrambledEnabled = FabricImmortuosCalyx.config.otherDetails.FORMATTEDINFECTCHAT;
-        chatScreamingEnabled = FabricImmortuosCalyx.config.playerToggles.INFECTEDCHATNOISE;
-        chatEffectMark = FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTCHAT;
+        chatDisabledEnabled = FabricImmortuosCalyx.CONFIG.getOrDefault("ANTICHAT", true);
+        chatScrambledEnabled = FabricImmortuosCalyx.CONFIG.getOrDefault("FORMATTEDINFECTCHAT", false);
+        chatScreamingEnabled = FabricImmortuosCalyx.CONFIG.getOrDefault("INFECTEDCHATNOISE", true);
+        chatEffectMark = FabricImmortuosCalyx.CONFIG.getOrDefault("EFFECTCHAT", 40);
 
         registerPackets();
     }

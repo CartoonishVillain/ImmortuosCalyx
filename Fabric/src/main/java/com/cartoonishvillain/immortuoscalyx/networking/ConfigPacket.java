@@ -9,10 +9,10 @@ import net.minecraft.server.level.ServerPlayer;
 public class ConfigPacket {
 
     public static void send(ServerPlayer player, FriendlyByteBuf byteBuf){
-        byteBuf.writeBoolean(FabricImmortuosCalyx.config.playerToggles.ANTICHAT);
-        byteBuf.writeBoolean(FabricImmortuosCalyx.config.otherDetails.FORMATTEDINFECTCHAT);
-        byteBuf.writeBoolean(FabricImmortuosCalyx.config.playerToggles.INFECTEDCHATNOISE);
-        byteBuf.writeInt(FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTCHAT);
+        byteBuf.writeBoolean(FabricImmortuosCalyx.CONFIG.getOrDefault("ANTICHAT", true));
+        byteBuf.writeBoolean(FabricImmortuosCalyx.CONFIG.getOrDefault("FORMATTEDINFECTCHAT", false));
+        byteBuf.writeBoolean(FabricImmortuosCalyx.CONFIG.getOrDefault("INFECTEDCHATNOISE", true));
+        byteBuf.writeInt(FabricImmortuosCalyx.CONFIG.getOrDefault("EFFECTCHAT", 40));
         ServerPlayNetworking.send(player, new ResourceLocation("immortuoscalyx:configupdate"), byteBuf);
     }
 }

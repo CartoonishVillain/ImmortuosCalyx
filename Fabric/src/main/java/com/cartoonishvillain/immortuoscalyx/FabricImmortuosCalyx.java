@@ -2,10 +2,9 @@ package com.cartoonishvillain.immortuoscalyx;
 
 import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionRateCommand;
 import com.cartoonishvillain.immortuoscalyx.config.ImmortuosConfig;
+import com.cartoonishvillain.immortuoscalyx.config.SimpleConfig;
 import com.cartoonishvillain.immortuoscalyx.networking.ConfigPacket;
 import io.netty.buffer.Unpooled;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -34,14 +33,12 @@ import java.util.ArrayList;
 import static com.cartoonishvillain.immortuoscalyx.Spawns.initSpawns;
 
 public class FabricImmortuosCalyx implements ModInitializer {
-    public static ImmortuosConfig config;
+    public static SimpleConfig CONFIG = SimpleConfig.of( "immortuos" ).provider( ImmortuosConfig::provider ).request();
     public static final CreativeModeTab TAB = FabricItemGroupBuilder.build(new ResourceLocation(Constants.MOD_ID, "immortuostab"), () -> new ItemStack(Register.IMMORTUOSCALYXEGGS));
 
 
     @Override
     public void onInitialize() {
-        AutoConfig.register(ImmortuosConfig.class, JanksonConfigSerializer::new);
-        config = AutoConfig.getConfigHolder(ImmortuosConfig.class).getConfig();
 
         Register.init();
 
@@ -73,7 +70,7 @@ public class FabricImmortuosCalyx implements ModInitializer {
     }
 
     public static ArrayList<ResourceLocation> getDimensions() {
-        final String DimensionList = config.dimensionsAndSpawnDetails.DIMENSIONALCLEANSE;
+        final String DimensionList = CONFIG.getOrDefault("DIMENSIONALCLEANSE", "notadimension");
         String[] DimensionExclusion = DimensionList.split(",");
         int exclusionLength = DimensionExclusion.length;
         ArrayList<ResourceLocation> finalDimensionExclusion = new ArrayList<>();

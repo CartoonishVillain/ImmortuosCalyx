@@ -16,6 +16,7 @@ import net.minecraft.world.item.Item;
 
 import java.util.ArrayList;
 
+import static com.cartoonishvillain.immortuoscalyx.FabricImmortuosCalyx.CONFIG;
 import static com.cartoonishvillain.immortuoscalyx.component.ComponentStarter.INFECTION;
 
 public class FabricPlatformHelper implements IPlatformHelper {
@@ -110,222 +111,222 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public boolean getAntiChat() {
-        return FabricImmortuosCalyx.config.playerToggles.ANTICHAT;
+        return CONFIG.getOrDefault("ANTICHAT", true);
     }
 
     @Override
     public boolean getInfectedChatNoise() {
-        return FabricImmortuosCalyx.config.playerToggles.INFECTEDCHATNOISE;
+        return CONFIG.getOrDefault("INFECTEDCHATNOISE", true);
     }
 
     @Override
     public boolean getPVPContagion() {
-        return FabricImmortuosCalyx.config.playerToggles.PVPCONTAGION;
+        return CONFIG.getOrDefault("PVPCONTAGION", true);
     }
 
     @Override
     public boolean getHeatSlow() {
-        return FabricImmortuosCalyx.config.playerToggles.HEATSLOW;
+        return CONFIG.getOrDefault("HEATSLOW", true);
     }
 
     @Override
     public boolean getColdFast() {
-        return FabricImmortuosCalyx.config.playerToggles.HEATSLOW;
+        return CONFIG.getOrDefault("COLDFAST", true);
     }
 
     @Override
     public boolean getWaterBreathing() {
-        return FabricImmortuosCalyx.config.playerToggles.WATERBREATHING;
+        return CONFIG.getOrDefault("WATERBREATHING", true);
     }
 
     @Override
     public boolean getColdConduitPower() {
-        return FabricImmortuosCalyx.config.playerToggles.COLDCONDUITPOWER;
+        return CONFIG.getOrDefault("COLDCONDUITPOWER", true);
     }
 
     @Override
     public boolean getWarmWeakness() {
-        return FabricImmortuosCalyx.config.playerToggles.WARMWEAKNESS;
+        return CONFIG.getOrDefault("WARMWEAKNESS", true);
     }
 
     @Override
     public boolean getColdStrength() {
-        return FabricImmortuosCalyx.config.playerToggles.COLDSTRENGTH;
+        return CONFIG.getOrDefault("COLDSTRENGTH", true);
     }
 
     @Override
     public boolean getBlindness() {
-        return FabricImmortuosCalyx.config.playerToggles.BLINDNESS;
+        return CONFIG.getOrDefault("BLINDNESS", true);
     }
 
     @Override
     public double getArmorResist() {
-        return FabricImmortuosCalyx.config.contagionConfig.ARMORRESISTMULTIPLIER;
+        return CONFIG.getOrDefault("ARMORRESISTMULTIPLIER", 2);
     }
 
     @Override
     public double getAPResist() {
-        return FabricImmortuosCalyx.config.contagionConfig.RESISTGIVENAP;
+        return CONFIG.getOrDefault("RESISTGIVENAP", 6);
     }
 
     @Override
     public int getInfectedEntityValue() {
-        return FabricImmortuosCalyx.config.contagionConfig.INFECTEDENTITYINFECTIONVALUE;
+        return CONFIG.getOrDefault("INFECTEDENTITYINFECTIONVALUE", 90);
     }
 
     @Override
     public int getZombieValue() {
-        return FabricImmortuosCalyx.config.contagionConfig.ZOMBIEINFECTIONVALUE;
+        return CONFIG.getOrDefault("ZOMBIEINFECTIONVALUE", 20);
     }
 
     @Override
     public int getRawFoodValue() {
-        return FabricImmortuosCalyx.config.contagionConfig.RAWFOODINFECTIONVALUE;
+        return CONFIG.getOrDefault("RAWFOODINFECTIONVALUE", 10);
     }
 
     @Override
     public int getEffectMsgOne() {
-        return FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTMESSAGEONE;
+        return CONFIG.getOrDefault("EFFECTMESSAGEONE", 10);
     }
 
     @Override
     public int getEffectMsgTwo() {
-        return FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTMESSAGETWO;
+        return CONFIG.getOrDefault("EFFECTMESSAGETWO", 25);
     }
 
     @Override
     public int getEffectChat() {
-        return FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTCHAT;
+        return CONFIG.getOrDefault("EFFECTCHAT", 40);
     }
 
     @Override
     public int getPlayerInfection() {
-        return FabricImmortuosCalyx.config.playerSymptomProgression.PLAYERINFECTIONTHRESHOLD;
+        return CONFIG.getOrDefault("PLAYERINFECTIONTHRESHOLD", 50);
     }
 
     @Override
     public int getEffectSpeed() {
-        return FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTSPEED;
+        return CONFIG.getOrDefault("EFFECTSPEED", 60);
     }
 
     @Override
     public int getEffectWaterBreathing() {
-        return FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTWATERBREATH;
+        return CONFIG.getOrDefault("EFFECTWATERBREATH", 67);
     }
 
     @Override
     public int getEffectStrength() {
-        return FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTSTRENGTH;
+        return CONFIG.getOrDefault("EFFECTSTRENGTH", 85);
     }
 
     @Override
     public int getEffectBlind() {
-        return FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTBLIND;
+        return CONFIG.getOrDefault("EFFECTBLIND", 95);
     }
 
     @Override
     public int getEffectDamage() {
-        return FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTDAMAGE;
+        return CONFIG.getOrDefault("EFFECTDAMAGE", 100);
     }
 
     @Override
     public int getEffectImpediment() {
-        return FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTIMPEDIMENT;
+        return CONFIG.getOrDefault("EFFECTIMPEDIMENT", 89);
     }
 
     @Override
     public int getFollowerChance() {
-        return FabricImmortuosCalyx.config.entityToggles.VILLAGERFOLLOWERCHANCE;
+        return CONFIG.getOrDefault("VILLAGERFOLLOWERCHANCE", 25);
     }
 
     @Override
     public int getFollowerImmunity() {
-        return FabricImmortuosCalyx.config.entityToggles.VILLAGERFOLLOWERIMMUNITY;
+        return CONFIG.getOrDefault("VILLAGERFOLLOWERIMMUNITY", 2);
     }
 
     @Override
     public int getVillagerSlowOne() {
-        return FabricImmortuosCalyx.config.entityToggles.VILLAGERSLOWONE;
+        return CONFIG.getOrDefault("VILLAGERSLOWONE", 5);
     }
 
     @Override
     public int getVillagerSlowTwo() {
-        return FabricImmortuosCalyx.config.entityToggles.VILLAGERSLOWTWO;
+        return CONFIG.getOrDefault("VILLAGERSLOWTWO", 15);
     }
 
     @Override
     public int getVillagerNoTrade() {
-        return FabricImmortuosCalyx.config.entityToggles.VILLAGERNOTRADE;
+        return CONFIG.getOrDefault("VILLAGERNOTRADE", 37);
     }
 
     @Override
     public int getVillagerLethal() {
-        return FabricImmortuosCalyx.config.entityToggles.VILLAGERLETHAL;
+        return CONFIG.getOrDefault("VILLAGERLETHAL", 60);
     }
 
     @Override
     public int getIronSlow() {
-        return FabricImmortuosCalyx.config.entityToggles.IRONGOLEMSLOW;
+        return CONFIG.getOrDefault("IRONGOLEMSLOW", 5);
     }
 
     @Override
     public int getIronWeak() {
-        return FabricImmortuosCalyx.config.entityToggles.IRONGOLEMWEAK;
+        return CONFIG.getOrDefault("IRONGOLEMWEAK", 5);
     }
 
     @Override
     public int getIronLethal() {
-        return FabricImmortuosCalyx.config.entityToggles.IRONGOLEMLETHAL;
+        return CONFIG.getOrDefault("IRONGOLEMLETHAL", 110);
     }
 
     @Override
     public int getEggInfectionStart() {
-        return FabricImmortuosCalyx.config.otherDetails.EGGINFECTIONSTART;
+        return CONFIG.getOrDefault("EGGINFECTIONSTART", 1);
     }
 
     @Override
     public int getInfectionDamage() {
-        return FabricImmortuosCalyx.config.otherDetails.INFECTIONDAMAGE;
+        return CONFIG.getOrDefault("INFECTIONDAMAGE", 1);
     }
 
     @Override
     public int getPVPContagionRelief() {
-        return FabricImmortuosCalyx.config.otherDetails.PVPCONTAGIONRELIEF;
+        return CONFIG.getOrDefault("PVPCONTAGIONRELIEF", 5);
     }
 
     @Override
     public int getPVPContagionAmount() {
-        return FabricImmortuosCalyx.config.otherDetails.PVPCONTAGIONRELIEF;
+        return CONFIG.getOrDefault("PVPCONTAGIONAMOUNT", 1);
     }
 
     @Override
     public int getInfectionTimer() {
-        return FabricImmortuosCalyx.config.otherDetails.INFECTIONTIMER;
+        return CONFIG.getOrDefault("INFECTIONTIMER", 450);
     }
 
     @Override
     public boolean isFormattedChat() {
-        return FabricImmortuosCalyx.config.otherDetails.FORMATTEDINFECTCHAT;
+        return CONFIG.getOrDefault("FORMATTEDINFECTCHAT", false);
     }
 
     @Override
     public boolean isInfectedDeath() {
-        return FabricImmortuosCalyx.config.otherDetails.INFECTIONDEATH;
+        return CONFIG.getOrDefault("INFECTIONDEATH", true);
     }
 
     @Override
     public boolean getHostileInfectionCleanse() {
-        return FabricImmortuosCalyx.config.dimensionsAndSpawnDetails.HOSTILEINFECTIONINCLEANSE;
+        return CONFIG.getOrDefault("HOSTILEINFECTIONINCLEANSE", true);
     }
 
     @Override
     public boolean getPlayerInfectionCleanse() {
-        return FabricImmortuosCalyx.config.dimensionsAndSpawnDetails.PLAYERINFECTIONINCLEANSE;
+        return CONFIG.getOrDefault("PLAYERINFECTIONINCLEANSE", false);
     }
 
     @Override
     public boolean getRawFoodInfectionCleanse() {
-        return FabricImmortuosCalyx.config.dimensionsAndSpawnDetails.RAWFOODINFECTIONINCLEANSE;
+        return CONFIG.getOrDefault("RAWFOODINFECTIONINCLEANSE", true);
     }
 
     @Override

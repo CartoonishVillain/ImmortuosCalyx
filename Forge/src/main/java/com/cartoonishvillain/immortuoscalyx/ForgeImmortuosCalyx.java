@@ -42,9 +42,6 @@ public class ForgeImmortuosCalyx {
         commonConfig = ConfigHelper.register(ModConfig.Type.COMMON, CommonConfig::new);
         Register.init();
         CommonImmortuos.init();
-
-
-
     }
 
     public static final CreativeModeTab TAB = new CreativeModeTab("ImmortuosCalyx") {
