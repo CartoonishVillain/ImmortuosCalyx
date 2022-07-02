@@ -24,7 +24,7 @@ dependencies {
         exclude(group: "net.fabricmc.fabric-api")
     }
 
-//    modImplementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
+    modImplementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
 //    modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${voicechat_version}"
 }
 

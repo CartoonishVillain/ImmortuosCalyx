@@ -36,5 +36,5 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'MultiLoader'
+rootProject.name = 'ImmortuosCalyx'
 include("Common", "Fabric", "Forge", "Quilt")

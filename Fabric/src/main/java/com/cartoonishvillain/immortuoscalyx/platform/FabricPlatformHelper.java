@@ -329,6 +329,11 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public boolean getVoiceChatModSupport() {
+        return FabricImmortuosCalyx.config.otherDetails.VOICECHATSUPPORT;
+    }
+
+    @Override
     public SoundEvent getScanBad() {
         return Register.SCANBAD;
     }

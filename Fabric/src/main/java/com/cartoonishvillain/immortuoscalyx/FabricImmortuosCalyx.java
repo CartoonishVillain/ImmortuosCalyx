@@ -7,9 +7,9 @@ import io.netty.buffer.Unpooled;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -38,6 +38,7 @@ public class FabricImmortuosCalyx implements ModInitializer {
     public static ImmortuosConfig config;
     public static final CreativeModeTab TAB = FabricItemGroupBuilder.build(new ResourceLocation(Constants.MOD_ID, "immortuostab"), () -> new ItemStack(Register.IMMORTUOSCALYXEGGS));
 
+    public static MinecraftServer serverInstance;
 
     @Override
     public void onInitialize() {
@@ -61,6 +62,7 @@ public class FabricImmortuosCalyx implements ModInitializer {
         SpawnRestrictionAccessor.callRegister(Register.INFECTEDDIVER, SpawnPlacements.Type.IN_WATER, Heightmap.Types.OCEAN_FLOOR, Mob::checkMobSpawnRules);
         SpawnRestrictionAccessor.callRegister(Register.INFECTEDHUMAN, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnRestrictionAccessor.callRegister(Register.INFECTEDVILLAGER, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        ServerLifecycleEvents.SERVER_STARTING.register(ServerStartListener.getInstance());
     }
 
     public static class JoinListener implements ServerPlayConnectionEvents.Join{
@@ -100,5 +102,16 @@ public class FabricImmortuosCalyx implements ModInitializer {
             String message = (String) buffer.readCharSequence(length, Charset.defaultCharset());
             server.getPlayerList().broadcastMessage(new TextComponent(name + ChatFormatting.OBFUSCATED + message), ChatType.CHAT, player.getUUID());
         })));
+    }
+
+    public static class ServerStartListener implements ServerLifecycleEvents.ServerStarting {
+        private static final ServerStartListener INSTANCE = new ServerStartListener();
+
+        public static ServerStartListener getInstance() {return INSTANCE;}
+
+        @Override
+        public void onServerStarting(MinecraftServer server) {
+            serverInstance = server;
+        }
     }
 }

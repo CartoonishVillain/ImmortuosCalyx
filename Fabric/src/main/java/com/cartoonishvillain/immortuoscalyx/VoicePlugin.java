@@ -4,10 +4,18 @@ import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import de.maxhenkel.voicechat.api.VoicechatApi;
 import de.maxhenkel.voicechat.api.VoicechatPlugin;
 import de.maxhenkel.voicechat.api.events.*;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 
+import java.util.UUID;
+
+import static com.cartoonishvillain.immortuoscalyx.component.ComponentTicker.ValidPlayer;
+
 public class VoicePlugin implements VoicechatPlugin {
+    public static VoicechatApi voicechatApi;
 
     @Override
     public String getPluginId() {
@@ -16,21 +24,26 @@ public class VoicePlugin implements VoicechatPlugin {
 
     @Override
     public void initialize(VoicechatApi api) {
-        VoicechatPlugin.super.initialize(api);
+        voicechatApi = api;
     }
 
     @Override
     public void registerEvents(EventRegistration registration) {
-        VoicechatPlugin.super.registerEvents(registration);
-
-        registration.registerEvent(ClientReceiveSoundEvent.class, this::stopAudioIfInfected);
+        registration.registerEvent(MicrophonePacketEvent.class, this::stopAudioIfInfected);
     }
 
-    public void stopAudioIfInfected(ClientReceiveSoundEvent event) {
-        Player player = Minecraft.getInstance().level.getPlayerByUUID(event.getId());
-        if (Services.PLATFORM.getInfectionProgress(player) >= Services.PLATFORM.getEffectChat()) {
-            event.setRawAudio(null);
-        }
+    public void stopAudioIfInfected(MicrophonePacketEvent event) {
+        ServerPlayer serverPlayer;
 
+        if(event.getSenderConnection() != null && event.getSenderConnection().getPlayer() != null) {
+            UUID uuid  = event.getSenderConnection().getPlayer().getUuid();
+            if (FabricImmortuosCalyx.serverInstance.getPlayerList().getPlayer(uuid) != null) {
+                serverPlayer = FabricImmortuosCalyx.serverInstance.getPlayerList().getPlayer(uuid);
+                if (Services.PLATFORM.getInfectionProgress(serverPlayer) >= Services.PLATFORM.getEffectChat() &&
+                        ValidPlayer(serverPlayer) && Services.PLATFORM.getVoiceChatModSupport()) {
+                    event.cancel();
+                }
+            }
+        }
     }
 }

@@ -25,8 +25,9 @@ public class ClientImmortuosInitalizer implements ClientModInitializer {
         chatScrambledEnabled = FabricImmortuosCalyx.config.otherDetails.FORMATTEDINFECTCHAT;
         chatScreamingEnabled = FabricImmortuosCalyx.config.playerToggles.INFECTEDCHATNOISE;
         chatEffectMark = FabricImmortuosCalyx.config.playerSymptomProgression.EFFECTCHAT;
-
         registerPackets();
+
+
     }
 
     @Environment(EnvType.CLIENT)

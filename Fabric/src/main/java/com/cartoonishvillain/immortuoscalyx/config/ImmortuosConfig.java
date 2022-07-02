@@ -122,6 +122,9 @@ public class ImmortuosConfig implements ConfigData {
         public boolean FORMATTEDINFECTCHAT = false;
         @Comment("Enables a chance for the infection to turn a victim into an infected variant regardless of the reason of death, outside of extreme cases such as explosions.")
         public boolean INFECTIONDEATH = true;
+
+        @Comment("Enables the voice chat module, which disabled voice chat when text chat is disabled via infection.")
+        public boolean VOICECHATSUPPORT = false;
     }
 
     public static class DimensionsAndSpawnDetails{
