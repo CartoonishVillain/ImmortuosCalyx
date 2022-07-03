@@ -24,6 +24,19 @@ mixin {
     config "${mod_id}.forge.mixins.json"
 }
 
+repositories {
+    maven { url = 'https://maven.maxhenkel.de/repository/public' }
+
+    maven {
+        name = "Modrinth"
+        url = "https://api.modrinth.com/maven"
+        content {
+            includeGroup "maven.modrinth"
+        }
+    }
+}
+
+
 minecraft {
     mappings channel: 'official', version: minecraft_version
     
@@ -83,6 +96,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
     compileOnly project(":Common")
     annotationProcessor 'org.spongepowered:mixin:0.8.4-SNAPSHOT:processor'
+    implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
+//    runtimeOnly fg.deobf("maven.modrinth:simple-voice-chat:forge-${voicechat_version}")
 }
 
 tasks.withType(JavaCompile) {

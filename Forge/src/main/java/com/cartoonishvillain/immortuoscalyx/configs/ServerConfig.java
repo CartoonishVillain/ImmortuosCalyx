@@ -65,8 +65,7 @@ public class ServerConfig {
     public ConfigHelper.ConfigValueListener<Integer> IRONGOLEMWEAK;
     public ConfigHelper.ConfigValueListener<Integer> IRONGOLEMLETHAL;
 
-
-
+    public ConfigHelper.ConfigValueListener<Boolean> VOICECHATSUPPORT;
 
     public ServerConfig(ForgeConfigSpec.Builder builder, ConfigHelper.Subscriber subscriber){
         builder.comment("Modify Infection Components").push(SCATEGORY_SYMPTOMS);
@@ -111,6 +110,7 @@ public class ServerConfig {
         this.INFECTIONTIMER = subscriber.subscribe(builder.comment("Changes how long it takes for the infection to go up 1% in ticks (assuming no lag, 20 per second)").define("infectionTicker", 450));
         this.FORMATTEDINFECTCHAT = subscriber.subscribe(builder.comment("Enables formatted chat for infected users. A middle ground for antichat where infected user's chat is obfuscated instead of outright removed. When false, chat is outright removed.").define("ObfuscateInfChat", false));
         this.INFECTONDEATH = subscriber.subscribe(builder.comment("Enables a chance for the infection to turn a victim into an infected variant regardless of the reason of death, outside of extreme cases such as explosions.").define("stalwartInfections", true));
+        this.VOICECHATSUPPORT = subscriber.subscribe(builder.comment("Enables the voice chat module, which disabled voice chat when text chat is disabled via infection.").define("voiceChatSupport", false));
         builder.pop();
 
         builder.comment("Modify the infections of Villagers").push(SCATEGORY_VILLAGERINF);

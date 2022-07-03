@@ -1,6 +1,7 @@
 package com.cartoonishvillain.immortuoscalyx;
 
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
+import de.maxhenkel.voicechat.api.ForgeVoicechatPlugin;
 import de.maxhenkel.voicechat.api.VoicechatApi;
 import de.maxhenkel.voicechat.api.VoicechatPlugin;
 import de.maxhenkel.voicechat.api.events.EventRegistration;
@@ -11,6 +12,7 @@ import java.util.UUID;
 
 import static com.cartoonishvillain.immortuoscalyx.component.ComponentTicker.ValidPlayer;
 
+@ForgeVoicechatPlugin
 public class VoicePlugin implements VoicechatPlugin {
     public static VoicechatApi voicechatApi;
 
@@ -34,8 +36,8 @@ public class VoicePlugin implements VoicechatPlugin {
 
         if(event.getSenderConnection() != null && event.getSenderConnection().getPlayer() != null) {
             UUID uuid  = event.getSenderConnection().getPlayer().getUuid();
-            if (FabricImmortuosCalyx.serverInstance.getPlayerList().getPlayer(uuid) != null) {
-                serverPlayer = FabricImmortuosCalyx.serverInstance.getPlayerList().getPlayer(uuid);
+            if (ForgeImmortuosCalyx.serverInstance.getPlayerList().getPlayer(uuid) != null) {
+                serverPlayer = ForgeImmortuosCalyx.serverInstance.getPlayerList().getPlayer(uuid);
                 if (Services.PLATFORM.getInfectionProgress(serverPlayer) >= Services.PLATFORM.getEffectChat() &&
                         ValidPlayer(serverPlayer) && Services.PLATFORM.getVoiceChatModSupport()) {
                     event.cancel();
