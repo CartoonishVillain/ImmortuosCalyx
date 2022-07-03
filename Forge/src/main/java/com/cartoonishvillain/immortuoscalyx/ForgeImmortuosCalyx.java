@@ -6,12 +6,16 @@ import com.cartoonishvillain.immortuoscalyx.configs.ConfigHelper;
 import com.cartoonishvillain.immortuoscalyx.configs.ServerConfig;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.world.BiomeModifier;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -23,6 +27,8 @@ import net.minecraftforge.registries.RegistryObject;
 public class ForgeImmortuosCalyx {
     public static ServerConfig config;
     public static CommonConfig commonConfig;
+
+    public static MinecraftServer serverInstance;
 
     static DeferredRegister<Codec<? extends BiomeModifier>> serializers = DeferredRegister
             .create(ForgeRegistries.Keys.BIOME_MODIFIER_SERIALIZERS, Constants.MOD_ID);
@@ -41,7 +47,7 @@ public class ForgeImmortuosCalyx {
         config = ConfigHelper.register(ModConfig.Type.SERVER, ServerConfig::new);
         commonConfig = ConfigHelper.register(ModConfig.Type.COMMON, CommonConfig::new);
         Register.init();
-        CommonImmortuos.init();
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     public static final CreativeModeTab TAB = new CreativeModeTab("ImmortuosCalyx") {
@@ -51,5 +57,10 @@ public class ForgeImmortuosCalyx {
         }
     };
 
+    @SubscribeEvent
+    public void onServerStarting(ServerStartingEvent event) {
+        serverInstance = event.getServer();
+        CommonImmortuos.init();
+    }
 
 }

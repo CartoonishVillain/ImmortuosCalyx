@@ -103,6 +103,8 @@ public interface IPlatformHelper {
     boolean getPlayerInfectionCleanse();
     boolean getRawFoodInfectionCleanse();
 
+    boolean getVoiceChatModSupport();
+
     SoundEvent getScanBad();
     SoundEvent getScanGood();
 

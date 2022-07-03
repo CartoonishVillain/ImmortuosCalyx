@@ -98,6 +98,8 @@ public class ImmortuosConfig  {
                 "#Disables player attack based infections in cleansed dimensions\n" +
                 "PLAYERINFECTIONCLEANSE=false\n" +
                 "#Disables raw food infections in cleansed dimensions\n" +
-                "RAWFOODINFECTIONINCLEANSE=true\n";
+                "RAWFOODINFECTIONINCLEANSE=true\n" +
+                "#Enables the voice chat module, which disabled voice chat when text chat is disabled via infection.\n" +
+                "VOICECHATSUPPORT=false\n";
     }
 }

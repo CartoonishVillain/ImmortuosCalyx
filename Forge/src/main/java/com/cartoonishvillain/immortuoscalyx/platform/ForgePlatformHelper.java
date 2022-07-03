@@ -368,6 +368,11 @@ public class ForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public boolean getVoiceChatModSupport() {
+        return ForgeImmortuosCalyx.config.VOICECHATSUPPORT.get();
+    }
+
+    @Override
     public SoundEvent getScanBad() {
         return Register.SCANBAD.get();
     }

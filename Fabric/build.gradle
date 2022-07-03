@@ -19,7 +19,8 @@ dependencies {
     include "dev.onyxstudios.cardinal-components-api:cardinal-components-base:5.0.0-beta.1"
     modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.0.0-beta.1"
     include "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.0.0-beta.1"
-
+    modImplementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
+//    modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${voicechat_version}"
 }
 
 loom {
@@ -51,6 +52,8 @@ repositories {
         name = 'Ladysnake Mods'
         url = 'https://ladysnake.jfrog.io/artifactory/mods'
     }
+
+    maven { url = 'https://maven.maxhenkel.de/repository/public' }
 
     maven {
         name = "Modrinth"

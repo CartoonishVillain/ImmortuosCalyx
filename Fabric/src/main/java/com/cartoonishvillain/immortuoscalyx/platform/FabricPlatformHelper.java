@@ -330,6 +330,11 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public boolean getVoiceChatModSupport() {
+        return CONFIG.getOrDefault("VOICECHATSUPPORT", false);
+    }
+
+    @Override
     public SoundEvent getScanBad() {
         return Register.SCANBAD;
     }
