@@ -43,7 +43,7 @@ public class PlayerInfectionEffects {
                 String name = player.getName().getString();
                 String format = "<" + name + "> ";
                 if (h.getInfectionProgress() >= ForgeImmortuosCalyx.config.EFFECTCHAT.get() && ForgeImmortuosCalyx.config.ANTICHAT.get() && ForgeImmortuosCalyx.config.FORMATTEDINFECTCHAT.get()) {
-                    event.setComponent(Component.literal(format + ChatFormatting.OBFUSCATED + event.getMessage()));
+                    event.setMessage(Component.literal(format + ChatFormatting.OBFUSCATED + event.getMessage()));
                 }
                 if (h.getInfectionProgress() >= ForgeImmortuosCalyx.config.EFFECTCHAT.get() && ForgeImmortuosCalyx.config.ANTICHAT.get() && !ForgeImmortuosCalyx.config.FORMATTEDINFECTCHAT.get()) {
                     event.setCanceled(true);

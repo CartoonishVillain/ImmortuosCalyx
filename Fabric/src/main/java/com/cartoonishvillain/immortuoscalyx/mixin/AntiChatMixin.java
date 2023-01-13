@@ -22,7 +22,7 @@ import static com.cartoonishvillain.immortuoscalyx.component.ComponentTicker.Val
 public class AntiChatMixin {
 
     @Inject(at = @At("HEAD"), method = "sendChat", cancellable = true)
-    private void Immortuoschat(MessageSigner signer, String string, Component component, CallbackInfo ci){
+    private void Immortuoschat(String string, Component component, CallbackInfo ci){
         Player player = ((LocalPlayer) (Object) this);
         if(player != null && ValidPlayer(player)) {
             InfectionComponent h = INFECTION.get(player);

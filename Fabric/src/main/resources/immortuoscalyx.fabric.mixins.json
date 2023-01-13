@@ -6,7 +6,19 @@
   "mixins": [
   ],
   "client": [
-    "AntiChatMixin"
+    "AntiChatMixin",
+    "AntiTrade",
+    "AttackInfectionMixin",
+    "DamageSourceInvoker",
+    "FollowerSpawnMixin",
+    "InfectionDeathMixin",
+    "LivingEntityTickMixin",
+    "MobAccessor",
+    "OtherItemUsageMixin",
+    "PlayerAttackInfectionMixin",
+    "PlayerInfectionDeathMixin",
+    "RawFoodMixin",
+    "SyringeUsageMixin"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -12,7 +12,6 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.fabricmc.fabric.mixin.object.builder.SpawnRestrictionAccessor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ChatType;
@@ -57,9 +56,9 @@ public class FabricImmortuosCalyx implements ModInitializer {
         ServerPlayConnectionEvents.JOIN.register(JoinListener.getInstance());
         ServerLifecycleEvents.SERVER_STARTING.register(ServerStartListener.getInstance());
 
-        SpawnRestrictionAccessor.callRegister(Register.INFECTEDDIVER, SpawnPlacements.Type.IN_WATER, Heightmap.Types.OCEAN_FLOOR, Mob::checkMobSpawnRules);
-        SpawnRestrictionAccessor.callRegister(Register.INFECTEDHUMAN, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
-        SpawnRestrictionAccessor.callRegister(Register.INFECTEDVILLAGER, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        SpawnPlacements.register(Register.INFECTEDDIVER, SpawnPlacements.Type.IN_WATER, Heightmap.Types.OCEAN_FLOOR, Mob::checkMobSpawnRules);
+        SpawnPlacements.register(Register.INFECTEDHUMAN, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        SpawnPlacements.register(Register.INFECTEDVILLAGER, SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
     }
 
     public static class JoinListener implements ServerPlayConnectionEvents.Join{
@@ -97,7 +96,7 @@ public class FabricImmortuosCalyx implements ModInitializer {
             String name = (String) buffer.readCharSequence(length, Charset.defaultCharset());
             length = buffer.readInt();
             String message = (String) buffer.readCharSequence(length, Charset.defaultCharset());
-            server.getPlayerList().broadcastSystemMessage(Component.literal(name + ChatFormatting.OBFUSCATED + message), ChatType.CHAT);
+            server.getPlayerList().broadcastSystemMessage(Component.literal(name + ChatFormatting.OBFUSCATED + message), false);
         })));
     }
 
