@@ -8,11 +8,13 @@ import com.cartoonishvillain.immortuoscalyx.entities.InfectedPlayerEntity;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedVillagerEntity;
 import com.cartoonishvillain.immortuoscalyx.infection.InfectionManagerCapability;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
+import com.cartoonishvillain.incapacitated.capability.PlayerCapability;
 import com.google.common.util.concurrent.AtomicDouble;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.ModList;
@@ -470,5 +472,19 @@ public class ForgePlatformHelper implements IPlatformHelper {
     @Override
     public Item getEggs() {
         return Register.IMMORTUOSCALYXEGGS.get();
+    }
+
+    @Override
+    public boolean isClearToReplace(LivingEntity entity) {
+        if(!(entity instanceof Player) || !ModList.get().isLoaded("incapacitated")) {
+            return true;
+        } else {
+            AtomicBoolean incapacitatedState = new AtomicBoolean(false);
+            entity.getCapability(PlayerCapability.INSTANCE).ifPresent(h -> {
+                incapacitatedState.set(h.getIsIncapacitated());
+            });
+            return incapacitatedState.get();
+        }
+
     }
 }

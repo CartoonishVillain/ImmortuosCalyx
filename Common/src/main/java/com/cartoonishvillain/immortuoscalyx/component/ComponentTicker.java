@@ -207,7 +207,7 @@ public class ComponentTicker {
     }
 
     private static void infectedEntitySummoner(LivingEntity entity, ServerLevel serverWorld){
-        if(entity instanceof Player){
+        if(entity instanceof Player && Services.PLATFORM.isClearToReplace(entity)){
             InfectedPlayerEntity infectedPlayerEntity = new InfectedPlayerEntity(Services.PLATFORM.getInfectedHuman(), serverWorld);
             infectedPlayerEntity.setCustomName(entity.getName());
             infectedPlayerEntity.setPUUID(entity.getUUID());

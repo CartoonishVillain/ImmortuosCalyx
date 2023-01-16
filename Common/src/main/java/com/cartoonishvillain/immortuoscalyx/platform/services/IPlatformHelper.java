@@ -133,4 +133,6 @@ public interface IPlatformHelper {
     Item getAP();
     Item getEggs();
 
+    boolean isClearToReplace(LivingEntity entity);
+
 }
