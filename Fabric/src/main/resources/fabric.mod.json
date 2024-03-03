@@ -1,53 +1,36 @@
 {
-  "schemaVersion": 1,
-  "id": "immortuoscalyx",
-  "version": "${version}",
-
-  "custom": {
-    "cardinal-components": [
-      "immortuoscalyx:infection"
-    ]
-  },
-
-  "accessWidener" : "immortuoscalyx.accesswidener",
-
-  "name": "Immortuos Calyx",
-  "description": "A new parasitic infection has spread across the world. Try not to get infected... Inspired by the Velonaceps Calyx from Barotrauma.",
-  "authors": [
-    "Cartoonish Villain"
-  ],
-  "contact": {
-    "homepage": "",
-    "sources": ""
-  },
-
-  "license": "MIT",
-  "icon": "assets/immortuoscalyx/icon.png",
-
-  "environment": "*",
-  "entrypoints": {
-    "main": [
-      "com.cartoonishvillain.immortuoscalyx.FabricImmortuosCalyx"
+    "schemaVersion": 1,
+    "id": "${mod_id}",
+    "version": "${version}",
+    "name": "${mod_name}",
+    "description": "${description}",
+    "authors": [
+        "${mod_author}"
     ],
-    "client":[
-      "com.cartoonishvillain.immortuoscalyx.ClientImmortuosInitalizer"
-    ],
-    "cardinal-components-entity": [
-      "com.cartoonishvillain.immortuoscalyx.component.ComponentStarter"
-    ],
-    "voicechat": [
-      "com.cartoonishvillain.immortuoscalyx.VoicePlugin"
-    ]
-  },
+    "contact": {
+        "homepage": "https://fabricmc.net/",
+        "sources": "https://github.com/FabricMC/fabric-example-mod"
+    },
+    "license": "${license}",
+    "icon": "${mod_id}.png",
+    "environment": "*",
+    "entrypoints": {
+        "main": [
+            "com.example.examplemod.ExampleMod"
+        ]
+    },
     "mixins": [
-      "immortuoscalyx.mixins.json",
-      "immortuoscalyx.fabric.mixins.json"
+        "${mod_id}.mixins.json",
+        "${mod_id}.fabric.mixins.json"
     ],
-
-  "fabricloader": ">=0.14.0",
-  "fabric": "*",
-  "minecraft": "1.19.x",
-  "java": ">=17",
-  "cloth-config2": "*"
-  }
+    "depends": {
+        "fabricloader": ">=${fabric_loader_version}",
+        "fabric-api": "*",
+        "minecraft": "${minecraft_version}",
+        "java": ">=17"
+    },
+    "suggests": {
+        "another-mod": "*"
+    }
+}
   

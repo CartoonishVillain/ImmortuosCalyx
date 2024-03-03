@@ -1,28 +1,17 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "com.cartoonishvillain.immortuoscalyx.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [
-    "AntiTrade",
-    "AttackInfectionMixin",
-    "DamageSourceInvoker",
-    "FollowerSpawnMixin",
-    "InfectionDeathMixin",
-    "LivingEntityTickMixin",
-    "MobAccessor",
-    "OtherItemUsageMixin",
-    "PlayerAttackInfectionMixin",
-    "PlayerInfectionDeathMixin",
-    "RawFoodMixin",
-    "SyringeUsageMixin"
-  ],
-  "client": [
-  ],
-  "server": [
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  },
-  "refmap": "${refmap_target}refmap.json"
+    "required": true,
+    "minVersion": "0.8",
+    "package": "com.cartoonishvillain.immortuoscalyx.mixin",
+    "refmap": "${mod_id}.refmap.json",
+    "compatibilityLevel": "JAVA_17",
+    "mixins": [
+    ],
+    "client": [
+    ],
+    "server": [
+    ],
+    "injectors": {
+        "defaultRequire": 1
+    }
 }
+
