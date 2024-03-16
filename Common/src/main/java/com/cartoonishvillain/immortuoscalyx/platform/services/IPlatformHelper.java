@@ -1,5 +1,7 @@
 package com.cartoonishvillain.immortuoscalyx.platform.services;
 
+import net.minecraft.server.level.ServerPlayer;
+
 public interface IPlatformHelper {
 
     /**
@@ -33,4 +35,26 @@ public interface IPlatformHelper {
 
         return isDevelopmentEnvironment() ? "development" : "production";
     }
+
+
+    /**
+     * Sets the value of the infection of a given user
+     * @param serverPlayer - The player to set the infection percentage for.
+     * @param infectionPercentage - The percentage to set the infection to. (up to 100%, down to 0%)
+     */
+    void setInfectionPercentage(ServerPlayer serverPlayer, int infectionPercentage);
+
+    /**
+     * Sets the value of the infection of a given user
+     * @param serverPlayer - The player to return the infection percentage from.
+     * @return - The infection percentage of the player.
+     */
+    int getInfectionPercentage(ServerPlayer serverPlayer);
+
+    /**
+     *
+     * @param serverPlayer
+     * @return
+     */
+    boolean tickInfection(ServerPlayer serverPlayer);
 }

@@ -16,7 +16,10 @@
     "environment": "*",
     "entrypoints": {
         "main": [
-            "com.example.examplemod.ExampleMod"
+            "com.cartoonishvillain.immortuoscalyx.FabricImmortuos"
+        ],
+        "cardinal-components-entity": [
+            "com.cartoonishvillain.immortuoscalyx.data.player.PlayerComponentStarter"
         ]
     },
     "mixins": [
@@ -30,7 +33,12 @@
         "java": ">=17"
     },
     "suggests": {
-        "another-mod": "*"
+    },
+
+    "custom": {
+        "cardinal-components": [
+            "immortuoscalyx:infectiondata"
+        ]
     }
 }
   

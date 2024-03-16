@@ -1,0 +1,4 @@
+{
+  "immortuoscalyx.command.return.getinfectionstatus": "%1$s's infection level is %2$s percent",
+  "immortuoscalyx.command.return.setpercentage": "Set %1$s's infection level to %2$s percent"
+}
