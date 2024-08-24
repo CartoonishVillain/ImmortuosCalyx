@@ -39,6 +39,7 @@
         "cardinal-components": [
             "immortuoscalyx:infectiondata"
         ]
-    }
+    },
+    "accessWidener" : "${mod_id}.accesswidener"
 }
   

@@ -1,6 +1,10 @@
 package com.cartoonishvillain.immortuoscalyx.platform.services;
 
+import com.cartoonishvillain.immortuoscalyx.client.BlindnessFog;
+import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffect;
 
 public interface IPlatformHelper {
 
@@ -52,9 +56,24 @@ public interface IPlatformHelper {
     int getInfectionPercentage(ServerPlayer serverPlayer);
 
     /**
-     *
-     * @param serverPlayer
-     * @return
+     * Ticks the infection timer of a given player, if applicable
+     * @param serverPlayer - The player to tick
+     * @return - Did the tick succeed?
      */
     boolean tickInfection(ServerPlayer serverPlayer);
+
+    /**
+     * CALL ON THE CLIENT ONLY
+     * Adds the Infected Blindness to the MOB_EFFECT_FOG list.
+     */
+    default void clientUpdate() {
+        FogRenderer.MOB_EFFECT_FOG.add(new BlindnessFog());
+        int x = 0;
+    }
+
+    /**
+     * MOB EFFECTS
+     */
+
+    Holder<MobEffect> INFECTION_BLIND();
 }

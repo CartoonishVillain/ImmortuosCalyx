@@ -1,7 +1,8 @@
 package com.cartoonishvillain.immortuoscalyx.data.player;
 
 import com.cartoonishvillain.immortuoscalyx.data.ImmortuosPlayerData;
-import dev.onyxstudios.cca.api.v3.component.Component;
+import net.minecraft.core.HolderLookup;
+import org.ladysnake.cca.api.v3.component.Component;
 import net.minecraft.nbt.CompoundTag;
 
 public class PlayerInfectionComponent implements ImmortuosPlayerData, Component {
@@ -48,13 +49,13 @@ public class PlayerInfectionComponent implements ImmortuosPlayerData, Component 
     }
 
     @Override
-    public void readFromNbt(CompoundTag tag) {
+    public void readFromNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
         infectionTicks = tag.getInt("immortuosTicks");
         infectionPercent = tag.getInt("immortuosPercent");
     }
 
     @Override
-    public void writeToNbt(CompoundTag tag) {
+    public void writeToNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
         tag.putInt("immortuosTicks", infectionTicks);
         tag.putInt("immortuosPercent", infectionPercent);
     }

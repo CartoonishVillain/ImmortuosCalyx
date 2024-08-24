@@ -6,6 +6,11 @@ import net.minecraft.server.level.ServerPlayer;
 public class ChatBlockingSymptom extends AbstractSymptom {
 
     @Override
+    protected void removeSymptomEffect(ServerPlayer player) {
+
+    }
+
+    @Override
     protected void tickedSymptomEffect(ServerPlayer player) {
         //Symptom is not handled here.
         //Mixin into chat to block chat.
