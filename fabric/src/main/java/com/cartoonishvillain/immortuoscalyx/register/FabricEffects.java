@@ -16,9 +16,11 @@ import java.util.function.Supplier;
 
 public class FabricEffects {
     public static Supplier<MobEffect> IMMORTUOS_BLIND;
+    public static Supplier<MobEffect> IMMORTUOS_WATER_BREATH;
 
     public static void initEffects() {
         IMMORTUOS_BLIND = registerEffect("immortuos_blind", new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
+        IMMORTUOS_WATER_BREATH = registerEffect("immortuos_water_breath", new GenericModdedEffect(MobEffectCategory.BENEFICIAL, 4587519));
     }
 
     private static Supplier<MobEffect> registerEffect(String name, MobEffect effect) {

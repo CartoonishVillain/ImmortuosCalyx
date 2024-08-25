@@ -76,4 +76,5 @@ public interface IPlatformHelper {
      */
 
     Holder<MobEffect> INFECTION_BLIND();
+    Holder<MobEffect> INFECTION_WATER_BREATHING();
 }

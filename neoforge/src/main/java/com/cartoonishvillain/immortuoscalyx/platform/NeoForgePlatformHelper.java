@@ -53,4 +53,9 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     public Holder<MobEffect> INFECTION_BLIND() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_BLIND.get());
     }
+
+    @Override
+    public Holder<MobEffect> INFECTION_WATER_BREATHING() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_WATER_BREATH.get());
+    }
 }

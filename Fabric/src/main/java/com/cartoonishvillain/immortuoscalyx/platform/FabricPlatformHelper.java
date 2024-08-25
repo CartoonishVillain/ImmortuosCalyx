@@ -47,4 +47,9 @@ public class FabricPlatformHelper implements IPlatformHelper {
     public Holder<MobEffect> INFECTION_BLIND() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_BLIND.get());
     }
+
+    @Override
+    public Holder<MobEffect> INFECTION_WATER_BREATHING() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_WATER_BREATH.get());
+    }
 }
