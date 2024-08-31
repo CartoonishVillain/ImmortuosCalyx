@@ -16,7 +16,6 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public String getPlatformName() {
-
         return "NeoForge";
     }
 
@@ -57,5 +56,30 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public Holder<MobEffect> INFECTION_WATER_BREATHING() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_WATER_BREATH.get());
+    }
+
+    @Override
+    public Holder<MobEffect> INFECTION_STRENGTH_TEMPERATURE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_TEMP_COAGULATION.get());
+    }
+
+    @Override
+    public Holder<MobEffect> INFECTION_STRENGTH() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_TEMP_STRENGTH.get());
+    }
+
+    @Override
+    public Holder<MobEffect> INFECTION_RESIST() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_TEMP_RESIST.get());
+    }
+
+    @Override
+    public Holder<MobEffect> INFECTION_WEAKEN() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_TEMP_WEAKEN.get());
+    }
+
+    @Override
+    public Holder<MobEffect> INFECTION_VULNERABLE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_TEMP_VULNERABLE.get());
     }
 }
