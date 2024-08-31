@@ -82,4 +82,9 @@ public interface IPlatformHelper {
     Holder<MobEffect> INFECTION_RESIST();
     Holder<MobEffect> INFECTION_WEAKEN();
     Holder<MobEffect> INFECTION_VULNERABLE();
+    Holder<MobEffect> INFECTION_SPEED_TEMPERATURE();
+    Holder<MobEffect> INFECTION_SPEED();
+    Holder<MobEffect> INFECTION_SLOW();
+    Holder<MobEffect> INFECTION_CHAT();
+    Holder<MobEffect> INFECTION_CONTAGION();
 }

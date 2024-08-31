@@ -3,6 +3,7 @@ package com.cartoonishvillain.immortuoscalyx.register;
 import com.cartoonishvillain.immortuoscalyx.Constants;
 import com.cartoonishvillain.immortuoscalyx.effects.GenericModdedEffect;
 import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosTemperatureCongealmentEffect;
+import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosTemperatureStabilityEffect;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -25,6 +26,10 @@ public class FabricEffects {
     public static Supplier<MobEffect> IMMORTUOS_TEMP_WEAKEN;
     public static Supplier<MobEffect> IMMORTUOS_TEMP_RESIST;
     public static Supplier<MobEffect> IMMORTUOS_TEMP_VULNERABLE;
+    public static Supplier<MobEffect> IMMORTUOS_TEMP_STABILITY;
+    public static Supplier<MobEffect> IMMORTUOS_TEMP_SPEED;
+    public static Supplier<MobEffect> IMMORTUOS_TEMP_SLOW;
+    public static Supplier<MobEffect> IMMORTUOS_CHAT;
 
 
     public static void initEffects() {
@@ -37,6 +42,12 @@ public class FabricEffects {
                 Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_weaken"), -2, AttributeModifier.Operation.ADD_VALUE));
         IMMORTUOS_TEMP_RESIST = registerEffect("immortuos_resist", new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
         IMMORTUOS_TEMP_VULNERABLE = registerEffect("immortuos_vulnerable", new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
+        IMMORTUOS_TEMP_STABILITY = registerEffect("immortuos_temperature_stability", new ImmortuosTemperatureStabilityEffect(MobEffectCategory.NEUTRAL, 4587519));
+        IMMORTUOS_TEMP_SPEED = registerEffect("immortuos_speed", new GenericModdedEffect(MobEffectCategory.BENEFICIAL, 4587519).addAttributeModifier(
+                Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_speed"), 0.15, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+        IMMORTUOS_TEMP_SLOW = registerEffect("immortuos_slow", new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519).addAttributeModifier(
+                Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_slow"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
+        IMMORTUOS_CHAT = registerEffect("immortuos_chat", new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
     }
 
     private static Supplier<MobEffect> registerEffect(String name, MobEffect effect) {

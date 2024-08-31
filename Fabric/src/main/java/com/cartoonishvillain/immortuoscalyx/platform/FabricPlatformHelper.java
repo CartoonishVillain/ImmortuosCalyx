@@ -76,4 +76,29 @@ public class FabricPlatformHelper implements IPlatformHelper {
     public Holder<MobEffect> INFECTION_VULNERABLE() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_TEMP_VULNERABLE.get());
     }
+
+    @Override
+    public Holder<MobEffect> INFECTION_SPEED_TEMPERATURE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_TEMP_STABILITY.get());
+    }
+
+    @Override
+    public Holder<MobEffect> INFECTION_SPEED() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_TEMP_SPEED.get());
+    }
+
+    @Override
+    public Holder<MobEffect> INFECTION_SLOW() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_TEMP_SLOW.get());
+    }
+
+    @Override
+    public Holder<MobEffect> INFECTION_CHAT() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_CHAT.get());
+    }
+
+    @Override
+    public Holder<MobEffect> INFECTION_CONTAGION() {
+        return null;
+    }
 }
