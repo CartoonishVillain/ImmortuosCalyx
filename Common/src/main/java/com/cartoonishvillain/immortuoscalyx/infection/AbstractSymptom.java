@@ -9,20 +9,36 @@ public abstract class AbstractSymptom {
     protected Component symptomAlert;
     protected Symptom symptom;
 
-    protected void addSymptomEffect(ServerPlayer player) {
+    public void chirpAndAddSymptomEffect(ServerPlayer player) {
+        addSymptomEffect(player);
+        chirpEffect(player);
+    }
+
+    public void addSymptomEffect(ServerPlayer player) {
+
+    }
+
+    public Symptom getSymptom() {
+        return symptom;
+    }
+
+    public void chirpEffect(ServerPlayer player) {
         player.sendSystemMessage(symptomAlert);
     }
 
-    protected abstract void removeSymptomEffect(ServerPlayer player);
+    public abstract void removeSymptomEffect(ServerPlayer player);
 
     protected abstract void tickedSymptomEffect(ServerPlayer player);
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AbstractSymptom that = (AbstractSymptom) o;
-        return symptom == that.symptom;
+        if (o == null) return false;
+        if (o instanceof AbstractSymptom) {
+            AbstractSymptom that = (AbstractSymptom) o;
+            return symptom == that.symptom;
+        } else if (o instanceof Symptom) { return symptom == o; }
+        else return false;
     }
 
     @Override

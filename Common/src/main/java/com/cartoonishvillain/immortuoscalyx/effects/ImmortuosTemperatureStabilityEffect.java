@@ -10,7 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 
-public class ImmortuosTemperatureStabilityEffect extends MobEffect {
+public class ImmortuosTemperatureStabilityEffect extends MobEffect implements ImmortuosEffect {
 
     public ImmortuosTemperatureStabilityEffect(MobEffectCategory pCategory, int pColor) {
         super(pCategory, pColor);

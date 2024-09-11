@@ -1,10 +1,14 @@
 package com.cartoonishvillain.immortuoscalyx.platform.services;
 
 import com.cartoonishvillain.immortuoscalyx.client.BlindnessFog;
+import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
+import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
+
+import java.util.ArrayList;
 
 public interface IPlatformHelper {
 
@@ -54,6 +58,34 @@ public interface IPlatformHelper {
      * @return - The infection percentage of the player.
      */
     int getInfectionPercentage(ServerPlayer serverPlayer);
+
+    /**
+     * Gets the symptom list of a given user
+     * @param serverPlayer - The player to get symptoms from.
+     * @return - The list of active symptoms of the player
+     */
+    ArrayList<Symptom> getSymptoms(ServerPlayer serverPlayer);
+
+    /**
+     * Adds a symptom to the list of a given user
+     * @param serverPlayer - The player to add a symptom to.
+     * @param  symptom - The symptom to add.
+     */
+    void addSymptom(ServerPlayer serverPlayer, AbstractSymptom symptom);
+
+    /**
+     * removes a symptom from the list of a given user
+     * @param serverPlayer - The player to remove a symptom symptom.
+     * @param  symptom - The symptom to remove.
+     */
+    void removeSymptom(ServerPlayer serverPlayer, AbstractSymptom symptom);
+
+    /**
+     * Sets the symptom list of a given user
+     * @param player - The player to set symptoms to
+     * @param symptoms - The list of symptoms to add to the player
+     */
+    void setSymptoms(ServerPlayer player, ArrayList<Symptom> symptoms);
 
     /**
      * Ticks the infection timer of a given player, if applicable

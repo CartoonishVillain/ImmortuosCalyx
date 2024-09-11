@@ -1,5 +1,10 @@
 package com.cartoonishvillain.immortuoscalyx.data;
 
+import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
+import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
+
+import java.util.ArrayList;
+
 /**
  * The data needed to track player infections
  */
@@ -27,4 +32,9 @@ public interface ImmortuosPlayerData {
 
     int getTicks();
     void setTicks(int ticks);
+
+    ArrayList<Symptom> getSymptoms();
+    void setSymptoms(ArrayList<Symptom> symptoms);
+    void addSymptom(Symptom symptom);
+    void removeSymptom(Symptom symptom);
 }

@@ -9,6 +9,9 @@
         "ImmortuosEffectUtilMixin",
         "ImmortuosDamageLevelMixin",
         "ImmortuosChatMixin",
+        "ImmortuosJoinMixin",
+        "ImmortuosLivingEffectMixin",
+        "ImmortuosPlayerAttackMixin",
         "BiomeInvoker"
     ],
     "client": [

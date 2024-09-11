@@ -1,6 +1,7 @@
 package com.cartoonishvillain.immortuoscalyx;
 
 import com.cartoonishvillain.immortuoscalyx.commands.GetInfectionCommands;
+import com.cartoonishvillain.immortuoscalyx.commands.ImmortuosConfigCommands;
 import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.FabricEffects;
@@ -18,6 +19,7 @@ public class FabricImmortuos implements ModInitializer {
         CommandRegistrationCallback.EVENT.register(((dispatcher, registryAccess, environment) -> {
             SetInfectionCommands.register(dispatcher);
             GetInfectionCommands.register(dispatcher);
+            ImmortuosConfigCommands.register(dispatcher);
         }));
 
         ClientLifecycleEvents.CLIENT_STARTED.register((minecraft) -> {

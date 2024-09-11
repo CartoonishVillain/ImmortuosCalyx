@@ -5,15 +5,15 @@ import net.minecraft.server.level.ServerPlayer;
 
 public class ConsumeSymptom extends AbstractSymptom {
 
+    //TODO Make the consumption damage effect, after damage types are added.
     @Override
-    protected void removeSymptomEffect(ServerPlayer player) {
+    public void removeSymptomEffect(ServerPlayer player) {
 
     }
 
     @Override
     protected void tickedSymptomEffect(ServerPlayer player) {
-        //Symptom is not handled here.
-        //Mixin into players attacks. Only run odds for melee attacks.
+
     }
 
     public ConsumeSymptom() {

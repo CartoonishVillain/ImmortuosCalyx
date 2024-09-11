@@ -1,19 +1,37 @@
 package com.cartoonishvillain.immortuoscalyx.infection;
 
+import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.effect.MobEffectInstance;
 
 public class Temperature1Symptom extends AbstractSymptom {
 
     @Override
-    protected void removeSymptomEffect(ServerPlayer player) {
+    public void addSymptomEffect(ServerPlayer player) {
+        player.addEffect(
+                new MobEffectInstance(
+                        Services.PLATFORM.INFECTION_SPEED_TEMPERATURE(),
+                        MobEffectInstance.INFINITE_DURATION,
+                        1,
+                        true,
+                        false,
+                        false
 
+                )
+        );
+    }
+
+    @Override
+    public void removeSymptomEffect(ServerPlayer player) {
+        player.removeEffect(Services.PLATFORM.INFECTION_SPEED_TEMPERATURE());
+        player.removeEffect(Services.PLATFORM.INFECTION_SPEED());
+        player.removeEffect(Services.PLATFORM.INFECTION_SLOW());
     }
 
     @Override
     protected void tickedSymptomEffect(ServerPlayer player) {
-        //Symptom is not handled here.
-        //Mixin into players attacks. Only run odds for melee attacks.
+
     }
 
     public Temperature1Symptom() {

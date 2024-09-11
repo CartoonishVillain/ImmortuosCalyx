@@ -1,6 +1,8 @@
 package com.cartoonishvillain.immortuoscalyx.platform;
 
 import com.cartoonishvillain.immortuoscalyx.data.player.NeoForgeInfectionPlayerData;
+import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
+import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
 import com.cartoonishvillain.immortuoscalyx.register.NeoEffects;
 import net.minecraft.core.Holder;
@@ -9,6 +11,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
+
+import java.util.ArrayList;
 
 import static com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionCapability.INFECTION_DATA;
 
@@ -41,6 +45,28 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public int getInfectionPercentage(ServerPlayer serverPlayer) {
         return serverPlayer.getData(INFECTION_DATA).getInfectionPercent();
+    }
+
+    @Override
+    public ArrayList<Symptom> getSymptoms(ServerPlayer serverPlayer) {
+        return serverPlayer.getData(INFECTION_DATA).getSymptoms();
+    }
+
+    @Override
+    public void addSymptom(ServerPlayer serverPlayer, AbstractSymptom symptom) {
+        symptom.chirpAndAddSymptomEffect(serverPlayer);
+        serverPlayer.getData(INFECTION_DATA).addSymptom(symptom.getSymptom());
+    }
+
+    @Override
+    public void removeSymptom(ServerPlayer serverPlayer, AbstractSymptom symptom) {
+        symptom.removeSymptomEffect(serverPlayer);
+        serverPlayer.getData(INFECTION_DATA).removeSymptom(symptom.getSymptom());
+    }
+
+    @Override
+    public void setSymptoms(ServerPlayer player, ArrayList<Symptom> symptoms) {
+        player.getData(INFECTION_DATA).setSymptoms(symptoms);
     }
 
     @Override
@@ -105,6 +131,6 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public Holder<MobEffect> INFECTION_CONTAGION() {
-        return null;
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_CONTAGION.get());
     }
 }

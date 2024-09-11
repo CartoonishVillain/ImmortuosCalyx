@@ -1,5 +1,7 @@
 package com.cartoonishvillain.immortuoscalyx.platform;
 
+import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
+import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
 import com.cartoonishvillain.immortuoscalyx.register.FabricEffects;
 import net.fabricmc.loader.api.FabricLoader;
@@ -7,6 +9,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffect;
+
+import java.util.ArrayList;
 
 import static com.cartoonishvillain.immortuoscalyx.data.player.PlayerComponentStarter.INFECTIONCOMPONENTINSTANCE;
 
@@ -38,6 +42,28 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public ArrayList<Symptom> getSymptoms(ServerPlayer serverPlayer) {
+        return INFECTIONCOMPONENTINSTANCE.get(serverPlayer).getSymptoms();
+    }
+
+    @Override
+    public void addSymptom(ServerPlayer serverPlayer, AbstractSymptom symptom) {
+        symptom.chirpAndAddSymptomEffect(serverPlayer);
+        INFECTIONCOMPONENTINSTANCE.get(serverPlayer).addSymptom(symptom.getSymptom());
+    }
+
+    @Override
+    public void removeSymptom(ServerPlayer serverPlayer, AbstractSymptom symptom) {
+        symptom.removeSymptomEffect(serverPlayer);
+        INFECTIONCOMPONENTINSTANCE.get(serverPlayer).removeSymptom(symptom.getSymptom());
+    }
+
+    @Override
+    public void setSymptoms(ServerPlayer player, ArrayList<Symptom> symptoms) {
+        INFECTIONCOMPONENTINSTANCE.get(player).setSymptoms(symptoms);
+    }
+
+    @Override
     public boolean tickInfection(ServerPlayer serverPlayer) {
         return INFECTIONCOMPONENTINSTANCE.get(serverPlayer).tickInfection();
     }
@@ -54,7 +80,7 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public Holder<MobEffect> INFECTION_STRENGTH_TEMPERATURE() {
-        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_TEMP_STRENGTH.get());
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_TEMP_COAGULATION.get());
     }
 
     @Override
@@ -99,6 +125,6 @@ public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
     public Holder<MobEffect> INFECTION_CONTAGION() {
-        return null;
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_CONTAGION.get());
     }
 }

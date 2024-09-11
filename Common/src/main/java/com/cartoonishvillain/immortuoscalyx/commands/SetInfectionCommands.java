@@ -1,5 +1,6 @@
 package com.cartoonishvillain.immortuoscalyx.commands;
 
+import com.cartoonishvillain.immortuoscalyx.AbstractInfectionHandler;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.mojang.authlib.GameProfile;
 import com.mojang.brigadier.CommandDispatcher;
@@ -27,6 +28,7 @@ public class SetInfectionCommands {
             ServerPlayer serverPlayer = sourceStack.getServer().getPlayerList().getPlayer(gameProfile.getId());
             if (serverPlayer != null) {
                 Services.PLATFORM.setInfectionPercentage(serverPlayer, infectionPercent);
+                AbstractInfectionHandler.commandSymptomUpdate(serverPlayer);
                 sourceStack.sendSuccess(() -> Component.translatable("immortuoscalyx.command.return.setpercentage", serverPlayer.getName(), infectionPercent), true);
             }
         }

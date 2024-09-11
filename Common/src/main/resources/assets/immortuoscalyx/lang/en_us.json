@@ -1,4 +1,5 @@
 {
+  "immortuoscalyx.command.return.config.reload": "Config reloaded successfully",
   "immortuoscalyx.command.return.getinfectionstatus": "%1$s's infection level is %2$s percent",
   "immortuoscalyx.command.return.setpercentage": "Set %1$s's infection level to %2$s percent",
   "immortuoscalyx.symptom.warning1": "warning 1",
@@ -9,5 +10,6 @@
   "immortuoscalyx.symptom.temperature1": "temperature 1",
   "immortuoscalyx.symptom.temperature2": "temperature 2",
   "immortuoscalyx.symptom.blindness": "blindness",
-  "immortuoscalyx.symptom.consumption": "consumption"
+  "immortuoscalyx.symptom.consumption": "consumption",
+  "effect.immortuoscalyx.immortuos_temperature_stability": "Temperature Stability"
 }

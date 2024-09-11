@@ -30,7 +30,7 @@ public class FabricEffects {
     public static Supplier<MobEffect> IMMORTUOS_TEMP_SPEED;
     public static Supplier<MobEffect> IMMORTUOS_TEMP_SLOW;
     public static Supplier<MobEffect> IMMORTUOS_CHAT;
-
+    public static Supplier<MobEffect> IMMORTUOS_CONTAGION;
 
     public static void initEffects() {
         IMMORTUOS_BLIND = registerEffect("immortuos_blind", new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
@@ -48,6 +48,7 @@ public class FabricEffects {
         IMMORTUOS_TEMP_SLOW = registerEffect("immortuos_slow", new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519).addAttributeModifier(
                 Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_slow"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         IMMORTUOS_CHAT = registerEffect("immortuos_chat", new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
+        IMMORTUOS_CONTAGION = registerEffect("immortuos_contagion", new GenericModdedEffect(MobEffectCategory.NEUTRAL, 4587519));
     }
 
     private static Supplier<MobEffect> registerEffect(String name, MobEffect effect) {

@@ -24,10 +24,11 @@ public class NeoEffects {
     public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_TEMP_WEAKEN;
     public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_TEMP_RESIST;
     public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_TEMP_VULNERABLE;
-    public static Supplier<MobEffect> IMMORTUOS_TEMP_STABILITY;
-    public static Supplier<MobEffect> IMMORTUOS_TEMP_SPEED;
-    public static Supplier<MobEffect> IMMORTUOS_TEMP_SLOW;
-    public static Supplier<MobEffect> IMMORTUOS_CHAT;
+    public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_TEMP_STABILITY;
+    public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_TEMP_SPEED;
+    public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_TEMP_SLOW;
+    public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_CHAT;
+    public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_CONTAGION;
 
 
     private static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, Constants.MOD_ID);
@@ -48,6 +49,7 @@ public class NeoEffects {
         IMMORTUOS_TEMP_SLOW = MOB_EFFECTS.register("immortuos_slow", () -> new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519).addAttributeModifier(
                 Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_slow"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         IMMORTUOS_CHAT = MOB_EFFECTS.register("immortuos_chat", () -> new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
+        IMMORTUOS_CONTAGION = MOB_EFFECTS.register("immortuos_contagion", () -> new GenericModdedEffect(MobEffectCategory.NEUTRAL, 4587519));
         MOB_EFFECTS.register(modbus);
     }
 }

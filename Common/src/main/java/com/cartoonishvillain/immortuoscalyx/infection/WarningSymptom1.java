@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerPlayer;
 public class WarningSymptom1 extends AbstractSymptom {
 
     @Override
-    protected void removeSymptomEffect(ServerPlayer player) {
+    public void removeSymptomEffect(ServerPlayer player) {
 
     }
 
