@@ -6,6 +6,7 @@ import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionCapability;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.NeoEffects;
+import com.cartoonishvillain.immortuoscalyx.register.NeoSoundEvents;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -20,6 +21,7 @@ public class NeoforgeImmortuos {
     public NeoforgeImmortuos(IEventBus eventBus) {
         CommonImmortuos.init();
         NeoEffects.init(eventBus);
+        NeoSoundEvents.init(eventBus);
         PlayerInfectionCapability.loadDataAttachment(eventBus);
         NeoForge.EVENT_BUS.register(this);
     }

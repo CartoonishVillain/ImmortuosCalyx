@@ -6,6 +6,7 @@ import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 
 import java.util.ArrayList;
@@ -106,7 +107,6 @@ public interface IPlatformHelper {
     /**
      * MOB EFFECTS
      */
-
     Holder<MobEffect> INFECTION_BLIND();
     Holder<MobEffect> INFECTION_WATER_BREATHING();
     Holder<MobEffect> INFECTION_STRENGTH_TEMPERATURE();
@@ -119,4 +119,15 @@ public interface IPlatformHelper {
     Holder<MobEffect> INFECTION_SLOW();
     Holder<MobEffect> INFECTION_CHAT();
     Holder<MobEffect> INFECTION_CONTAGION();
+
+    /**
+     * Sound Effects
+     */
+    SoundEvent HUMANOID_AMBIENT();
+    SoundEvent HUMANOID_HURT();
+    SoundEvent HUMANOID_DEATH();
+    SoundEvent INJECT();
+    SoundEvent EXTRACT();
+    SoundEvent SCAN_BAD();
+    SoundEvent SCAN_GOOD();
 }

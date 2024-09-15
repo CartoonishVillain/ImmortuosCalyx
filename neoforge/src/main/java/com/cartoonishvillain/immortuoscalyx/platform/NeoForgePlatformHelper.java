@@ -5,9 +5,11 @@ import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
 import com.cartoonishvillain.immortuoscalyx.register.NeoEffects;
+import com.cartoonishvillain.immortuoscalyx.register.NeoSoundEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
@@ -132,5 +134,40 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public Holder<MobEffect> INFECTION_CONTAGION() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_CONTAGION.get());
+    }
+
+    @Override
+    public SoundEvent HUMANOID_AMBIENT() {
+        return NeoSoundEvents.HUMANAMBIENT.value();
+    }
+
+    @Override
+    public SoundEvent HUMANOID_HURT() {
+        return NeoSoundEvents.HUMANHURT.value();
+    }
+
+    @Override
+    public SoundEvent HUMANOID_DEATH() {
+        return NeoSoundEvents.HUMANDEATH.value();
+    }
+
+    @Override
+    public SoundEvent INJECT() {
+        return NeoSoundEvents.INJECT.value();
+    }
+
+    @Override
+    public SoundEvent EXTRACT() {
+        return NeoSoundEvents.EXTRACT.value();
+    }
+
+    @Override
+    public SoundEvent SCAN_BAD() {
+        return NeoSoundEvents.SCANBAD.value();
+    }
+
+    @Override
+    public SoundEvent SCAN_GOOD() {
+        return NeoSoundEvents.SCANCLEAR.value();
     }
 }

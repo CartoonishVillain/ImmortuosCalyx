@@ -30,8 +30,7 @@ public class ImmortuosPlayerAttackMixin {
             if (finalInfectionRate < 1) finalInfectionRate = 1; //finalInfectionRate is minimum 1.
             if (pTargetEntity.getRandom().nextInt(100) <= finalInfectionRate) { //if our random roll is less than or equal to the infection rate, we infect the target player.
                 Services.PLATFORM.setInfectionPercentage((ServerPlayer) pTargetEntity, 1);
-                aggressor.level().playSound(null, aggressor.getOnPos().above(1), SoundEvents.ALLAY_HURT, SoundSource.PLAYERS);
-                //TODO ADD SOUND EFFECT
+                aggressor.level().playSound(null, aggressor.getOnPos().above(1), Services.PLATFORM.HUMANOID_HURT(), SoundSource.PLAYERS);
             }
         }
     }

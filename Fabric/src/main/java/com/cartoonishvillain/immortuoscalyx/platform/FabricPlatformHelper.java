@@ -4,10 +4,12 @@ import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
 import com.cartoonishvillain.immortuoscalyx.register.FabricEffects;
+import com.cartoonishvillain.immortuoscalyx.register.FabricSoundEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 
 import java.util.ArrayList;
@@ -126,5 +128,40 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public Holder<MobEffect> INFECTION_CONTAGION() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_CONTAGION.get());
+    }
+
+    @Override
+    public SoundEvent HUMANOID_AMBIENT() {
+        return FabricSoundEvents.HUMANAMBIENT.get();
+    }
+
+    @Override
+    public SoundEvent HUMANOID_HURT() {
+        return FabricSoundEvents.HUMANHURT.get();
+    }
+
+    @Override
+    public SoundEvent HUMANOID_DEATH() {
+        return FabricSoundEvents.HUMANDEATH.get();
+    }
+
+    @Override
+    public SoundEvent INJECT() {
+        return FabricSoundEvents.INJECT.get();
+    }
+
+    @Override
+    public SoundEvent EXTRACT() {
+        return FabricSoundEvents.EXTRACT.get();
+    }
+
+    @Override
+    public SoundEvent SCAN_BAD() {
+        return FabricSoundEvents.SCANBAD.get();
+    }
+
+    @Override
+    public SoundEvent SCAN_GOOD() {
+        return FabricSoundEvents.SCANCLEAR.get();
     }
 }

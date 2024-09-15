@@ -17,7 +17,7 @@ public class ImmortuosChatMixin {
     public void immortuosChat(PlayerChatMessage pMessage, CallbackInfo ci) {
         ServerPlayer player = ((ServerGamePacketListenerImpl) (Object) this).getPlayer();
         if (player != null && player.hasEffect(Services.PLATFORM.INFECTION_CHAT())) {
-            player.level().playSound(null, player.getOnPos().above(1), SoundEvents.ALLAY_HURT, SoundSource.PLAYERS); //TODO Replace with new sound
+            player.level().playSound(null, player.getOnPos().above(1), Services.PLATFORM.HUMANOID_AMBIENT(), SoundSource.PLAYERS);
             ci.cancel();
         }
     }

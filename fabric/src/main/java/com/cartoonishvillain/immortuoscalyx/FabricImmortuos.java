@@ -5,6 +5,7 @@ import com.cartoonishvillain.immortuoscalyx.commands.ImmortuosConfigCommands;
 import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.FabricEffects;
+import com.cartoonishvillain.immortuoscalyx.register.FabricSoundEvents;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -15,6 +16,7 @@ public class FabricImmortuos implements ModInitializer {
     public void onInitialize() {
         CommonImmortuos.init();
         FabricEffects.initEffects();
+        FabricSoundEvents.initSounds();
 
         CommandRegistrationCallback.EVENT.register(((dispatcher, registryAccess, environment) -> {
             SetInfectionCommands.register(dispatcher);
