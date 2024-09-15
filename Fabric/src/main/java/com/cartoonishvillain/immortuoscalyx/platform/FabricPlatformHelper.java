@@ -131,6 +131,11 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> INFECTION_CONSUMPTION() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_CONSUME.get());
+    }
+
+    @Override
     public SoundEvent HUMANOID_AMBIENT() {
         return FabricSoundEvents.HUMANAMBIENT.get();
     }

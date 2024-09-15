@@ -27,14 +27,8 @@ public class WaterBreathingSymptom extends AbstractSymptom {
         player.removeEffect(Services.PLATFORM.INFECTION_WATER_BREATHING());
     }
 
-    @Override
-    protected void tickedSymptomEffect(ServerPlayer player) {
-        //Symptom is not handled here.
-        //Mixin into players attacks. Only run odds for melee attacks.
-    }
-
     public WaterBreathingSymptom() {
-        symptomAlert = Component.translatable("immortuoscalyx.symptom.waterbreathing");
+        symptomAlert = Component.translatable("immortuoscalyx.symptom.waterbreathing").withColor(9505804);
         symptom = Symptom.WATERBREATHING;
     }
 }

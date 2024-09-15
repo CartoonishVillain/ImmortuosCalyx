@@ -137,6 +137,11 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> INFECTION_CONSUMPTION() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_CONSUME.get());
+    }
+
+    @Override
     public SoundEvent HUMANOID_AMBIENT() {
         return NeoSoundEvents.HUMANAMBIENT.value();
     }

@@ -24,17 +24,11 @@ public class ContagionSymptom extends AbstractSymptom {
 
     @Override
     public void removeSymptomEffect(ServerPlayer player) {
-
-    }
-
-    @Override
-    protected void tickedSymptomEffect(ServerPlayer player) {
-        //Symptom is not handled here.
-        //Mixin into players attacks. Only run odds for melee attacks.
+        player.removeEffect(Services.PLATFORM.INFECTION_CONTAGION());
     }
 
     public ContagionSymptom() {
-        symptomAlert = Component.translatable("immortuoscalyx.symptom.contagious");
+        symptomAlert = Component.translatable("immortuoscalyx.symptom.contagious").withColor(9505804);
         symptom = Symptom.CONTAGION;
     }
 }

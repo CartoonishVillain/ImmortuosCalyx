@@ -27,13 +27,8 @@ public class BlindnessSymptom extends AbstractSymptom {
         player.removeEffect(Services.PLATFORM.INFECTION_BLIND());
     }
 
-    @Override
-    protected void tickedSymptomEffect(ServerPlayer player) {
-
-    }
-
     public BlindnessSymptom() {
-        symptomAlert = Component.translatable("immortuoscalyx.symptom.blindness");
+        symptomAlert = Component.translatable("immortuoscalyx.symptom.blindness").withColor(9505804);
         symptom = Symptom.BLIND;
     }
 }

@@ -31,13 +31,8 @@ public class Temperature2Symptom extends AbstractSymptom {
         player.removeEffect(Services.PLATFORM.INFECTION_VULNERABLE());
     }
 
-    @Override
-    protected void tickedSymptomEffect(ServerPlayer player) {
-
-    }
-
     public Temperature2Symptom() {
-        symptomAlert = Component.translatable("immortuoscalyx.symptom.temperature2");
+        symptomAlert = Component.translatable("immortuoscalyx.symptom.temperature2").withColor(9505804);
         symptom = Symptom.TEMP2;
     }
 }

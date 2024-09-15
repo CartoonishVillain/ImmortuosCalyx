@@ -27,15 +27,8 @@ public class ChatBlockingSymptom extends AbstractSymptom {
         player.removeEffect(Services.PLATFORM.INFECTION_CHAT());
     }
 
-    @Override
-    protected void tickedSymptomEffect(ServerPlayer player) {
-        //Symptom is not handled here.
-        //Mixin into chat to block chat.
-        //Also block voice chat where available.
-    }
-
     public ChatBlockingSymptom() {
-        symptomAlert = Component.translatable("immortuoscalyx.symptom.chatblock");
+        symptomAlert = Component.translatable("immortuoscalyx.symptom.chatblock").withColor(9505804);
         symptom = Symptom.CHATBLOCK;
     }
 }

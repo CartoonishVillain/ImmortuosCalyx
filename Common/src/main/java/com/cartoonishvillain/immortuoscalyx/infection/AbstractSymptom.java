@@ -23,12 +23,12 @@ public abstract class AbstractSymptom {
     }
 
     public void chirpEffect(ServerPlayer player) {
-        player.sendSystemMessage(symptomAlert);
+        player.displayClientMessage(symptomAlert, true);
     }
 
-    public abstract void removeSymptomEffect(ServerPlayer player);
+    public void removeSymptomEffect(ServerPlayer player) {};
 
-    protected abstract void tickedSymptomEffect(ServerPlayer player);
+    protected void tickedSymptomEffect(ServerPlayer player) {};
 
     @Override
     public boolean equals(Object o) {

@@ -1,6 +1,7 @@
 package com.cartoonishvillain.immortuoscalyx.register;
 
 import com.cartoonishvillain.immortuoscalyx.effects.GenericModdedEffect;
+import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosConsumptionEffect;
 import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosTemperatureCongealmentEffect;
 import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosTemperatureStabilityEffect;
 import net.minecraft.core.registries.Registries;
@@ -29,6 +30,7 @@ public class NeoEffects {
     public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_TEMP_SLOW;
     public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_CHAT;
     public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_CONTAGION;
+    public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_CONSUME;
 
 
     private static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, Constants.MOD_ID);
@@ -50,6 +52,7 @@ public class NeoEffects {
                 Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_slow"), -0.15, AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL));
         IMMORTUOS_CHAT = MOB_EFFECTS.register("immortuos_chat", () -> new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
         IMMORTUOS_CONTAGION = MOB_EFFECTS.register("immortuos_contagion", () -> new GenericModdedEffect(MobEffectCategory.NEUTRAL, 4587519));
+        IMMORTUOS_CONSUME = MOB_EFFECTS.register("immortuos_consumption", () -> new ImmortuosConsumptionEffect(MobEffectCategory.HARMFUL, 4587519));
         MOB_EFFECTS.register(modbus);
     }
 }

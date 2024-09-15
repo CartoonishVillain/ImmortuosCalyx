@@ -119,6 +119,7 @@ public interface IPlatformHelper {
     Holder<MobEffect> INFECTION_SLOW();
     Holder<MobEffect> INFECTION_CHAT();
     Holder<MobEffect> INFECTION_CONTAGION();
+    Holder<MobEffect> INFECTION_CONSUMPTION();
 
     /**
      * Sound Effects
