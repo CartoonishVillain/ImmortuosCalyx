@@ -4,13 +4,16 @@
   "immortuoscalyx.command.return.setpercentage": "Set %1$s's infection level to %2$s percent",
   "immortuoscalyx.symptom.warning1": "Your throat feels sore",
   "immortuoscalyx.symptom.warning2": "You feel feverish",
-  "immortuoscalyx.symptom.chatblock": "You feel something in your throat, paralyzing your vocal cords",
+  "immortuoscalyx.symptom.chatblock": "You feel something in your throat, almost paralyzing your vocal cords",
   "immortuoscalyx.symptom.contagious": "There's something on your skin, and you can't get it off",
   "immortuoscalyx.symptom.waterbreathing": "Your lungs are filling with fluid, and yet you still breathe",
   "immortuoscalyx.symptom.temperature1": "Your stride is lengthen in the cold, but the heat is exhausting you",
   "immortuoscalyx.symptom.temperature2": "You feel more powerful in the cold, but are greatly weakened in the heat",
   "immortuoscalyx.symptom.blindness": "Everything goes dark, your headache will not stop",
   "immortuoscalyx.symptom.consumption": "The parasite is consuming you from the inside out.",
+  "effect.immortuoscalyx.immortuos_blind": "Occipital Damage",
   "death.attack.infection_damage": "%1$s succumbed to their infection",
-  "death.attack.organ_damage": "%1$s suffered fatal organ damage"
+  "death.attack.organ_damage": "%1$s suffered fatal organ damage",
+  "entity.immortuoscalyx.infected_diver": "Immortuos Diver",
+  "entity.immortuoscalyx.infected_human": "Immortuos Converted Human"
 }

@@ -18,6 +18,9 @@
         "main": [
             "com.cartoonishvillain.immortuoscalyx.FabricImmortuos"
         ],
+        "client":[
+            "com.cartoonishvillain.immortuoscalyx.FabricImmortuosClient"
+        ],
         "cardinal-components-entity": [
             "com.cartoonishvillain.immortuoscalyx.data.player.PlayerComponentStarter"
         ]

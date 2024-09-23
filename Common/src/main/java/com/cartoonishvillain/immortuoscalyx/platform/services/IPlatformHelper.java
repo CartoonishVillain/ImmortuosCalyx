@@ -8,6 +8,8 @@ import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Monster;
 
 import java.util.ArrayList;
 
@@ -131,4 +133,9 @@ public interface IPlatformHelper {
     SoundEvent EXTRACT();
     SoundEvent SCAN_BAD();
     SoundEvent SCAN_GOOD();
+
+    /**
+     * Entity Types
+     */
+    EntityType<? extends Monster> getInfectedHuman();
 }

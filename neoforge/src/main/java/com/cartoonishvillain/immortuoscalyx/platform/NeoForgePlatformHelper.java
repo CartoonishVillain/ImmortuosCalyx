@@ -5,12 +5,15 @@ import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
 import com.cartoonishvillain.immortuoscalyx.register.NeoEffects;
+import com.cartoonishvillain.immortuoscalyx.register.NeoEntity;
 import com.cartoonishvillain.immortuoscalyx.register.NeoSoundEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Monster;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 
@@ -174,5 +177,10 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public SoundEvent SCAN_GOOD() {
         return NeoSoundEvents.SCANCLEAR.value();
+    }
+
+    @Override
+    public EntityType<? extends Monster> getInfectedHuman() {
+        return NeoEntity.INFECTEDHUMAN.get();
     }
 }

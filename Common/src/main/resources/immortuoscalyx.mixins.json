@@ -12,6 +12,7 @@
         "ImmortuosJoinMixin",
         "ImmortuosLivingEffectMixin",
         "ImmortuosPlayerAttackMixin",
+        "ImmortuosDieMixin",
         "BiomeInvoker"
     ],
     "client": [

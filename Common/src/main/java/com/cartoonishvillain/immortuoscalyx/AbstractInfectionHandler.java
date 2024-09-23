@@ -1,10 +1,16 @@
 package com.cartoonishvillain.immortuoscalyx;
 
 import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosEffect;
+import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.infection.*;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 
@@ -238,8 +244,60 @@ public class AbstractInfectionHandler {
     public static boolean isHiddenImmortuosEffect(MobEffectInstance mobEffectInstance) {
         //We want to hide all symptom effects, except for blindness. If we hide blindness, blindness doesn't work.
         if (mobEffectInstance.getEffect().value() instanceof ImmortuosEffect &&
-        mobEffectInstance.getEffect().value() != Services.PLATFORM.INFECTION_BLIND().value() &&
-        mobEffectInstance.getEffect().value() != Services.PLATFORM.INFECTION_CONSUMPTION().value()) return true;
+        mobEffectInstance.getEffect().value() != Services.PLATFORM.INFECTION_BLIND().value()) return true;
         else return false;
+    }
+
+    public static void convertPlayer(ServerPlayer serverPlayer, DamageSource damageSource) {
+        //If the infection consumed the player, spawn a mob
+        boolean shouldSpawnInfected = damageSource.type().msgId().equals("infection_damage");
+
+        //If the infection didn't kill the player, but they were still heavily infected, chance to spawn a mob
+        if (!shouldSpawnInfected) {
+            int chance = -1;
+            int infectionPercentage = Services.PLATFORM.getInfectionPercentage(serverPlayer);
+
+            if (infectionPercentage == 100) shouldSpawnInfected = true; //if the player was 100% infected, spawn the entity anyway
+            else if (infectionPercentage >= 95) chance = 90; // for every 5% less infection, reduce odds of infected spawning by 10%, down to 75% infection
+            else if (infectionPercentage >= 90) chance = 80;
+            else if (infectionPercentage >= 85) chance = 70;
+            else if (infectionPercentage >= 80) chance = 60;
+            else if (infectionPercentage >= 75) chance = 50;
+
+            if (chance != -1) {
+                int roll = serverPlayer.getRandom().nextInt(100);
+                if (roll < infectionPercentage) shouldSpawnInfected = true; // If the roll is below the percentage threshold, set the spawn to true
+            }
+        }
+
+        if (shouldSpawnInfected) {
+            Level world = serverPlayer.level();
+            if (!world.isClientSide()) {
+                ServerLevel serverLevel = (ServerLevel) world;
+                infectedEntitySummoner(serverPlayer, serverLevel);
+            }
+        }
+    }
+
+    private static void infectedEntitySummoner(ServerPlayer entity, ServerLevel serverLevel) {
+        InfectedHumanEntity infectedHumanEntity = new InfectedHumanEntity(Services.PLATFORM.getInfectedHuman(), serverLevel);
+        infectedHumanEntity.setPUsername(entity.getScoreboardName());
+        infectedHumanEntity.setCustomName(entity.getName());
+        infectedHumanEntity.setCustomNameVisible(true);
+        infectedHumanEntity.setPersistenceRequired();
+        infectedHumanEntity.setPUUID(entity.getUUID());
+        infectedHumanEntity.setPos(entity.getX(), entity.getY() + 0.1, entity.getZ());
+        serverLevel.addFreshEntity(infectedHumanEntity);
+    }
+
+    public static void infectionCheck(ServerPlayer target, int infectionChance) {
+        float armorResistance = target.getArmorValue() * 1.5f; //Each armor value reduces infection chance by 2%
+        //TODO ADD ANTIBIOTIC RESISTANCE
+        float finalInfectionRate = infectionChance - armorResistance;
+        if (finalInfectionRate < 1) finalInfectionRate = 1; //finalInfectionRate is minimum 1.
+        if (target.getRandom().nextInt(100) <= finalInfectionRate) { //if our random roll is less than or equal to the infection rate, we infect the target player.
+            Services.PLATFORM.setInfectionPercentage(target, 1);
+            target.level().playSound(null, target.getOnPos().above(1), Services.PLATFORM.HUMANOID_HURT(), SoundSource.PLAYERS);
+        }
     }
 }

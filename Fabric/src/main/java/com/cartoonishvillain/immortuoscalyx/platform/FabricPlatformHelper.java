@@ -4,6 +4,7 @@ import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
 import com.cartoonishvillain.immortuoscalyx.register.FabricEffects;
+import com.cartoonishvillain.immortuoscalyx.register.FabricEntity;
 import com.cartoonishvillain.immortuoscalyx.register.FabricSoundEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Holder;
@@ -11,6 +12,8 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.monster.Monster;
 
 import java.util.ArrayList;
 
@@ -168,5 +171,10 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public SoundEvent SCAN_GOOD() {
         return FabricSoundEvents.SCANCLEAR.get();
+    }
+
+    @Override
+    public EntityType<? extends Monster> getInfectedHuman() {
+        return FabricEntity.INFECTED_HUMAN.get();
     }
 }
