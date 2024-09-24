@@ -38,8 +38,8 @@ public class FabricImmortuos implements ModInitializer {
 
         Predicate<BiomeSelectionContext> spawnPredicate = overWorldNoOceanNoGoZones();
         Predicate<BiomeSelectionContext> oceanPredicate = onlyOcean();
-        BiomeModifications.addSpawn(oceanPredicate, MobCategory.MONSTER, FabricEntity.INFECTED_DIVER.get(), 1, 1, 1);
-        BiomeModifications.addSpawn(spawnPredicate, MobCategory.MONSTER, FabricEntity.INFECTED_HUMAN.get(), 1, 1, 1);
+        BiomeModifications.addSpawn(oceanPredicate, MobCategory.MONSTER, FabricEntity.INFECTED_DIVER.get(), 2, 1, 4);
+        BiomeModifications.addSpawn(spawnPredicate, MobCategory.MONSTER, FabricEntity.INFECTED_HUMAN.get(), 2, 1, 4);
         SpawnPlacements.register(FabricEntity.INFECTED_HUMAN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
         SpawnPlacements.register(FabricEntity.INFECTED_DIVER.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, InfectedDiverEntity::checkDiverSpawnRules);
 
