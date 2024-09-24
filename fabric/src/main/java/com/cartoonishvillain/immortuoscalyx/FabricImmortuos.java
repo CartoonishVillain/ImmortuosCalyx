@@ -5,6 +5,7 @@ import com.cartoonishvillain.immortuoscalyx.commands.ImmortuosConfigCommands;
 import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
+import com.cartoonishvillain.immortuoscalyx.register.FabricBlocksAndBlockItems;
 import com.cartoonishvillain.immortuoscalyx.register.FabricEffects;
 import com.cartoonishvillain.immortuoscalyx.register.FabricEntity;
 import com.cartoonishvillain.immortuoscalyx.register.FabricSoundEvents;
@@ -35,6 +36,7 @@ public class FabricImmortuos implements ModInitializer {
         FabricEffects.initEffects();
         FabricSoundEvents.initSounds();
         FabricEntity.initEntity();
+        FabricBlocksAndBlockItems.init();
 
         Predicate<BiomeSelectionContext> spawnPredicate = overWorldNoOceanNoGoZones();
         Predicate<BiomeSelectionContext> oceanPredicate = onlyOcean();

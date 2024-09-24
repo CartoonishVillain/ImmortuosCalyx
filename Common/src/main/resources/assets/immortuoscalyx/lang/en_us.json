@@ -15,5 +15,6 @@
   "death.attack.infection_damage": "%1$s succumbed to their infection",
   "death.attack.organ_damage": "%1$s suffered fatal organ damage",
   "entity.immortuoscalyx.infected_diver": "Immortuos Diver",
-  "entity.immortuoscalyx.infected_human": "Immortuos Converted Human"
+  "entity.immortuoscalyx.infected_human": "Immortuos Converted Human",
+  "block.immortuoscalyx.infection_scanner": "Infection Scanner"
 }

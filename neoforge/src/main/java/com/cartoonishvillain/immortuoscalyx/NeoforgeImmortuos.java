@@ -9,6 +9,7 @@ import com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionCapabilit
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
+import com.cartoonishvillain.immortuoscalyx.register.NeoBlocksAndBlockItems;
 import com.cartoonishvillain.immortuoscalyx.register.NeoEffects;
 import com.cartoonishvillain.immortuoscalyx.register.NeoEntity;
 import com.cartoonishvillain.immortuoscalyx.register.NeoSoundEvents;
@@ -36,6 +37,7 @@ public class NeoforgeImmortuos {
         NeoEffects.init(eventBus);
         NeoSoundEvents.init(eventBus);
         NeoEntity.init(eventBus);
+        NeoBlocksAndBlockItems.init(eventBus);
         PlayerInfectionCapability.loadDataAttachment(eventBus);
         NeoForge.EVENT_BUS.register(this);
     }
