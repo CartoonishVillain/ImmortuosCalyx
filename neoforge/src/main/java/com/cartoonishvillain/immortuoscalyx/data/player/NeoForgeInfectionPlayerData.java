@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class NeoForgeInfectionPlayerData implements ImmortuosPlayerData, Serializable {
     int infectionPercent = 0;
     int infectionTicks = CommonImmortuos.configData.getInfectionTicksPerPercentage();
+    float resistance = 1f;
     ArrayList<Symptom> symptoms = new ArrayList<>();
 
     @Override
@@ -38,6 +39,9 @@ public class NeoForgeInfectionPlayerData implements ImmortuosPlayerData, Seriali
                 }
             }
         }
+
+        if (resistance > 1f) resistance -= 0.000001f;
+        if (resistance < 1f) resistance = 1f;
         return changedPercent;
     }
 
@@ -69,5 +73,15 @@ public class NeoForgeInfectionPlayerData implements ImmortuosPlayerData, Seriali
     @Override
     public void removeSymptom(Symptom symptom) {
         symptoms.remove(symptom);
+    }
+
+    @Override
+    public void setResistance(float resistance) {
+        this.resistance = resistance;
+    }
+
+    @Override
+    public float getResistance() {
+        return resistance;
     }
 }

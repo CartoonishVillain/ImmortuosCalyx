@@ -1,6 +1,5 @@
 package com.cartoonishvillain.immortuoscalyx.data;
 
-import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 
 import java.util.ArrayList;
@@ -37,4 +36,7 @@ public interface ImmortuosPlayerData {
     void setSymptoms(ArrayList<Symptom> symptoms);
     void addSymptom(Symptom symptom);
     void removeSymptom(Symptom symptom);
+
+    void setResistance(float resistance);
+    float getResistance();
 }

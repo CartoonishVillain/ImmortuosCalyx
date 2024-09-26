@@ -6,6 +6,7 @@ import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
 import com.cartoonishvillain.immortuoscalyx.register.NeoEffects;
 import com.cartoonishvillain.immortuoscalyx.register.NeoEntity;
+import com.cartoonishvillain.immortuoscalyx.register.NeoItems;
 import com.cartoonishvillain.immortuoscalyx.register.NeoSoundEvents;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -14,12 +15,13 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.Item;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 
 import java.util.ArrayList;
 
-import static com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionCapability.INFECTION_DATA;
+import static com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionDataAttachment.INFECTION_DATA;
 
 public class NeoForgePlatformHelper implements IPlatformHelper {
 
@@ -77,6 +79,16 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public boolean tickInfection(ServerPlayer serverPlayer) {
         return serverPlayer.getData(INFECTION_DATA).tickInfection();
+    }
+
+    @Override
+    public void setResistance(ServerPlayer serverPlayer, float resistance) {
+        serverPlayer.getData(INFECTION_DATA).setResistance(resistance);
+    }
+
+    @Override
+    public float getResistance(ServerPlayer serverPlayer) {
+        return serverPlayer.getData(INFECTION_DATA).getResistance();
     }
 
     @Override
@@ -182,5 +194,35 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public EntityType<? extends Monster> getInfectedHuman() {
         return NeoEntity.INFECTEDHUMAN.get();
+    }
+
+    @Override
+    public Item EMPTY_SYRINGE() {
+        return NeoItems.SYRINGE.value();
+    }
+
+    @Override
+    public Item CALYXANIDE() {
+        return NeoItems.CALYXANIDE.value();
+    }
+
+    @Override
+    public Item IMMORTUOS_SAMPLE() {
+        return NeoItems.IMMORTUOS_SAMPLE.value();
+    }
+
+    @Override
+    public Item IMMORTUOS_EGG() {
+        return NeoItems.IMMORTUOS_EGGS.value();
+    }
+
+    @Override
+    public Item ANTIPARASITIC() {
+        return NeoItems.ANTI_PARASITIC.value();
+    }
+
+    @Override
+    public Item HEALTH_SCANNER() {
+        return NeoItems.HEALTH_SCANNER.value();
     }
 }

@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.Item;
 
 import java.util.ArrayList;
 
@@ -98,6 +99,20 @@ public interface IPlatformHelper {
     boolean tickInfection(ServerPlayer serverPlayer);
 
     /**
+     * Sets the resistance level of a given player
+     * @param serverPlayer - The player to give resistance to
+     * @param resistance - The resistance to give
+     */
+    void setResistance(ServerPlayer serverPlayer, float resistance);
+
+    /**
+     * Gets the resistance level of a given player
+     * @param serverPlayer - The player to get the resistance of
+     * @return the resistance level of the player.
+     */
+    float getResistance(ServerPlayer serverPlayer);
+
+    /**
      * CALL ON THE CLIENT ONLY
      * Adds the Infected Blindness to the MOB_EFFECT_FOG list.
      */
@@ -138,4 +153,14 @@ public interface IPlatformHelper {
      * Entity Types
      */
     EntityType<? extends Monster> getInfectedHuman();
+
+    /**
+     * Items
+     */
+    Item EMPTY_SYRINGE();
+    Item CALYXANIDE();
+    Item IMMORTUOS_SAMPLE();
+    Item IMMORTUOS_EGG();
+    Item ANTIPARASITIC();
+    Item HEALTH_SCANNER();
 }

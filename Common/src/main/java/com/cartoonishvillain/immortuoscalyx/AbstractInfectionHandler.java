@@ -1,15 +1,23 @@
 package com.cartoonishvillain.immortuoscalyx;
 
+import com.cartoonishvillain.immortuoscalyx.damage.ImmortuosDamageTypes;
 import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosEffect;
+import com.cartoonishvillain.immortuoscalyx.entities.InfectedEntity;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.infection.*;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
@@ -22,37 +30,56 @@ public class AbstractInfectionHandler {
      * @param player - Player to tick infection on.
      */
     public static void playerTick(ServerPlayer player) {
-        if (Services.PLATFORM.tickInfection(player)) activeAdditiveSymptomUpdate(player, Services.PLATFORM.getSymptoms(player));
-        //every second and a half, re-enforce effects, incase they were lost
-        if (player.tickCount % 30 == 0) {
-            ArrayList<Symptom> symptoms = Services.PLATFORM.getSymptoms(player);
+        if (playerAffected(player)) {
+            if (Services.PLATFORM.tickInfection(player))
+                activeAdditiveSymptomUpdate(player, Services.PLATFORM.getSymptoms(player));
+            //every second and a half, re-enforce effects, incase they were lost
+            if (player.tickCount % 30 == 0) {
+                ArrayList<Symptom> symptoms = Services.PLATFORM.getSymptoms(player);
 
-            if (symptoms.contains(Symptom.WATERBREATHING)) {
-                new WaterBreathingSymptom().addSymptomEffect(player);
+                if (symptoms.contains(Symptom.WATERBREATHING)) {
+                    new WaterBreathingSymptom().addSymptomEffect(player);
+                }
+
+                if (symptoms.contains(Symptom.TEMP1)) {
+                    new Temperature1Symptom().addSymptomEffect(player);
+                }
+
+                if (symptoms.contains(Symptom.CONTAGION)) {
+                    new ContagionSymptom().addSymptomEffect(player);
+                }
+
+                if (symptoms.contains(Symptom.CHATBLOCK)) {
+                    new ChatBlockingSymptom().addSymptomEffect(player);
+                }
+
+                if (symptoms.contains(Symptom.TEMP2)) {
+                    new Temperature2Symptom().addSymptomEffect(player);
+                }
+
+                if (symptoms.contains(Symptom.BLIND)) {
+                    new BlindnessSymptom().addSymptomEffect(player);
+                }
+
+                if (symptoms.contains(Symptom.CONSUME)) {
+                    new ConsumeSymptom().addSymptomEffect(player);
+                }
             }
-
-            if (symptoms.contains(Symptom.TEMP1)) {
-                new Temperature1Symptom().addSymptomEffect(player);
-            }
-
-            if (symptoms.contains(Symptom.CONTAGION)) {
-                new ContagionSymptom().addSymptomEffect(player);
-            }
-
-            if (symptoms.contains(Symptom.CHATBLOCK)) {
-                new ChatBlockingSymptom().addSymptomEffect(player);
-            }
-
-            if (symptoms.contains(Symptom.TEMP2)) {
-                new Temperature2Symptom().addSymptomEffect(player);
-            }
-
-            if (symptoms.contains(Symptom.BLIND)) {
-                new BlindnessSymptom().addSymptomEffect(player);
-            }
-
-            if (symptoms.contains(Symptom.CONSUME)) {
-                new ConsumeSymptom().addSymptomEffect(player);
+        } else {
+            if (player.tickCount % 30 == 0) { //Users in creative or spectator don't tick or have effects.
+                player.removeEffect(Services.PLATFORM.INFECTION_BLIND());
+                player.removeEffect(Services.PLATFORM.INFECTION_CONTAGION());
+                player.removeEffect(Services.PLATFORM.INFECTION_CONSUMPTION());
+                player.removeEffect(Services.PLATFORM.INFECTION_CHAT());
+                player.removeEffect(Services.PLATFORM.INFECTION_WATER_BREATHING());
+                player.removeEffect(Services.PLATFORM.INFECTION_WEAKEN());
+                player.removeEffect(Services.PLATFORM.INFECTION_VULNERABLE());
+                player.removeEffect(Services.PLATFORM.INFECTION_STRENGTH());
+                player.removeEffect(Services.PLATFORM.INFECTION_STRENGTH_TEMPERATURE());
+                player.removeEffect(Services.PLATFORM.INFECTION_SPEED());
+                player.removeEffect(Services.PLATFORM.INFECTION_SLOW());
+                player.removeEffect(Services.PLATFORM.INFECTION_SPEED_TEMPERATURE());
+                player.removeEffect(Services.PLATFORM.INFECTION_RESIST());
             }
         }
     }
@@ -292,12 +319,99 @@ public class AbstractInfectionHandler {
 
     public static void infectionCheck(ServerPlayer target, int infectionChance) {
         float armorResistance = target.getArmorValue() * 1.5f; //Each armor value reduces infection chance by 2%
-        //TODO ADD ANTIBIOTIC RESISTANCE
-        float finalInfectionRate = infectionChance - armorResistance;
+        float infectionResistance = Services.PLATFORM.getResistance(target);
+        float finalInfectionRate = (infectionChance/infectionResistance) - armorResistance;
         if (finalInfectionRate < 1) finalInfectionRate = 1; //finalInfectionRate is minimum 1.
         if (target.getRandom().nextInt(100) <= finalInfectionRate) { //if our random roll is less than or equal to the infection rate, we infect the target player.
             Services.PLATFORM.setInfectionPercentage(target, 1);
             target.level().playSound(null, target.getOnPos().above(1), Services.PLATFORM.HUMANOID_HURT(), SoundSource.PLAYERS);
         }
+    }
+
+    public static void useImmortuosSample(ServerPlayer pTarget) {
+        if (Services.PLATFORM.getInfectionPercentage(pTarget) < 1) { // If the player isn't infected
+            Services.PLATFORM.setInfectionPercentage(pTarget, 1); // Infect them.
+            commandSymptomUpdate(pTarget);
+        }
+    }
+
+    public static void foodEat(ItemStack stack, ServerPlayer player) {
+        if (stack.getItem() == Services.PLATFORM.IMMORTUOS_EGG()) {
+            AbstractInfectionHandler.useImmortuosSample(player);
+            commandSymptomUpdate(player);
+        }
+    }
+
+    public static void useAntiParasitic(LivingEntity pTarget) {
+        pTarget.hurt(
+                new DamageSource(pTarget.level().registryAccess()
+                        .registryOrThrow(Registries.DAMAGE_TYPE)
+                        .getHolderOrThrow(ImmortuosDamageTypes.organ_damage)
+                ), 3
+        );
+
+        if (pTarget instanceof ServerPlayer) { // If a player is not contagious, anti parasitic has a mild curing effect
+            if (Services.PLATFORM.getInfectionPercentage((ServerPlayer) pTarget) < CommonImmortuos.configData.getInfectionSymptomContagious()) {
+                Services.PLATFORM.setInfectionPercentage(
+                        (ServerPlayer) pTarget,
+                        Services.PLATFORM.getInfectionPercentage((ServerPlayer) pTarget) - 15
+                );
+                commandSymptomUpdate((ServerPlayer) pTarget);
+            }
+
+            Services.PLATFORM.setResistance((ServerPlayer) pTarget, 2.5f);
+        }
+    }
+
+    public static void useCalyxanide(LivingEntity pTarget) {
+        if (pTarget instanceof ServerPlayer) {
+            if (Services.PLATFORM.getInfectionPercentage((ServerPlayer) pTarget) > 70) pTarget.hurt( //If infection is above 70%, harm the player for curing significantly
+                    new DamageSource(pTarget.level().registryAccess()
+                            .registryOrThrow(Registries.DAMAGE_TYPE)
+                            .getHolderOrThrow(ImmortuosDamageTypes.organ_damage)
+                    ), 10);
+
+            //Subtract 60 from the infection percentage
+            Services.PLATFORM.setInfectionPercentage(
+                    (ServerPlayer) pTarget,
+                    Services.PLATFORM.getInfectionPercentage((ServerPlayer) pTarget) - 60
+            );
+            commandSymptomUpdate((ServerPlayer) pTarget);
+        }
+
+        if (pTarget instanceof InfectedEntity) {
+            pTarget.hurt( //Infected entities are killed by calyxanide
+                    new DamageSource(pTarget.level().registryAccess()
+                            .registryOrThrow(Registries.DAMAGE_TYPE)
+                            .getHolderOrThrow(ImmortuosDamageTypes.organ_damage)
+                    ), 20);
+        }
+    }
+
+    public static void foreignHealthCheck(LivingEntity target, ServerPlayer viewer) {
+        viewer.sendSystemMessage(Component.literal("===(" + target.getScoreboardName() + ")===").withStyle(ChatFormatting.GREEN));
+        viewer.sendSystemMessage(Component.translatable("scanner.immortuoscalyx.health", target.getHealth()));
+        if (target instanceof ServerPlayer) {
+            viewer.sendSystemMessage(Component.translatable("scanner.immortuoscalyx.food", ((ServerPlayer) target).getFoodData().getFoodLevel()));
+            viewer.sendSystemMessage(Component.translatable("scanner.immortuoscalyx.infection", Services.PLATFORM.getInfectionPercentage((ServerPlayer) target) + "%"));
+            viewer.sendSystemMessage(Component.translatable("scanner.immortuoscalyx.resistance", Services.PLATFORM.getResistance((ServerPlayer) target)));
+        }
+        if (target instanceof InfectedEntity) {
+            viewer.sendSystemMessage(Component.translatable("scanner.immotuoscalyx.infected_entity").withStyle(ChatFormatting.RED));
+        }
+    }
+
+    public static void selfHealthCheck(ServerPlayer viewer) {
+        viewer.sendSystemMessage(Component.literal("===(" + viewer.getScoreboardName() + ")===").withStyle(ChatFormatting.GREEN));
+        viewer.sendSystemMessage(Component.translatable("scanner.immortuoscalyx.health", viewer.getHealth()));
+        if (viewer instanceof ServerPlayer) {
+            viewer.sendSystemMessage(Component.translatable("scanner.immortuoscalyx.food", ((ServerPlayer) viewer).getFoodData().getFoodLevel()));
+            viewer.sendSystemMessage(Component.translatable("scanner.immortuoscalyx.infection", Services.PLATFORM.getInfectionPercentage((ServerPlayer) viewer) + "%"));
+            viewer.sendSystemMessage(Component.translatable("scanner.immortuoscalyx.resistance", Services.PLATFORM.getResistance((ServerPlayer) viewer)));
+        }
+    }
+
+    public static boolean playerAffected(ServerPlayer player) {
+        return !(player.isCreative() || player.isSpectator());
     }
 }

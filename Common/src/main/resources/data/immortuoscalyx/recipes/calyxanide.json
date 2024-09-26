@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "hg ",
+    "GiO",
+    " gh"
+  ],
+  "key": {
+    "g": {
+      "item": "minecraft:gold_ingot"
+    },
+    "G": {
+      "item": "immortuoscalyx:antiparasitic"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "O": {
+      "item": "immortuoscalyx:immortuoseggs"
+    },
+    "h": {
+      "item": "minecraft:honey_block"
+    }
+  },
+  "result": {
+    "item": "immortuoscalyx:calyxanide",
+    "count": 1
+  }
+}

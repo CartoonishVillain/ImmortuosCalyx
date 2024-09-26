@@ -17,7 +17,7 @@ public class RenderInfectedHumanEntity extends HumanoidMobRenderer<InfectedHuman
     protected final static ResourceLocation TEXTURE = DefaultPlayerSkin.getDefaultTexture();
 
     public RenderInfectedHumanEntity(EntityRendererProvider.Context pContext) {
-        super(pContext, new HumanoidModel<InfectedHumanEntity>(pContext.bakeLayer(ModelLayers.PLAYER)), 0.5f);
+        super(pContext, new HumanoidModel<>(pContext.bakeLayer(ModelLayers.PLAYER)), 0.5f);
         this.addLayer(new DarkPlayerLayer(this));
         this.addLayer(new BloodiedHumanLayer(this));
     }

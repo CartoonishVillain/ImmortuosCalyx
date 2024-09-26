@@ -5,16 +5,12 @@ import com.cartoonishvillain.immortuoscalyx.client.RenderDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.client.RenderInfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.commands.GetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
-import com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionCapability;
+import com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionDataAttachment;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
-import com.cartoonishvillain.immortuoscalyx.register.NeoBlocksAndBlockItems;
-import com.cartoonishvillain.immortuoscalyx.register.NeoEffects;
-import com.cartoonishvillain.immortuoscalyx.register.NeoEntity;
-import com.cartoonishvillain.immortuoscalyx.register.NeoSoundEvents;
+import com.cartoonishvillain.immortuoscalyx.register.*;
 import net.minecraft.world.entity.SpawnPlacementTypes;
-import net.minecraft.world.entity.monster.Drowned;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.api.distmarker.Dist;
@@ -38,7 +34,9 @@ public class NeoforgeImmortuos {
         NeoSoundEvents.init(eventBus);
         NeoEntity.init(eventBus);
         NeoBlocksAndBlockItems.init(eventBus);
-        PlayerInfectionCapability.loadDataAttachment(eventBus);
+        NeoItems.init(eventBus);
+        NeoTab.init(eventBus);
+        PlayerInfectionDataAttachment.loadDataAttachment(eventBus);
         NeoForge.EVENT_BUS.register(this);
     }
 

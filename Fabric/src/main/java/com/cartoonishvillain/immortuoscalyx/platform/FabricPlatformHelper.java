@@ -5,6 +5,7 @@ import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
 import com.cartoonishvillain.immortuoscalyx.register.FabricEffects;
 import com.cartoonishvillain.immortuoscalyx.register.FabricEntity;
+import com.cartoonishvillain.immortuoscalyx.register.FabricItems;
 import com.cartoonishvillain.immortuoscalyx.register.FabricSoundEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Holder;
@@ -14,6 +15,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.item.Item;
 
 import java.util.ArrayList;
 
@@ -71,6 +73,16 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public boolean tickInfection(ServerPlayer serverPlayer) {
         return INFECTIONCOMPONENTINSTANCE.get(serverPlayer).tickInfection();
+    }
+
+    @Override
+    public void setResistance(ServerPlayer serverPlayer, float resistance) {
+        INFECTIONCOMPONENTINSTANCE.get(serverPlayer).setResistance(resistance);
+    }
+
+    @Override
+    public float getResistance(ServerPlayer serverPlayer) {
+        return INFECTIONCOMPONENTINSTANCE.get(serverPlayer).getResistance();
     }
 
     @Override
@@ -176,5 +188,35 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public EntityType<? extends Monster> getInfectedHuman() {
         return FabricEntity.INFECTED_HUMAN.get();
+    }
+
+    @Override
+    public Item EMPTY_SYRINGE() {
+        return FabricItems.SYRINGE.get();
+    }
+
+    @Override
+    public Item CALYXANIDE() {
+        return FabricItems.CALYXANIDE.get();
+    }
+
+    @Override
+    public Item IMMORTUOS_SAMPLE() {
+        return FabricItems.IMMORTUOS_SAMPLE.get();
+    }
+
+    @Override
+    public Item IMMORTUOS_EGG() {
+        return FabricItems.IMMORTUOS_EGGS.get();
+    }
+
+    @Override
+    public Item ANTIPARASITIC() {
+        return FabricItems.ANTI_PARASITIC.get();
+    }
+
+    @Override
+    public Item HEALTH_SCANNER() {
+        return FabricItems.HEALTH_SCANNER.get();
     }
 }

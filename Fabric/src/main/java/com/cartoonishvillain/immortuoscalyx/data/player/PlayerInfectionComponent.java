@@ -14,6 +14,7 @@ public class PlayerInfectionComponent implements ImmortuosPlayerData, Component 
     private final Object provider;
     int infectionPercent = 0;
     int infectionTicks = CommonImmortuos.configData.getInfectionTicksPerPercentage();
+    float resistance = 1f;
     ArrayList<Symptom> symptoms = new ArrayList<>();
 
     public PlayerInfectionComponent(Object provider){this.provider = provider;}
@@ -42,6 +43,9 @@ public class PlayerInfectionComponent implements ImmortuosPlayerData, Component 
                 }
             }
         }
+
+        if (resistance > 1f) resistance -= 0.000001f;
+        if (resistance < 1f) resistance = 1f;
         return changedPercent;
     }
 
@@ -79,11 +83,23 @@ public class PlayerInfectionComponent implements ImmortuosPlayerData, Component 
     public void readFromNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
         infectionTicks = tag.getInt("immortuosTicks");
         infectionPercent = tag.getInt("immortuosPercent");
+        resistance = tag.getFloat("immortuosresist");
     }
 
     @Override
     public void writeToNbt(CompoundTag tag, HolderLookup.Provider registryLookup) {
         tag.putInt("immortuosTicks", infectionTicks);
         tag.putInt("immortuosPercent", infectionPercent);
+        tag.putFloat("immortuosresist", resistance);
+    }
+
+    @Override
+    public void setResistance(float resistance) {
+        this.resistance = resistance;
+    }
+
+    @Override
+    public float getResistance() {
+        return resistance;
     }
 }
