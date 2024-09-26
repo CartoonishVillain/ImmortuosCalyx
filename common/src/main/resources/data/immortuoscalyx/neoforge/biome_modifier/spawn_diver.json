@@ -1,0 +1,10 @@
+{
+  "type": "neoforge:add_spawns",
+  "biomes": "#minecraft:has_structure/ocean_ruin_cold",
+  "spawners": {
+    "type": "immortuoscalyx:infected_diver",
+    "maxCount": 4,
+    "minCount": 1,
+    "weight": 2
+  }
+}

@@ -1,0 +1,5 @@
+accessWidener v1 named
+accessible  class   net/minecraft/client/renderer/FogRenderer$BlindnessFogFunction
+accessible  method   net/minecraft/client/renderer/FogRenderer$BlindnessFogFunction <init> ()V
+accessible  class   net/minecraft/client/renderer/FogRenderer$MobEffectFogFunction
+accessible  field   net/minecraft/client/renderer/FogRenderer MOB_EFFECT_FOG Ljava/util/List;
