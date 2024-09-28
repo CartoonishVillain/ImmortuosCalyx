@@ -2,6 +2,7 @@ package com.cartoonishvillain.immortuoscalyx.entities;
 
 import com.cartoonishvillain.immortuoscalyx.AbstractInfectionHandler;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
+import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -38,12 +39,24 @@ public class InfectedHumanEntity extends Monster implements InfectedEntity {
 
     private ResourceLocation skinResource = null;
 
+    public Optional<GameProfile> skinProfile = Optional.empty();
+
+    private boolean isSlim = false;
+
     public InfectedHumanEntity(EntityType<? extends Monster> type, Level worldIn) {
         super(type, worldIn);
     }
 
     public void setResourceLocation(ResourceLocation location) {
         skinResource = location;
+    }
+
+    public boolean isSlim() {
+        return isSlim;
+    }
+
+    public void setSlim(boolean slim) {
+        isSlim = slim;
     }
 
     public ResourceLocation getResourceLocation() {
@@ -64,7 +77,7 @@ public class InfectedHumanEntity extends Monster implements InfectedEntity {
         if (getPUUID().isPresent()) {
             pCompound.putUUID("puuid", getPUUID().get());
         }
-        pCompound.putString("pname", getPUsername());
+        pCompound.putString("pname", getPUsername().get());
         pCompound.putBoolean("ptransformed", getIsTransformedPlayer());
     }
 
@@ -89,8 +102,8 @@ public class InfectedHumanEntity extends Monster implements InfectedEntity {
         this.entityData.set(PUSERNAME, name);
     }
 
-    public String getPUsername() {
-        return this.entityData.get(PUSERNAME);
+    public Optional<String> getPUsername() {
+        return Optional.of(this.entityData.get(PUSERNAME));
     }
 
     private void setIsTransformedPlayer(boolean value) {
