@@ -20,6 +20,7 @@ public class NeoTab {
                 .icon(() -> new ItemStack(NeoBlocksAndBlockItems.SCANNER_BLOCKITEM.get()))
                 .displayItems(((itemDisplayParameters, output) -> {
                     output.accept(NeoBlocksAndBlockItems.SCANNER_BLOCKITEM.get());
+                    output.accept(NeoBlocksAndBlockItems.GENE_ENCODERITEM.get());
                     output.accept(NeoItems.HEALTH_SCANNER.get());
                     output.accept(NeoItems.SYRINGE.get());
                     output.accept(NeoItems.ANTI_PARASITIC.get());

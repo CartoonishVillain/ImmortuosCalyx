@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
@@ -52,6 +53,10 @@ public class FabricImmortuos implements ModInitializer {
 
         ClientLifecycleEvents.CLIENT_STARTED.register((minecraft) -> {
             Services.PLATFORM.clientUpdate();
+        });
+
+        ServerLifecycleEvents.SERVER_STARTING.register((event) -> {
+            FabricStructureGen.addNewVillageBuilding(event);
         });
     }
 

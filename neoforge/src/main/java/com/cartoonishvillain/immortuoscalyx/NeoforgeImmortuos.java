@@ -24,6 +24,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 
 @Mod(Constants.MOD_ID)
 public class NeoforgeImmortuos {
@@ -44,6 +45,11 @@ public class NeoforgeImmortuos {
     public void commandLoad(RegisterCommandsEvent event){
         SetInfectionCommands.register(event.getDispatcher());
         GetInfectionCommands.register(event.getDispatcher());
+    }
+
+    @SubscribeEvent
+    public void serverAboutToStartEvent(ServerAboutToStartEvent event) {
+        NeoStructureGen.addNewVillageBuilding(event);
     }
 
     @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
