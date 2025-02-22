@@ -3,6 +3,7 @@ package com.cartoonishvillain.immortuoscalyx.platform;
 import com.cartoonishvillain.immortuoscalyx.data.player.NeoForgeInfectionPlayerData;
 import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
+import com.cartoonishvillain.immortuoscalyx.items.HealthScanner;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
 import com.cartoonishvillain.immortuoscalyx.register.NeoEffects;
 import com.cartoonishvillain.immortuoscalyx.register.NeoEntity;

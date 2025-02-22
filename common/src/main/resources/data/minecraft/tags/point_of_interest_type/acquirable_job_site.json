@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "immortuoscalyx:genetic_researcher_poi",
+      "required": false
+    }
+  ]
+}
