@@ -35,6 +35,12 @@ public class NeoEffects {
     public static DeferredHolder<MobEffect, MobEffect> GENE_IRON_GOLEM;
     public static DeferredHolder<MobEffect, MobEffect> GENE_TEMP_IRON_GOLEM;
     public static DeferredHolder<MobEffect, MobEffect> GENE_FROG;
+    public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_HELIOPHOBIA;
+    public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_HYDROPHOBIA;
+    public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_GENETIC_DESTABLIZATION;
+    public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_STAGGER;
+    public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_KNEE_PASTAFICATION;
+    public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_KNEE_PASTAFICATION_TEMP;
 
 
     private static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, Constants.MOD_ID);
@@ -70,6 +76,14 @@ public class NeoEffects {
                 Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_iron_golem"), 1, AttributeModifier.Operation.ADD_VALUE
         ));
         GENE_FROG = MOB_EFFECTS.register("immortuos_gene_frog", () ->  new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519));
+        CONTAMINATION_HELIOPHOBIA = MOB_EFFECTS.register("immortuos_contamination_heliophobia", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
+        CONTAMINATION_HYDROPHOBIA = MOB_EFFECTS.register("immortuos_contamination_hydrophobia", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
+        CONTAMINATION_GENETIC_DESTABLIZATION = MOB_EFFECTS.register("immortuos_contamination_genetic_destablization", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
+        CONTAMINATION_STAGGER = MOB_EFFECTS.register("immortuos_contamination_stagger", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
+        CONTAMINATION_KNEE_PASTAFICATION = MOB_EFFECTS.register("immortuos_contamination_knee_pastafication", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
+        CONTAMINATION_KNEE_PASTAFICATION_TEMP = MOB_EFFECTS.register("immortuos_contamination_knee_pastafication_temp", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
+                Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_knee_pastafication"), -0.05, AttributeModifier.Operation.ADD_VALUE
+        ));
         MOB_EFFECTS.register(modbus);
     }
 }

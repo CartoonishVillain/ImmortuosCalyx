@@ -38,6 +38,12 @@ public class FabricEffects {
     public static Supplier<MobEffect> GENE_IRON_GOLEM;
     public static Supplier<MobEffect> GENE_TEMP_IRON_GOLEM;
     public static Supplier<MobEffect> GENE_FROG;
+    public static Supplier<MobEffect> CONTAMINATION_HELIOPHOBIA;
+    public static Supplier<MobEffect> CONTAMINATION_HYDROPHOBIA;
+    public static Supplier<MobEffect> CONTAMINATION_GENETIC_DESTABLIZATION;
+    public static Supplier<MobEffect> CONTAMINATION_STAGGER;
+    public static Supplier<MobEffect> CONTAMINATION_KNEE_PASTAFICATION;
+    public static Supplier<MobEffect> CONTAMINATION_KNEE_PASTAFICATION_TEMP;
 
 
     public static void initEffects() {
@@ -71,6 +77,14 @@ public class FabricEffects {
                 Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_iron_golem"), 1, AttributeModifier.Operation.ADD_VALUE
         ));
         GENE_FROG = registerEffect("immortuos_gene_frog", new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519));
+        CONTAMINATION_HELIOPHOBIA = registerEffect("immortuos_contamination_heliophobia", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
+        CONTAMINATION_HYDROPHOBIA = registerEffect("immortuos_contamination_hydrophobia", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
+        CONTAMINATION_GENETIC_DESTABLIZATION = registerEffect("immortuos_contamination_genetic_destablization", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
+        CONTAMINATION_STAGGER = registerEffect("immortuos_contamination_stagger", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
+        CONTAMINATION_KNEE_PASTAFICATION = registerEffect("immortuos_contamination_knee_pastafication", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
+        CONTAMINATION_KNEE_PASTAFICATION_TEMP = registerEffect("immortuos_contamination_knee_pastafication_temp", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
+                Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_knee_pastafication"), -0.05, AttributeModifier.Operation.ADD_VALUE
+        ));
     }
 
     private static Supplier<MobEffect> registerEffect(String name, MobEffect effect) {

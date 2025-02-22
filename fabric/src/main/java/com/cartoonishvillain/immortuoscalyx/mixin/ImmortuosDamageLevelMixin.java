@@ -4,6 +4,7 @@ import com.cartoonishvillain.immortuoscalyx.AbstractGeneHandler;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,11 +20,18 @@ public class ImmortuosDamageLevelMixin {
 
         float damageDealt = cir.getReturnValue();
 
+        //Stagger Contamination Handling
+        if (
+                entity.hasEffect(Services.PLATFORM.CONTAMINATION_STAGGER())
+        ) {
+            damageDealt = AbstractGeneHandler.staggerDamageHandler(damageDealt, entity.getEffect(Services.PLATFORM.CONTAMINATION_STAGGER()).getAmplifier());
+        }
+
         //Turtle Gene Handling
         if (
                 entity.hasEffect(Services.PLATFORM.GENE_TURTLE()) && entity.isInWaterRainOrBubble() && !pDamageSource.is(DamageTypeTags.BYPASSES_RESISTANCE)
         ) {
-            damageDealt = AbstractGeneHandler.turtleDamageHandler(pDamageAmount, entity.getEffect(Services.PLATFORM.GENE_TURTLE()).getAmplifier());
+            damageDealt = AbstractGeneHandler.turtleDamageHandler(damageDealt, entity.getEffect(Services.PLATFORM.GENE_TURTLE()).getAmplifier());
         }
 
         //Infection symptom handling
@@ -48,6 +56,20 @@ public class ImmortuosDamageLevelMixin {
                             false,
                             false
 
+                    )
+            );
+        }
+
+        //Knee Pastafication Handling
+        if (damageDealt != 0.0f && pDamageSource.is(DamageTypes.FALL) && entity.hasEffect(Services.PLATFORM.CONTAMINATION_KNEE_PASTAFICATION())) {
+            entity.addEffect(
+                    new MobEffectInstance(
+                            Services.PLATFORM.CONTAMINATION_KNEE_PASTAFICATION_ACTIVE(),
+                            100, //5 seconds
+                            entity.getEffect(Services.PLATFORM.CONTAMINATION_KNEE_PASTAFICATION()).getAmplifier(),
+                            true,
+                            false,
+                            false
                     )
             );
         }

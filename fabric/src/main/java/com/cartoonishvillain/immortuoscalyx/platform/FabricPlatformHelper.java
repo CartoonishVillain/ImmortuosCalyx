@@ -179,6 +179,36 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> CONTAMINATION_HELIOPHOBIA() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_HELIOPHOBIA.get());
+    }
+
+    @Override
+    public Holder<MobEffect> CONTAMINATION_HYDROPHOBIA() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_HYDROPHOBIA.get());
+    }
+
+    @Override
+    public Holder<MobEffect> CONTAMINATION_GENETIC_DESTABILIZATION() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_GENETIC_DESTABLIZATION.get());
+    }
+
+    @Override
+    public Holder<MobEffect> CONTAMINATION_STAGGER() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_STAGGER.get());
+    }
+
+    @Override
+    public Holder<MobEffect> CONTAMINATION_KNEE_PASTAFICATION() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_KNEE_PASTAFICATION.get());
+    }
+
+    @Override
+    public Holder<MobEffect> CONTAMINATION_KNEE_PASTAFICATION_ACTIVE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_KNEE_PASTAFICATION_TEMP.get());
+    }
+
+    @Override
     public SoundEvent HUMANOID_AMBIENT() {
         return FabricSoundEvents.HUMANAMBIENT.get();
     }

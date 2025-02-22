@@ -11,6 +11,7 @@ import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.*;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SpawnPlacementTypes;
@@ -59,6 +60,13 @@ public class NeoforgeImmortuos {
 
         float damageDealt = event.getOriginalDamage();
 
+        //Stagger Contamination Handling
+        if (
+                entity.hasEffect(Services.PLATFORM.CONTAMINATION_STAGGER())
+        ) {
+            damageDealt = AbstractGeneHandler.staggerDamageHandler(damageDealt, entity.getEffect(Services.PLATFORM.CONTAMINATION_STAGGER()).getAmplifier());
+        }
+
         //Turtle Gene Handling
         if (
                 entity.hasEffect(Services.PLATFORM.GENE_TURTLE()) && entity.isInWaterRainOrBubble() && !event.getSource().is(DamageTypeTags.BYPASSES_RESISTANCE)
@@ -91,6 +99,21 @@ public class NeoforgeImmortuos {
                     )
             );
         }
+
+        //Knee Pastafication Handling
+        if (damageDealt != 0.0f && event.getSource().is(DamageTypes.FALL) && entity.hasEffect(Services.PLATFORM.CONTAMINATION_KNEE_PASTAFICATION())) {
+            entity.addEffect(
+                    new MobEffectInstance(
+                            Services.PLATFORM.CONTAMINATION_KNEE_PASTAFICATION_ACTIVE(),
+                            100, //5 seconds
+                            entity.getEffect(Services.PLATFORM.CONTAMINATION_KNEE_PASTAFICATION()).getAmplifier(),
+                            true,
+                            false,
+                            false
+                    )
+            );
+        }
+
         event.setNewDamage(damageDealt);
 
     }

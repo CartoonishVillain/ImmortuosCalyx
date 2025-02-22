@@ -141,6 +141,12 @@ public interface IPlatformHelper {
     Holder<MobEffect> GENE_IRON_GOLEM();
     Holder<MobEffect> GENE_IRON_GOLEM_ACTIVE();
     Holder<MobEffect> GENE_FROG();
+    Holder<MobEffect> CONTAMINATION_HELIOPHOBIA();
+    Holder<MobEffect> CONTAMINATION_HYDROPHOBIA();
+    Holder<MobEffect> CONTAMINATION_GENETIC_DESTABILIZATION();
+    Holder<MobEffect> CONTAMINATION_STAGGER();
+    Holder<MobEffect> CONTAMINATION_KNEE_PASTAFICATION();
+    Holder<MobEffect> CONTAMINATION_KNEE_PASTAFICATION_ACTIVE();
 
     /**
      * Sound Effects
