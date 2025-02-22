@@ -4,9 +4,11 @@ import com.cartoonishvillain.immortuoscalyx.CommonImmortuos;
 import com.cartoonishvillain.immortuoscalyx.data.ImmortuosPlayerData;
 import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
+import net.minecraft.world.effect.MobEffectInstance;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class NeoForgeInfectionPlayerData implements ImmortuosPlayerData, Serializable {
     int infectionPercent = 0;
@@ -27,15 +29,27 @@ public class NeoForgeInfectionPlayerData implements ImmortuosPlayerData, Seriali
     }
 
     @Override
-    public boolean tickInfection() {
+    public boolean tickInfection(MobEffectInstance mobEffectInstance) {
         boolean changedPercent = false;
         if (infectionPercent > 0) {
             infectionTicks--;
             if (infectionTicks <= 0) {
-                infectionTicks = CommonImmortuos.configData.getInfectionTicksPerPercentage();;
+                infectionTicks = CommonImmortuos.configData.getInfectionTicksPerPercentage();
                 if (infectionPercent < 100) {
-                    infectionPercent++;
-                    changedPercent = true;
+                    if (mobEffectInstance != null) {
+                        Random random = new Random();
+                        if (mobEffectInstance.getAmplifier() >= random.nextInt(100)) {
+                            //Do nothing, the gene has negated this increase
+                        } else {
+                            //Gene check failed
+                            infectionPercent++;
+                            changedPercent = true;
+                        }
+                    } else {
+                        //Gene not installed to negate
+                        infectionPercent++;
+                        changedPercent = true;
+                    }
                 }
             }
         }

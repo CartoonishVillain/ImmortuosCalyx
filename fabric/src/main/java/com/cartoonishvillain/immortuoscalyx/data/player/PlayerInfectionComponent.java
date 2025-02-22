@@ -6,9 +6,11 @@ import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.effect.MobEffectInstance;
 import org.ladysnake.cca.api.v3.component.Component;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class PlayerInfectionComponent implements ImmortuosPlayerData, Component {
     private final Object provider;
@@ -31,15 +33,27 @@ public class PlayerInfectionComponent implements ImmortuosPlayerData, Component 
     }
 
     @Override
-    public boolean tickInfection() {
+    public boolean tickInfection(MobEffectInstance mobEffectInstance) {
         boolean changedPercent = false;
         if (infectionPercent > 0) {
             infectionTicks--;
             if (infectionTicks <= 0) {
                 infectionTicks = CommonImmortuos.configData.getInfectionTicksPerPercentage();
                 if (infectionPercent < 100) {
-                    infectionPercent++;
-                    changedPercent = true;
+                    if (mobEffectInstance != null) {
+                        Random random = new Random();
+                        if (mobEffectInstance.getAmplifier() >= random.nextInt(100)) {
+                            //Do nothing, the gene has negated this increase
+                        } else {
+                            //Gene check failed
+                            infectionPercent++;
+                            changedPercent = true;
+                        }
+                    } else {
+                        //Gene not installed to negate
+                        infectionPercent++;
+                        changedPercent = true;
+                    }
                 }
             }
         }

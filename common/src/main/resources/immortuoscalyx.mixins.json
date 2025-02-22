@@ -7,14 +7,14 @@
     "mixins": [
         "ImmortuosServerPlayerTick",
         "ImmortuosEffectUtilMixin",
-        "ImmortuosDamageLevelMixin",
         "ImmortuosChatMixin",
         "ImmortuosJoinMixin",
         "ImmortuosLivingEffectMixin",
         "ImmortuosPlayerAttackMixin",
         "ImmortuosDieMixin",
         "ConsumeMixin",
-        "BiomeInvoker"
+        "BiomeInvoker",
+        "ImmortuosJumpMixin"
     ],
     "client": [
     ],

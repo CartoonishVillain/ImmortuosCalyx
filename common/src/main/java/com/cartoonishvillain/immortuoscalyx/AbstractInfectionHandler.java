@@ -272,6 +272,7 @@ public class AbstractInfectionHandler {
     public static boolean isHiddenImmortuosEffect(MobEffectInstance mobEffectInstance) {
         //We want to hide all symptom effects, except for blindness. If we hide blindness, blindness doesn't work.
         if (mobEffectInstance.getEffect().value() instanceof ImmortuosEffect &&
+        mobEffectInstance.getEffect().value() != Services.PLATFORM.GENE_IRON_GOLEM_ACTIVE().value() &&
         mobEffectInstance.getEffect().value() != Services.PLATFORM.INFECTION_BLIND().value()) return true;
         else return false;
     }

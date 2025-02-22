@@ -137,6 +137,10 @@ public interface IPlatformHelper {
     Holder<MobEffect> INFECTION_CHAT();
     Holder<MobEffect> INFECTION_CONTAGION();
     Holder<MobEffect> INFECTION_CONSUMPTION();
+    Holder<MobEffect> GENE_TURTLE();
+    Holder<MobEffect> GENE_IRON_GOLEM();
+    Holder<MobEffect> GENE_IRON_GOLEM_ACTIVE();
+    Holder<MobEffect> GENE_FROG();
 
     /**
      * Sound Effects

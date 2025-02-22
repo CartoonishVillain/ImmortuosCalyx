@@ -10,6 +10,9 @@ import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.*;
+import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.VillagerTrades;
@@ -28,6 +31,7 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 
@@ -47,6 +51,48 @@ public class NeoforgeImmortuos {
         NeoVillagers.init(eventBus);
         PlayerInfectionDataAttachment.loadDataAttachment(eventBus);
         NeoForge.EVENT_BUS.register(this);
+    }
+
+    @SubscribeEvent
+    public void livingDamageEvent(LivingDamageEvent.Pre event) {
+        LivingEntity entity = event.getEntity();
+
+        float damageDealt = event.getOriginalDamage();
+
+        //Turtle Gene Handling
+        if (
+                entity.hasEffect(Services.PLATFORM.GENE_TURTLE()) && entity.isInWaterRainOrBubble() && !event.getSource().is(DamageTypeTags.BYPASSES_RESISTANCE)
+        ) {
+            damageDealt = AbstractGeneHandler.turtleDamageHandler(damageDealt, entity.getEffect(Services.PLATFORM.GENE_TURTLE()).getAmplifier());
+        }
+
+        //Infection symptom handling
+        if (
+                damageDealt == 0.0F || //If the damage is already zero, do not run
+                        event.getSource().is(DamageTypeTags.BYPASSES_ENCHANTMENTS) ||  //If the damage bypasses enchantments do not run
+                        !(entity.hasEffect(Services.PLATFORM.INFECTION_VULNERABLE()) || entity.hasEffect(Services.PLATFORM.INFECTION_RESIST()))) { // If the user doesn't have any modded resistance effect, do not run
+        } else {
+            //if none of the above is true, run the code based on the effect present
+            if (entity.hasEffect(Services.PLATFORM.INFECTION_RESIST())) damageDealt = damageDealt * 0.75f; //25% Damage reduction
+            if (entity.hasEffect(Services.PLATFORM.INFECTION_VULNERABLE())) damageDealt = damageDealt * 1.25f; //25% Damage increase
+        }
+
+        //Iron golem gene handling
+        if (damageDealt != 0.0f && entity.hasEffect(Services.PLATFORM.GENE_IRON_GOLEM())) {
+            entity.addEffect(
+                    new MobEffectInstance(
+                            Services.PLATFORM.GENE_IRON_GOLEM_ACTIVE(),
+                            100, //5 seconds
+                            entity.getEffect(Services.PLATFORM.GENE_IRON_GOLEM()).getAmplifier(),
+                            true,
+                            false,
+                            false
+
+                    )
+            );
+        }
+        event.setNewDamage(damageDealt);
+
     }
 
     @SubscribeEvent

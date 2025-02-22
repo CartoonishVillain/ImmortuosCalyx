@@ -1,9 +1,6 @@
 package com.cartoonishvillain.immortuoscalyx.register;
 
-import com.cartoonishvillain.immortuoscalyx.effects.GenericModdedEffect;
-import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosConsumptionEffect;
-import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosTemperatureCongealmentEffect;
-import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosTemperatureStabilityEffect;
+import com.cartoonishvillain.immortuoscalyx.effects.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
@@ -31,6 +28,13 @@ public class NeoEffects {
     public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_CHAT;
     public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_CONTAGION;
     public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_CONSUME;
+    public static DeferredHolder<MobEffect, MobEffect> GENE_IMMORTUOS;
+    public static DeferredHolder<MobEffect, MobEffect> GENE_ZOMBIE;
+    public static DeferredHolder<MobEffect, MobEffect> GENE_OCELOT;
+    public static DeferredHolder<MobEffect, MobEffect> GENE_TURTLE;
+    public static DeferredHolder<MobEffect, MobEffect> GENE_IRON_GOLEM;
+    public static DeferredHolder<MobEffect, MobEffect> GENE_TEMP_IRON_GOLEM;
+    public static DeferredHolder<MobEffect, MobEffect> GENE_FROG;
 
 
     private static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, Constants.MOD_ID);
@@ -53,6 +57,19 @@ public class NeoEffects {
         IMMORTUOS_CHAT = MOB_EFFECTS.register("immortuos_chat", () -> new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
         IMMORTUOS_CONTAGION = MOB_EFFECTS.register("immortuos_contagion", () -> new GenericModdedEffect(MobEffectCategory.NEUTRAL, 4587519));
         IMMORTUOS_CONSUME = MOB_EFFECTS.register("immortuos_consumption", () -> new ImmortuosConsumptionEffect(MobEffectCategory.HARMFUL, 4587519));
+        GENE_IMMORTUOS = MOB_EFFECTS.register("immortuos_gene_immortuos", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4587519));
+        GENE_ZOMBIE = MOB_EFFECTS.register("immortuos_gene_zombie", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4587519).addAttributeModifier(
+                Attributes.ARMOR, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_zombie"), 1, AttributeModifier.Operation.ADD_VALUE
+        ));
+        GENE_OCELOT = MOB_EFFECTS.register("immortuos_gene_ocelot", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4587519).addAttributeModifier(
+                Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_ocelot"), 0.002, AttributeModifier.Operation.ADD_VALUE
+        ));
+        GENE_TURTLE = MOB_EFFECTS.register("immortuos_gene_turtle", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4587519));
+        GENE_IRON_GOLEM = MOB_EFFECTS.register("immortuos_gene_iron_golem", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519));
+        GENE_TEMP_IRON_GOLEM = MOB_EFFECTS.register("immortuos_gene_active_iron_golem", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519).addAttributeModifier(
+                Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_iron_golem"), 1, AttributeModifier.Operation.ADD_VALUE
+        ));
+        GENE_FROG = MOB_EFFECTS.register("immortuos_gene_frog", () ->  new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519));
         MOB_EFFECTS.register(modbus);
     }
 }

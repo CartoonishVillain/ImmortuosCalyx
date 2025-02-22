@@ -1,6 +1,7 @@
 package com.cartoonishvillain.immortuoscalyx.data;
 
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
+import net.minecraft.world.effect.MobEffectInstance;
 
 import java.util.ArrayList;
 
@@ -27,7 +28,7 @@ public interface ImmortuosPlayerData {
      * When infection ticks is less than or equal to 0, reset infection ticks to config value and increment infectionPercent
      * @return true if percentage changes.
      */
-    boolean tickInfection();
+    boolean tickInfection(MobEffectInstance mobEffectInstance);
 
     int getTicks();
     void setTicks(int ticks);

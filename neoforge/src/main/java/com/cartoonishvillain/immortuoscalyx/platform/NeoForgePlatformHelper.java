@@ -14,6 +14,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.item.Item;
@@ -79,7 +80,14 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public boolean tickInfection(ServerPlayer serverPlayer) {
-        return serverPlayer.getData(INFECTION_DATA).tickInfection();
+        MobEffectInstance instance = null;
+        if (serverPlayer.hasEffect(
+                BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_IMMORTUOS.get())
+        )) {
+            instance = serverPlayer.getEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_IMMORTUOS.get()));
+        }
+
+        return serverPlayer.getData(INFECTION_DATA).tickInfection(instance);
     }
 
     @Override
@@ -155,6 +163,26 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public Holder<MobEffect> INFECTION_CONSUMPTION() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_CONSUME.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_TURTLE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_TURTLE.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_IRON_GOLEM() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_IRON_GOLEM.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_IRON_GOLEM_ACTIVE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_TEMP_IRON_GOLEM.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_FROG() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_FROG.get());
     }
 
     @Override
