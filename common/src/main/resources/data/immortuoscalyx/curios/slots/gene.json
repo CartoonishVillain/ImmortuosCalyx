@@ -1,5 +1,6 @@
 {
   "replace": false,
   "size": 0,
-  "icon": "immortuoscalyx:slot/gene"
+  "icon": "immortuoscalyx:slot/gene",
+  "render_toggle": false
 }

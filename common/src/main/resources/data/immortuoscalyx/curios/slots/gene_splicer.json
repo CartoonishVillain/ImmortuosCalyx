@@ -1,4 +1,5 @@
 {
   "replace": false,
-  "icon": "immortuoscalyx:slot/gene_splicer"
+  "icon": "immortuoscalyx:slot/gene_splicer",
+  "render_toggle": false
 }

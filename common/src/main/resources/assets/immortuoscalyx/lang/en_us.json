@@ -57,5 +57,12 @@
   "item.immortuoscalyx.syringe": "Syringe",
   "item.immortuoscalyx.infected_diver_spawn_egg": "Infected Diver Spawn Egg",
   "item.immortuoscalyx.human_spawn_egg": "Infected Human Spawn Egg",
+  "item.immortuoscalyx.gene_splicer": "Gene Splicer",
+  "item.immortuoscalyx.advanced_gene_splicer": "Advanced Gene Splicer",
+  "curios.identifier.gene_splicer": "Gene Splicer",
+  "trinkets.slot.head.gene_splicer": "Gene Splicer",
+  "curios.modifiers.gene_splicer": "Adds slots:",
+  "curios.identifier.gene": "Gene",
+  "trinkets.slot.head.gene": "Gene",
   "itemGroup.immortuoscalyx.immortuos": "Immortuos Calyx"
 }
