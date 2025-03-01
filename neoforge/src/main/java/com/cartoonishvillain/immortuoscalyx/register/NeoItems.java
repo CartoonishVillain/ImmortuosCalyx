@@ -1,6 +1,7 @@
 package com.cartoonishvillain.immortuoscalyx.register;
 
 import com.cartoonishvillain.immortuoscalyx.Constants;
+import com.cartoonishvillain.immortuoscalyx.curios.GeneSplicer;
 import com.cartoonishvillain.immortuoscalyx.effects.GenericModdedEffect;
 import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosConsumptionEffect;
 import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosTemperatureCongealmentEffect;
@@ -23,6 +24,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import java.util.ArrayList;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 public class NeoItems {
     public static DeferredHolder<Item, Item> ANTI_PARASITIC;
@@ -34,6 +36,9 @@ public class NeoItems {
 
     public static DeferredHolder<Item, Item> DIVER_SPAWN_EGG;
     public static DeferredHolder<Item, Item> HUMAN_SPAWN_EGG;
+
+    public static DeferredHolder<Item, Item> GENE_SPLICER;
+    public static DeferredHolder<Item, Item> ADVANCED_GENE_SPLICER;
 
 
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, Constants.MOD_ID);
@@ -47,6 +52,8 @@ public class NeoItems {
         SYRINGE = ITEMS.register("syringe", () -> new SyringeItems(new Item.Properties(), Syringes.EMPTY));
         DIVER_SPAWN_EGG = ITEMS.register("infected_diver_spawn_egg", () -> new DeferredSpawnEggItem(NeoEntity.INFECTEDDIVER, 2565927, 1973620, new Item.Properties()));
         HUMAN_SPAWN_EGG = ITEMS.register("human_spawn_egg", () -> new DeferredSpawnEggItem(NeoEntity.INFECTEDHUMAN, 2565927, 5065244, new Item.Properties()));
+        GENE_SPLICER = ITEMS.register("gene_splicer", () -> new GeneSplicer(new Item.Properties(), 1));
+        ADVANCED_GENE_SPLICER = ITEMS.register("advanced_gene_splicer", () -> new GeneSplicer(new Item.Properties(), 2));
         ITEMS.register(modbus);
     }
 }

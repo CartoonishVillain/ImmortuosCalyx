@@ -5,6 +5,7 @@ import com.cartoonishvillain.immortuoscalyx.client.RenderDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.client.RenderInfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.commands.GetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
+import com.cartoonishvillain.immortuoscalyx.curios.GeneSplicer;
 import com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionDataAttachment;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
@@ -17,6 +18,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.VillagerTrades;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -26,6 +28,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.BasicItemListing;
 import net.neoforged.neoforge.common.NeoForge;
@@ -35,6 +38,7 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
+import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.List;
 
@@ -165,6 +169,12 @@ public class NeoforgeImmortuos {
         public static void spawnPlacements(RegisterSpawnPlacementsEvent event) {
             event.register(NeoEntity.INFECTEDHUMAN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
             event.register(NeoEntity.INFECTEDDIVER.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, InfectedDiverEntity::checkDiverSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+        }
+
+        @SubscribeEvent
+        public static void commonEvent(FMLCommonSetupEvent event) {
+//            CuriosApi.registerCurio(NeoItems.GENE_SPLICER.get(), new GeneSplicer(new Item.Properties(), 1));
+//            CuriosApi.registerCurio(NeoItems.ADVANCED_GENE_SPLICER.get(), new GeneSplicer(new Item.Properties(), 1));
         }
     }
 

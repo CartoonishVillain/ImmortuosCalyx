@@ -1,0 +1,4 @@
+{
+  "entities": ["player"],
+  "slots": ["gene_splicer", "gene"]
+}
