@@ -1,0 +1,10 @@
+{
+  "name": "G.E.M.",
+  "landing_text": "Genetic experimentation, parasites, and you! - The G.E.M. (Genetic Explanation Material) has been released to the public after years of internal development, brought to you by Rusk Co.",
+  "version": 1,
+  "creative_tab": "immortuoscalyx:immortuos",
+  "book_texture": "patchouli:textures/gui/book_gray.png",
+  "model": "immortuoscalyx:immortuos_book",
+  "filler_texture": "immortuoscalyx:textures/item/immortuos_eggs.png",
+  "use_resource_pack": true
+}

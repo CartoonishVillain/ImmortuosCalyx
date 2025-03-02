@@ -171,6 +171,33 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public void editGeneSlot(ServerPlayer serverPlayer, String slot, String gene) {
+        if (serverPlayer.getMainHandItem().getItem() == NeoItems.IDENTIFIED_GENE.get()) {
+            GeneComponent.GeneRecord mainGeneData = serverPlayer.getMainHandItem().getComponents().getOrDefault(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord("", "", "", 0, false));
+            switch (slot) {
+                default -> {
+                    serverPlayer.getMainHandItem().set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(gene, mainGeneData.geneValue2(), mainGeneData.contaminationValue(), mainGeneData.quality(), mainGeneData.hasBeenEquipped()));
+                    break;
+                }
+                case "slot2" -> {
+                    serverPlayer.getMainHandItem().set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(mainGeneData.geneValue1(), gene, mainGeneData.contaminationValue(), mainGeneData.quality(), mainGeneData.hasBeenEquipped()));
+                }
+                case "contamination" -> {
+                    serverPlayer.getMainHandItem().set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(mainGeneData.geneValue1(), mainGeneData.geneValue2(), gene, mainGeneData.quality(), mainGeneData.hasBeenEquipped()));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void setGeneQuality(ServerPlayer serverPlayer, int quality) {
+        if (serverPlayer.getMainHandItem().getItem() == NeoItems.IDENTIFIED_GENE.get()) {
+            GeneComponent.GeneRecord mainGeneData = serverPlayer.getMainHandItem().getComponents().getOrDefault(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord("", "", "", 0, false));
+            serverPlayer.getMainHandItem().set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(mainGeneData.geneValue1(), mainGeneData.geneValue2(), mainGeneData.contaminationValue(), quality, mainGeneData.hasBeenEquipped()));
+        }
+    }
+
+    @Override
     public Holder<MobEffect> INFECTION_BLIND() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_BLIND.get());
     }

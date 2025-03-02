@@ -140,6 +140,21 @@ public interface IPlatformHelper {
     void tryGeneCombination(Player pPlayer, ItemStack mainStack, ItemStack offStack);
 
     /**
+     * Edits the slot of a gene via command
+     * @param serverPlayer - The player to check the main hand of
+     * @param slot - The slot to update
+     * @param gene - The gene (or contamination) to fill the slot
+     */
+    void editGeneSlot(ServerPlayer serverPlayer, String slot, String gene);
+
+    /**
+     * Edits the gene quality of a gene via command
+     * @param serverPlayer - The player to check the main hand of
+     * @param quality - The quality of the gene
+     */
+    void setGeneQuality(ServerPlayer serverPlayer, int quality);
+
+    /**
      * MOB EFFECTS
      */
     Holder<MobEffect> INFECTION_BLIND();

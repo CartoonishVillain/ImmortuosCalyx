@@ -22,9 +22,17 @@ dependencies {
     include "org.ladysnake.cardinal-components-api:cardinal-components-item:${project.cca_version}"
     modImplementation "dev.emi:trinkets:${trinkets_version}"
     modImplementation "maven.modrinth:incapacitated:1.9.3-fabric,1.21.1"
+    modImplementation "maven.modrinth:patchouli:1.21-87-fabric"
+    implementation "me.zeroeightsix:fiber:0.23.0-2"
 }
 
 repositories {
+    maven {
+        url = "https://maven.modmuss50.me/"
+    }
+
+    maven { url 'https://maven.blamejared.com' }
+
     maven {
         name = "Ladysnake Mods"
         url = 'https://maven.ladysnake.org/releases'

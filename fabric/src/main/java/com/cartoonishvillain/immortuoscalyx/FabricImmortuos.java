@@ -2,6 +2,7 @@ package com.cartoonishvillain.immortuoscalyx;
 
 import com.cartoonishvillain.immortuoscalyx.commands.GetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.commands.ImmortuosConfigCommands;
+import com.cartoonishvillain.immortuoscalyx.commands.SetGeneCommands;
 import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
@@ -36,10 +37,10 @@ public class FabricImmortuos implements ModInitializer {
         FabricSoundEvents.initSounds();
         FabricEntity.initEntity();
         FabricBlocksAndBlockItems.init();
-        FabricVillagers.initVillager();
         FabricItems.init();
         FabricTab.init();
         FabricItemComponents.initComponents();
+        FabricVillagers.initVillager();
 
         Predicate<BiomeSelectionContext> spawnPredicate = overWorldNoOceanNoGoZones();
         Predicate<BiomeSelectionContext> oceanPredicate = onlyOcean();
@@ -52,6 +53,7 @@ public class FabricImmortuos implements ModInitializer {
             SetInfectionCommands.register(dispatcher);
             GetInfectionCommands.register(dispatcher);
             ImmortuosConfigCommands.register(dispatcher);
+            SetGeneCommands.register(dispatcher);
         }));
 
         ClientLifecycleEvents.CLIENT_STARTED.register((minecraft) -> {

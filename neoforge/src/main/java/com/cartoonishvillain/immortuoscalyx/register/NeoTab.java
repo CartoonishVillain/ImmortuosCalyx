@@ -34,6 +34,7 @@ public class NeoTab {
                     output.accept(NeoItems.UNIDENTIFIED_GENE.get());
                     output.accept(NeoItems.IDENTIFIED_GENE.get());
                     output.accept(NeoItems.GENE_RIPPER.get());
+                    output.accept(NeoBlocksAndBlockItems.GENE_ENCODERITEM.get());
                 }))
                 .build());
         TAB.register(eventBus);

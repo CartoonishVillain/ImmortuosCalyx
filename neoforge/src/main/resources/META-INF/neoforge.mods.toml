@@ -28,6 +28,18 @@ type="required" #mandatory (Can be one of "required", "optional", "incompatible"
 versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
+[[dependencies.${mod_id}]]
+modId = "patchouli"
+type="optional" #mandatory (Can be one of "required", "optional", "incompatible" or "discouraged")
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.${mod_id}]]
+modId = "incapacitated"
+type="optional" #mandatory (Can be one of "required", "optional", "incompatible" or "discouraged")
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
 [[accessTransformers]]
 ## The file is relative to the output directory of the resources, or the root path inside the jar when compiled
 ## The 'resources' directory represents the root output directory of the resources

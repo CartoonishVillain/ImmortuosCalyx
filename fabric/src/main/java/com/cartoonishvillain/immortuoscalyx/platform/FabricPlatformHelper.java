@@ -165,6 +165,33 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public void editGeneSlot(ServerPlayer serverPlayer, String slot, String gene) {
+        if (serverPlayer.getMainHandItem().getItem() == FabricItems.IDENTIFIED_GENE.get()) {
+            GeneItemComponent.GeneData mainGeneData = serverPlayer.getMainHandItem().getComponents().getOrDefault(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData("", "", "", 0, false));
+            switch (slot) {
+                default -> {
+                    serverPlayer.getMainHandItem().set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(gene, mainGeneData.geneValue2(), mainGeneData.contaminationValue(), mainGeneData.quality(), mainGeneData.previouslyEquipped()));
+                    break;
+                }
+                case "slot2" -> {
+                    serverPlayer.getMainHandItem().set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(mainGeneData.geneValue1(), gene, mainGeneData.contaminationValue(), mainGeneData.quality(), mainGeneData.previouslyEquipped()));
+                }
+                case "contamination" -> {
+                    serverPlayer.getMainHandItem().set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(mainGeneData.geneValue1(), mainGeneData.geneValue2(), mainGeneData.contaminationValue(), mainGeneData.quality(), mainGeneData.previouslyEquipped()));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void setGeneQuality(ServerPlayer serverPlayer, int quality) {
+        if (serverPlayer.getMainHandItem().getItem() == FabricItems.IDENTIFIED_GENE.get()) {
+            GeneItemComponent.GeneData mainGeneData = serverPlayer.getMainHandItem().getComponents().getOrDefault(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData("", "", "", 0, false));
+            serverPlayer.getMainHandItem().set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(mainGeneData.geneValue1(), mainGeneData.geneValue2(), mainGeneData.contaminationValue(), quality, mainGeneData.previouslyEquipped()));
+        }
+    }
+
+    @Override
     public Holder<MobEffect> INFECTION_BLIND() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_BLIND.get());
     }

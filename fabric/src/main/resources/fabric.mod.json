@@ -8,8 +8,7 @@
         "${mod_author}"
     ],
     "contact": {
-        "homepage": "https://fabricmc.net/",
-        "sources": "https://github.com/FabricMC/fabric-example-mod"
+        "sources": "https://github.com/CartoonishVillain/ImmortuosCalyx"
     },
     "license": "${license}",
     "icon": "${mod_id}.png",
@@ -35,7 +34,11 @@
         "minecraft": "${minecraft_version}",
         "java": ">=17"
     },
+    "recommends": {
+        "patchouli": "*"
+    },
     "suggests": {
+        "incapacitated": "*"
     },
 
     "custom": {

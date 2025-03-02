@@ -28,6 +28,7 @@ public class FabricTab {
                 output.accept(FabricItems.UNIDENTIFIED_GENE.get());
                 output.accept(FabricItems.IDENTIFIED_GENE.get());
                 output.accept(FabricItems.GENE_RIPPER.get());
+                output.accept(FabricBlocksAndBlockItems.GENE_ENCODERITEM.get());
             }))
             .build();
 

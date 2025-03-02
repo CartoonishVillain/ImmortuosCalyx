@@ -4,6 +4,8 @@ package com.cartoonishvillain.immortuoscalyx;
 import com.cartoonishvillain.immortuoscalyx.client.RenderDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.client.RenderInfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.commands.GetInfectionCommands;
+import com.cartoonishvillain.immortuoscalyx.commands.ImmortuosConfigCommands;
+import com.cartoonishvillain.immortuoscalyx.commands.SetGeneCommands;
 import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionDataAttachment;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
@@ -11,6 +13,7 @@ import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.*;
 import com.cartoonishvillain.incapacitated.Incapacitated;
+import com.cartoonishvillain.incapacitated.commands.ConfigCommands;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -125,6 +128,8 @@ public class NeoforgeImmortuos {
     public void commandLoad(RegisterCommandsEvent event){
         SetInfectionCommands.register(event.getDispatcher());
         GetInfectionCommands.register(event.getDispatcher());
+        ImmortuosConfigCommands.register(event.getDispatcher());
+        SetGeneCommands.register(event.getDispatcher());
     }
 
     @SubscribeEvent
@@ -147,19 +152,77 @@ public class NeoforgeImmortuos {
         List<VillagerTrades.ItemListing> trades5 = event.getTrades().get(5);
 
         if (event.getType() == NeoVillagers.GENETIC_RESEARCHER.get()) {
-            trades.add(
-                    new BasicItemListing(
-                            new ItemStack(Items.STICK, 32),
-                            new ItemStack(Items.EMERALD, 1),
-                            10, 8 , 0.02f)
+            trades.addAll(
+                    List.of(
+                            new BasicItemListing(
+                                    new ItemStack(NeoItems.IMMORTUOS_EGGS, 1),
+                                    new ItemStack(Items.EMERALD, 1),
+                                    16, 2, 0.02f),
+                            new BasicItemListing(
+                                    5,
+                                    new ItemStack(Items.HONEYCOMB, 3),
+                                    16, 2, 0.02f
+                            )
+                    )
+            );
+            trades2.addAll(
+                    List.of(
+                            new BasicItemListing(
+                                    3,
+                                    new ItemStack(NeoItems.ANTI_PARASITIC.get(), 1),
+                                    16, 10, 0.02f
+                            ),
+                            new BasicItemListing(
+                                    5,
+                                    new ItemStack(NeoItems.GENE_RIPPER.get(), 1),
+                                    3, 5, 0.02f
+                            )
+                    )
+            );
+            trades3.addAll(
+                    List.of(
+                            new BasicItemListing(
+                                    6,
+                                    new ItemStack(NeoBlocksAndBlockItems.SCANNER_BLOCKITEM.get(), 1),
+                                    6, 20, 0.02f
+                            ),
+                            new BasicItemListing(
+                                    26,
+                                    new ItemStack(NeoItems.GENE_SPLICER.get(), 1),
+                                    2, 10, 0.02f
+                            )
+                    )
+            );
+            trades4.addAll(
+                    List.of(
+                            new BasicItemListing(
+                                    12,
+                                    new ItemStack(NeoItems.CALYXANIDE.get(), 1),
+                                    12, 30,  0.02f
+                            ),
+                            new BasicItemListing(
+                                    10,
+                                    new ItemStack(NeoItems.IMMORTUOS_SAMPLE.get(), 1),
+                                    12, 15, 0.02f
+                            )
+                    )
+            );
+            trades5.addAll(
+                    List.of(
+                            new BasicItemListing(
+                                    56,
+                                    new ItemStack(NeoItems.ADVANCED_GENE_SPLICER.get(), 1),
+                                    1, 20, 0.05f
+                            ),
+                            new BasicItemListing(
+                                    17,
+                                    new ItemStack(NeoItems.UNIDENTIFIED_GENE.get(), 1),
+                                    16, 15, 0.05f
+                            )
+                    )
             );
         }
     }
-
-    //VillagerTrades.TRADES.put(
-    //                GENETIC_RESEARCHER.get(),
-    //                new Int2ObjectOpenHashMap(ImmutableMap.of(1, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(Items.STICK, 32, 16, 2), new VillagerTrades.ItemsForEmeralds(Items.ARROW, 1, 16, 1), new VillagerTrades.ItemsAndEmeraldsToItems(Blocks.GRAVEL, 10, 1, Items.FLINT, 10, 12, 1, 0.05F)}, 2, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(Items.FLINT, 26, 12, 10), new VillagerTrades.ItemsForEmeralds(Items.BOW, 2, 1, 5)}, 3, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(Items.STRING, 14, 16, 20), new VillagerTrades.ItemsForEmeralds(Items.CROSSBOW, 3, 1, 10)}, 4, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(Items.FEATHER, 24, 16, 30), new VillagerTrades.EnchantedItemForEmeralds(Items.BOW, 2, 3, 15)}, 5, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(Items.TRIPWIRE_HOOK, 8, 12, 30), new VillagerTrades.EnchantedItemForEmeralds(Items.CROSSBOW, 3, 3, 15), new VillagerTrades.TippedArrowForItemsAndEmeralds(Items.ARROW, 5, Items.TIPPED_ARROW, 5, 2, 12, 30)}))
-    //        );
 
     @EventBusSubscriber(modid = Constants.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
     public static class ModEvents {

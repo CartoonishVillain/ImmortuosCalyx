@@ -31,6 +31,7 @@ dependencies {
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
 
     implementation "maven.modrinth:incapacitated:1.9.3-neoforge,1.21.1"
+    implementation "maven.modrinth:patchouli:1.21-87-neoforge"
 }
 
 neoForge {

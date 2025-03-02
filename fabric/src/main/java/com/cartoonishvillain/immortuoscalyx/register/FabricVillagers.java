@@ -36,7 +36,13 @@ public class FabricVillagers {
 
         VillagerTrades.TRADES.put(
                 FabricVillagers.GENETIC_RESEARCHER.get(),
-                new Int2ObjectOpenHashMap(ImmutableMap.of(1, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(Items.STICK, 32, 16, 2), new VillagerTrades.ItemsForEmeralds(Items.ARROW, 1, 16, 1), new VillagerTrades.ItemsAndEmeraldsToItems(Blocks.GRAVEL, 10, 1, Items.FLINT, 10, 12, 1, 0.05F)}, 2, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(Items.FLINT, 26, 12, 10), new VillagerTrades.ItemsForEmeralds(Items.BOW, 2, 1, 5)}, 3, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(Items.STRING, 14, 16, 20), new VillagerTrades.ItemsForEmeralds(Items.CROSSBOW, 3, 1, 10)}, 4, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(Items.FEATHER, 24, 16, 30), new VillagerTrades.EnchantedItemForEmeralds(Items.BOW, 2, 3, 15)}, 5, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(Items.TRIPWIRE_HOOK, 8, 12, 30), new VillagerTrades.EnchantedItemForEmeralds(Items.CROSSBOW, 3, 3, 15), new VillagerTrades.TippedArrowForItemsAndEmeralds(Items.ARROW, 5, Items.TIPPED_ARROW, 5, 2, 12, 30)}))
+                new Int2ObjectOpenHashMap(
+                        ImmutableMap.of(
+                                1, new VillagerTrades.ItemListing[]{new VillagerTrades.EmeraldForItems(FabricItems.IMMORTUOS_EGGS.get(), 1, 16, 2), new VillagerTrades.ItemsForEmeralds(Items.HONEYCOMB, 5, 3, 2)},
+                                2, new VillagerTrades.ItemListing[]{new VillagerTrades.ItemsForEmeralds(FabricItems.ANTI_PARASITIC.get(), 3, 1, 10), new VillagerTrades.ItemsForEmeralds(FabricItems.GENE_RIPPER.get(), 5, 1, 5)},
+                                3, new VillagerTrades.ItemListing[]{new VillagerTrades.ItemsForEmeralds(FabricBlocksAndBlockItems.SCANNER_BLOCKITEM.get(), 6, 1, 20), new VillagerTrades.ItemsForEmeralds(FabricItems.GENE_SPLICER.get(), 26, 1, 10)},
+                                4, new VillagerTrades.ItemListing[]{new VillagerTrades.ItemsForEmeralds(FabricItems.CALYXANIDE.get(), 12, 1, 30), new VillagerTrades.ItemsForEmeralds(FabricItems.IMMORTUOS_SAMPLE.get(), 10, 1, 15)},
+                                5, new VillagerTrades.ItemListing[]{new VillagerTrades.ItemsForEmeralds(FabricItems.ADVANCED_GENE_SPLICER.get(), 56, 1, 30), new VillagerTrades.ItemsForEmeralds(FabricItems.UNIDENTIFIED_GENE.get(), 17, 1, 15)}))
         );
     }
 
