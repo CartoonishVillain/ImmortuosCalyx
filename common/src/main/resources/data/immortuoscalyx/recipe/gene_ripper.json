@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " #C",
+    "#iC",
+    " #C"
+  ],
+  "key": {
+    "C": {
+      "item": "immortuoscalyx:syringe"
+    },
+    "i": {
+      "item": "minecraft:piston"
+    },
+    "#": {
+      "item": "minecraft:redstone"
+    }
+  },
+  "result": {
+    "id": "immortuoscalyx:gene_ripper",
+    "count": 1
+  }
+}

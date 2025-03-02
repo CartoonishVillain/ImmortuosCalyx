@@ -10,6 +10,7 @@
         "ImmortuosChatMixin",
         "ImmortuosJoinMixin",
         "ImmortuosLivingEffectMixin",
+        "ImmortuosLivingEntityHarvestMixin",
         "ImmortuosPlayerAttackMixin",
         "ImmortuosDieMixin",
         "ConsumeMixin",

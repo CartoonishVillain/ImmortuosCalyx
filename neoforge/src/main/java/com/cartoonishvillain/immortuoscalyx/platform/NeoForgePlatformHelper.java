@@ -379,4 +379,9 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     public Item IDENTIFIED_GENE() {
         return NeoItems.IDENTIFIED_GENE.get();
     }
+
+    @Override
+    public Item GENE_RIPPER() {
+        return NeoItems.GENE_RIPPER.get();
+    }
 }

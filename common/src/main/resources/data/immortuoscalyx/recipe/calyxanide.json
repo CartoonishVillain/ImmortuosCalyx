@@ -2,28 +2,28 @@
   "type": "minecraft:crafting_shaped",
   "pattern": [
     "hg ",
-    "GiO",
+    "aiO",
     " gh"
   ],
   "key": {
     "g": {
       "item": "minecraft:gold_ingot"
     },
-    "G": {
-      "item": "immortuoscalyx:antiparasitic"
+    "a": {
+      "item": "immortuoscalyx:anti_parasitic"
     },
     "i": {
       "item": "minecraft:iron_ingot"
     },
     "O": {
-      "item": "immortuoscalyx:immortuoseggs"
+      "item": "immortuoscalyx:immortuos_eggs"
     },
     "h": {
       "item": "minecraft:honey_block"
     }
   },
   "result": {
-    "item": "immortuoscalyx:calyxanide",
+    "id": "immortuoscalyx:calyxanide",
     "count": 1
   }
 }

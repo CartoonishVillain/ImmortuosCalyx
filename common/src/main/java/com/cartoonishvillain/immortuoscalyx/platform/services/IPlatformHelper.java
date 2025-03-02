@@ -196,4 +196,5 @@ public interface IPlatformHelper {
     Item HEALTH_SCANNER();
     Item UNIDENTIFIED_GENE();
     Item IDENTIFIED_GENE();
+    Item GENE_RIPPER();
 }

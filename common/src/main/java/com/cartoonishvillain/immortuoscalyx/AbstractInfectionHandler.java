@@ -12,9 +12,12 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
@@ -272,6 +275,23 @@ public class AbstractInfectionHandler {
         mobEffectInstance.getEffect().value() != Services.PLATFORM.GENE_IRON_GOLEM_ACTIVE().value() &&
         mobEffectInstance.getEffect().value() != Services.PLATFORM.INFECTION_BLIND().value()) return true;
         else return false;
+    }
+
+    public static void checkForHarvest(LivingEntity entity, DamageSource source) {
+        if ((source.getEntity() instanceof Player || source.getDirectEntity() instanceof Player) && !entity.level().isClientSide) {
+            Player player;
+            if (source.getEntity() instanceof  Player) player = (Player) source.getEntity();
+            else player = (Player) source.getDirectEntity();
+
+            if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == Services.PLATFORM.GENE_RIPPER() ||
+            player.getItemInHand(InteractionHand.OFF_HAND).getItem() == Services.PLATFORM.GENE_RIPPER()) {
+                if (player.getRandom().nextInt(100) < 5) {
+                    ItemEntity itemEntity = new ItemEntity(player.level(), entity.getX(), entity.getY(), entity.getZ(), new ItemStack(Services.PLATFORM.UNIDENTIFIED_GENE()));
+                    itemEntity.setPos(entity.getX(), entity.getY(), entity.getZ());
+                    entity.level().addFreshEntity(itemEntity);
+                }
+            }
+        }
     }
 
     public static void convertPlayer(ServerPlayer serverPlayer, DamageSource damageSource) {

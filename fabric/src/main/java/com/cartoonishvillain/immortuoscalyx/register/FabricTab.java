@@ -23,6 +23,11 @@ public class FabricTab {
                 output.accept(FabricItems.IMMORTUOS_EGGS.get());
                 output.accept(FabricItems.DIVER_SPAWN_EGG.get());
                 output.accept(FabricItems.HUMAN_SPAWN_EGG.get());
+                output.accept(FabricItems.GENE_SPLICER.get());
+                output.accept(FabricItems.ADVANCED_GENE_SPLICER.get());
+                output.accept(FabricItems.UNIDENTIFIED_GENE.get());
+                output.accept(FabricItems.IDENTIFIED_GENE.get());
+                output.accept(FabricItems.GENE_RIPPER.get());
             }))
             .build();
 

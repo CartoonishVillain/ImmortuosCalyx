@@ -29,6 +29,11 @@ public class NeoTab {
                     output.accept(NeoItems.IMMORTUOS_EGGS.get());
                     output.accept(NeoItems.DIVER_SPAWN_EGG.get());
                     output.accept(NeoItems.HUMAN_SPAWN_EGG.get());
+                    output.accept(NeoItems.GENE_SPLICER.get());
+                    output.accept(NeoItems.ADVANCED_GENE_SPLICER.get());
+                    output.accept(NeoItems.UNIDENTIFIED_GENE.get());
+                    output.accept(NeoItems.IDENTIFIED_GENE.get());
+                    output.accept(NeoItems.GENE_RIPPER.get());
                 }))
                 .build());
         TAB.register(eventBus);

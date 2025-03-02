@@ -373,4 +373,9 @@ public class FabricPlatformHelper implements IPlatformHelper {
     public Item IDENTIFIED_GENE() {
         return FabricItems.IDENTIFIED_GENE.get();
     }
+
+    @Override
+    public Item GENE_RIPPER() {
+        return FabricItems.GENE_RIPPER.get();
+    }
 }

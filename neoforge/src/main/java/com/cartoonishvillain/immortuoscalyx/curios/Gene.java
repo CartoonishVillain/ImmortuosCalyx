@@ -67,7 +67,7 @@ public class Gene extends Item implements ICurioItem {
     @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
-        GeneComponent.GeneRecord geneData = stack.getComponents().getOrDefault(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord("", "", "", 0, true));
+        GeneComponent.GeneRecord geneData = stack.getComponents().getOrDefault(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord("", "", "", 0, false));
 
         List<Component> addedComponents = new ArrayList<>();
         if (!geneData.geneValue1().isBlank()) {
