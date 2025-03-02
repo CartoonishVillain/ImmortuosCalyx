@@ -21,6 +21,7 @@ dependencies {
     include "org.ladysnake.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
     include "org.ladysnake.cardinal-components-api:cardinal-components-item:${project.cca_version}"
     modImplementation "dev.emi:trinkets:${trinkets_version}"
+    modImplementation "maven.modrinth:incapacitated:1.9.3-fabric,1.21.1"
 }
 
 repositories {
@@ -32,6 +33,20 @@ repositories {
     maven {
         name = "TerraformersMC"
         url = "https://maven.terraformersmc.com/"
+    }
+
+    repositories {
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = "Modrinth"
+                    url = "https://api.modrinth.com/maven"
+                }
+            }
+            filter {
+                includeGroup "maven.modrinth"
+            }
+        }
     }
 }
 

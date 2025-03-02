@@ -10,6 +10,7 @@ import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.*;
+import com.cartoonishvillain.incapacitated.Incapacitated;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -129,6 +130,12 @@ public class NeoforgeImmortuos {
     @SubscribeEvent
     public void serverAboutToStartEvent(ServerAboutToStartEvent event) {
         NeoStructureGen.addNewVillageBuilding(event);
+        if (Services.PLATFORM.isModLoaded("incapacitated")) {
+            Incapacitated.instantKillDamageSourcesMessageID.add("infection_damage");
+            Incapacitated.instantKillDamageSourcesMessageID.add("organ_damage");
+            Incapacitated.noMercyDamageSourcesMessageID.add("infection_damage");
+            Incapacitated.noMercyDamageSourcesMessageID.add("organ_damage");
+        }
     }
 
     @SubscribeEvent

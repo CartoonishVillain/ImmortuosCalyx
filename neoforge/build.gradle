@@ -8,6 +8,20 @@ repositories {
         name = "Illusive Soulworks maven"
         url = "https://maven.theillusivec4.top/"
     }
+
+    repositories {
+        exclusiveContent {
+            forRepository {
+                maven {
+                    name = "Modrinth"
+                    url = "https://api.modrinth.com/maven"
+                }
+            }
+            filter {
+                includeGroup "maven.modrinth"
+            }
+        }
+    }
 }
 
 dependencies {
@@ -15,6 +29,8 @@ dependencies {
     compileOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}:api"
     // Use the full Curios API jar at runtime
     runtimeOnly "top.theillusivec4.curios:curios-neoforge:${curios_version}"
+
+    implementation "maven.modrinth:incapacitated:1.9.3-neoforge,1.21.1"
 }
 
 neoForge {

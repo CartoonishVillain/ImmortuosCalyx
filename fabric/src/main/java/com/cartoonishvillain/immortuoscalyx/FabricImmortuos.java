@@ -6,6 +6,7 @@ import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.*;
+import com.cartoonishvillain.incapacitated.Incapacitated;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
@@ -59,6 +60,12 @@ public class FabricImmortuos implements ModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTING.register((event) -> {
             FabricStructureGen.addNewVillageBuilding(event);
+            if (Services.PLATFORM.isModLoaded("incapacitated")) {
+                Incapacitated.instantKillDamageSourcesMessageID.add("infection_damage");
+                Incapacitated.instantKillDamageSourcesMessageID.add("organ_damage");
+                Incapacitated.noMercyDamageSourcesMessageID.add("infection_damage");
+                Incapacitated.noMercyDamageSourcesMessageID.add("organ_damage");
+            }
         });
     }
 
