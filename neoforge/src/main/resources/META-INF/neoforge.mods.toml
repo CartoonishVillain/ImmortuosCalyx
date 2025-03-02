@@ -29,6 +29,12 @@ versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
 [[dependencies.${mod_id}]]
+modId = "curios"
+type="required" #mandatory (Can be one of "required", "optional", "incompatible" or "discouraged")
+versionRange = "*"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.${mod_id}]]
 modId = "patchouli"
 type="optional" #mandatory (Can be one of "required", "optional", "incompatible" or "discouraged")
 versionRange = "*"

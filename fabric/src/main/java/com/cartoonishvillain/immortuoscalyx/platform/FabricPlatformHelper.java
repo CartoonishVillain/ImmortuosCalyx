@@ -171,13 +171,12 @@ public class FabricPlatformHelper implements IPlatformHelper {
             switch (slot) {
                 default -> {
                     serverPlayer.getMainHandItem().set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(gene, mainGeneData.geneValue2(), mainGeneData.contaminationValue(), mainGeneData.quality(), mainGeneData.previouslyEquipped()));
-                    break;
                 }
                 case "slot2" -> {
                     serverPlayer.getMainHandItem().set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(mainGeneData.geneValue1(), gene, mainGeneData.contaminationValue(), mainGeneData.quality(), mainGeneData.previouslyEquipped()));
                 }
                 case "contamination" -> {
-                    serverPlayer.getMainHandItem().set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(mainGeneData.geneValue1(), mainGeneData.geneValue2(), mainGeneData.contaminationValue(), mainGeneData.quality(), mainGeneData.previouslyEquipped()));
+                    serverPlayer.getMainHandItem().set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(mainGeneData.geneValue1(), mainGeneData.geneValue2(), gene, mainGeneData.quality(), mainGeneData.previouslyEquipped()));
                 }
             }
         }

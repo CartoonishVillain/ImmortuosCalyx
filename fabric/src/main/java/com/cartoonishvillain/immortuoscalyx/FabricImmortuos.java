@@ -56,10 +56,6 @@ public class FabricImmortuos implements ModInitializer {
             SetGeneCommands.register(dispatcher);
         }));
 
-        ClientLifecycleEvents.CLIENT_STARTED.register((minecraft) -> {
-            Services.PLATFORM.clientUpdate();
-        });
-
         ServerLifecycleEvents.SERVER_STARTING.register((event) -> {
             FabricStructureGen.addNewVillageBuilding(event);
             if (Services.PLATFORM.isModLoaded("incapacitated")) {
