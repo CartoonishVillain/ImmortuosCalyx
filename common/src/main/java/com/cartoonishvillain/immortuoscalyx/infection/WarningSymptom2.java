@@ -1,7 +1,6 @@
 package com.cartoonishvillain.immortuoscalyx.infection;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.level.ServerPlayer;
 
 public class WarningSymptom2 extends AbstractSymptom {
     public WarningSymptom2() {

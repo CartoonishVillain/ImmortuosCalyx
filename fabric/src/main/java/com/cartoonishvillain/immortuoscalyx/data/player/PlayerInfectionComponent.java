@@ -2,7 +2,6 @@ package com.cartoonishvillain.immortuoscalyx.data.player;
 
 import com.cartoonishvillain.immortuoscalyx.CommonImmortuos;
 import com.cartoonishvillain.immortuoscalyx.data.ImmortuosPlayerData;
-import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;

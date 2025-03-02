@@ -5,7 +5,6 @@ import com.cartoonishvillain.immortuoscalyx.client.RenderDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.client.RenderInfectedHumanEntity;
 import com.cartoonishvillain.immortuoscalyx.commands.GetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
-import com.cartoonishvillain.immortuoscalyx.curios.GeneSplicer;
 import com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionDataAttachment;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
@@ -18,7 +17,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.Heightmap;
@@ -38,7 +36,6 @@ import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
-import top.theillusivec4.curios.api.CuriosApi;
 
 import java.util.List;
 
@@ -55,6 +52,7 @@ public class NeoforgeImmortuos {
         NeoTab.init(eventBus);
         NeoVillagers.init(eventBus);
         PlayerInfectionDataAttachment.loadDataAttachment(eventBus);
+        NeoDataComponentType.initDataComponent(eventBus);
         NeoForge.EVENT_BUS.register(this);
     }
 

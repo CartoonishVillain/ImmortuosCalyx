@@ -10,7 +10,9 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
 
@@ -118,8 +120,24 @@ public interface IPlatformHelper {
      */
     default void clientUpdate() {
         FogRenderer.MOB_EFFECT_FOG.add(new BlindnessFog());
-        int x = 0;
     }
+
+    /**
+     * Updates a gene with the local data and gives it to the player
+     * @param pPlayer - The player to give the gene to
+     * @param identifiedGene - The itemstack the gene is in
+     * @param randomGene - The nbt name of the gene
+     * @param quality = The nbt quality of the gene
+     */
+    void updateGeneAndGiveToPlayer(Player pPlayer, ItemStack identifiedGene, String randomGene, int quality);
+
+    /**
+     * Tries to combine the genes in the two stacks.
+     * @param pPlayer the player trying to combine the genes
+     * @param mainStack the main hand stack
+     * @param offStack the off hand stack
+     */
+    void tryGeneCombination(Player pPlayer, ItemStack mainStack, ItemStack offStack);
 
     /**
      * MOB EFFECTS
@@ -137,6 +155,9 @@ public interface IPlatformHelper {
     Holder<MobEffect> INFECTION_CHAT();
     Holder<MobEffect> INFECTION_CONTAGION();
     Holder<MobEffect> INFECTION_CONSUMPTION();
+    Holder<MobEffect> GENE_IMMORTUOS();
+    Holder<MobEffect> GENE_ZOMBIE();
+    Holder<MobEffect> GENE_OCELOT();
     Holder<MobEffect> GENE_TURTLE();
     Holder<MobEffect> GENE_IRON_GOLEM();
     Holder<MobEffect> GENE_IRON_GOLEM_ACTIVE();
@@ -173,4 +194,6 @@ public interface IPlatformHelper {
     Item IMMORTUOS_EGG();
     Item ANTIPARASITIC();
     Item HEALTH_SCANNER();
+    Item UNIDENTIFIED_GENE();
+    Item IDENTIFIED_GENE();
 }

@@ -1,5 +1,6 @@
 package com.cartoonishvillain.immortuoscalyx.register;
 
+import com.cartoonishvillain.immortuoscalyx.Constants;
 import com.cartoonishvillain.immortuoscalyx.effects.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -8,11 +9,8 @@ import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.IEventBus;
-import com.cartoonishvillain.immortuoscalyx.Constants;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
-
-import java.util.function.Supplier;
 
 public class NeoEffects {
     public static DeferredHolder<MobEffect, MobEffect> IMMORTUOS_BLIND;

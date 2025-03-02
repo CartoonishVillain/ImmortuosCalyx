@@ -7,7 +7,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 
@@ -83,7 +82,7 @@ public class FabricEffects {
         CONTAMINATION_STAGGER = registerEffect("immortuos_contamination_stagger", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_KNEE_PASTAFICATION = registerEffect("immortuos_contamination_knee_pastafication", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_KNEE_PASTAFICATION_TEMP = registerEffect("immortuos_contamination_knee_pastafication_temp", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
-                Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_knee_pastafication"), -0.05, AttributeModifier.Operation.ADD_VALUE
+                Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_knee_pastafication"), -0.0075, AttributeModifier.Operation.ADD_VALUE
         ));
     }
 

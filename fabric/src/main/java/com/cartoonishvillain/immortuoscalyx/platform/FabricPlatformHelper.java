@@ -1,24 +1,31 @@
 package com.cartoonishvillain.immortuoscalyx.platform;
 
+import com.cartoonishvillain.immortuoscalyx.data.gene.GeneItemComponent;
 import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
+import com.cartoonishvillain.immortuoscalyx.items.DefaultGeneMethods;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
-import com.cartoonishvillain.immortuoscalyx.register.FabricEffects;
-import com.cartoonishvillain.immortuoscalyx.register.FabricEntity;
-import com.cartoonishvillain.immortuoscalyx.register.FabricItems;
-import com.cartoonishvillain.immortuoscalyx.register.FabricSoundEvents;
+import com.cartoonishvillain.immortuoscalyx.register.*;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.cartoonishvillain.immortuoscalyx.data.player.PlayerComponentStarter.INFECTIONCOMPONENTINSTANCE;
 
@@ -94,6 +101,70 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public void updateGeneAndGiveToPlayer(Player pPlayer, ItemStack identifiedGene, String randomGene, int quality) {
+        identifiedGene.set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(randomGene, "", "", quality, false));
+        ItemEntity itemEntity = new ItemEntity(pPlayer.level(), pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), identifiedGene);
+        itemEntity.setPos(pPlayer.getX(), pPlayer.getY(), pPlayer.getZ());
+        pPlayer.level().addFreshEntity(itemEntity);
+    }
+
+    @Override
+    public void tryGeneCombination(Player pPlayer, ItemStack mainStack, ItemStack offStack) {
+        GeneItemComponent.GeneData mainGeneData = mainStack.getComponents().getOrDefault(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData("", "", "", 0, false));
+        GeneItemComponent.GeneData offGeneData = offStack.getComponents().getOrDefault(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData("", "", "", 0, false));
+
+        // if either gene was previously equipped, destroy the stack
+        if (mainGeneData.previouslyEquipped()) {
+            mainStack.shrink(1);
+            pPlayer.displayClientMessage(Component.translatable("gene.immortuoscalyx.destablized.main").withStyle(ChatFormatting.RED), true);
+            pPlayer.level().playSound(null, pPlayer.blockPosition().above(), SoundEvents.ITEM_BREAK, SoundSource.PLAYERS, 1f, 2f);
+        } else if (offGeneData.previouslyEquipped()) {
+            offStack.shrink(1);
+            pPlayer.displayClientMessage(Component.translatable("gene.immortuoscalyx.destablized.off").withStyle(ChatFormatting.RED), true);
+            pPlayer.level().playSound(null, pPlayer.blockPosition().above(), SoundEvents.ITEM_BREAK, SoundSource.PLAYERS, 1f, 2f);
+        } else if (
+                !mainGeneData.geneValue2().isBlank() || !offGeneData.geneValue2().isBlank() || !mainGeneData.contaminationValue().isBlank() || !offGeneData.contaminationValue().isBlank()
+                //any contamination or pre-combined genes are rejected.
+        ) {
+            pPlayer.displayClientMessage(Component.translatable("gene.immortuoscalyx.invalid").withStyle(ChatFormatting.RED), true);
+            pPlayer.level().playSound(null, pPlayer.blockPosition().above(), SoundEvents.NOTE_BLOCK_PLING.value(), SoundSource.PLAYERS, 1f, 0.5f);
+        } else if (
+                Objects.equals(mainGeneData.geneValue1(), offGeneData.geneValue1()) //when combining two of the same geen
+        ) {
+            String contamination = "";
+            SoundEvent event = FabricSoundEvents.SCANCLEAR.get();
+
+            //5% chance for contamination
+            boolean contaminated = pPlayer.getRandom().nextInt(100) < 5;
+            if (contaminated) {
+                contamination = DefaultGeneMethods.contaminationPicker(pPlayer.getRandom());
+                event = FabricSoundEvents.SCANBAD.get();
+            }
+
+            int quality = mainGeneData.quality() + offGeneData.quality();
+            if (quality > 100) quality = 100;
+            mainStack.set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(mainGeneData.geneValue1(), "", contamination, quality, false));
+            pPlayer.level().playSound(null, pPlayer.blockPosition().above(), event, SoundSource.PLAYERS, 1f, 1f);
+            offStack.shrink(1);
+        } else {
+            //Two different non-combined non-contaminated genes
+            String contamination = "";
+            SoundEvent event = FabricSoundEvents.SCANCLEAR.get();
+            //12% chance for contamination
+            boolean contaminated = pPlayer.getRandom().nextInt(100) < 12;
+            if (contaminated) {
+                contamination = DefaultGeneMethods.contaminationPicker(pPlayer.getRandom());
+                event = FabricSoundEvents.SCANBAD.get();
+            }
+
+            int quality = (mainGeneData.quality() + offGeneData.quality())/2;
+            mainStack.set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(mainGeneData.geneValue1(), offGeneData.geneValue1(), contamination, quality, false));
+            pPlayer.level().playSound(null, pPlayer.blockPosition().above(), event, SoundSource.PLAYERS, 1f, 1f);
+            offStack.shrink(1);
+        }
+    }
+
+    @Override
     public Holder<MobEffect> INFECTION_BLIND() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_BLIND.get());
     }
@@ -156,6 +227,21 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public Holder<MobEffect> INFECTION_CONSUMPTION() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.IMMORTUOS_CONSUME.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_IMMORTUOS() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.GENE_IMMORTUOS.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_ZOMBIE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.GENE_ZOMBIE.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_OCELOT() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.GENE_OCELOT.get());
     }
 
     @Override
@@ -276,5 +362,15 @@ public class FabricPlatformHelper implements IPlatformHelper {
     @Override
     public Item HEALTH_SCANNER() {
         return FabricItems.HEALTH_SCANNER.get();
+    }
+
+    @Override
+    public Item UNIDENTIFIED_GENE() {
+        return FabricItems.UNIDENTIFIED_GENE.get();
+    }
+
+    @Override
+    public Item IDENTIFIED_GENE() {
+        return FabricItems.IDENTIFIED_GENE.get();
     }
 }

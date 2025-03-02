@@ -38,6 +38,7 @@ public class FabricImmortuos implements ModInitializer {
         FabricVillagers.initVillager();
         FabricItems.init();
         FabricTab.init();
+        FabricItemComponents.initComponents();
 
         Predicate<BiomeSelectionContext> spawnPredicate = overWorldNoOceanNoGoZones();
         Predicate<BiomeSelectionContext> oceanPredicate = onlyOcean();

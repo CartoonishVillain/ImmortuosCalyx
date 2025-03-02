@@ -1,27 +1,33 @@
 package com.cartoonishvillain.immortuoscalyx.platform;
 
+import com.cartoonishvillain.immortuoscalyx.data.gene.GeneComponent;
 import com.cartoonishvillain.immortuoscalyx.data.player.NeoForgeInfectionPlayerData;
 import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
-import com.cartoonishvillain.immortuoscalyx.items.HealthScanner;
+import com.cartoonishvillain.immortuoscalyx.items.DefaultGeneMethods;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
-import com.cartoonishvillain.immortuoscalyx.register.NeoEffects;
-import com.cartoonishvillain.immortuoscalyx.register.NeoEntity;
-import com.cartoonishvillain.immortuoscalyx.register.NeoItems;
-import com.cartoonishvillain.immortuoscalyx.register.NeoSoundEvents;
+import com.cartoonishvillain.immortuoscalyx.register.*;
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionDataAttachment.INFECTION_DATA;
 
@@ -101,6 +107,70 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public void updateGeneAndGiveToPlayer(Player pPlayer, ItemStack identifiedGene, String randomGene, int quality) {
+        identifiedGene.set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(randomGene, "", "", quality, false));
+        ItemEntity itemEntity = new ItemEntity(pPlayer.level(), pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), identifiedGene);
+        itemEntity.setPos(pPlayer.getX(), pPlayer.getY(), pPlayer.getZ());
+        pPlayer.level().addFreshEntity(itemEntity);
+    }
+
+    @Override
+    public void tryGeneCombination(Player pPlayer, ItemStack mainStack, ItemStack offStack) {
+        GeneComponent.GeneRecord mainGeneData = mainStack.getComponents().getOrDefault(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord("", "", "", 0, false));
+        GeneComponent.GeneRecord offGeneData = offStack.getComponents().getOrDefault(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord("", "", "", 0, false));
+
+        // if either gene was previously equipped, destroy the stack
+        if (mainGeneData.hasBeenEquipped()) {
+            mainStack.shrink(1);
+            pPlayer.displayClientMessage(Component.translatable("gene.immortuoscalyx.destablized.main").withStyle(ChatFormatting.RED), true);
+            pPlayer.level().playSound(null, pPlayer.blockPosition().above(), SoundEvents.ITEM_BREAK, SoundSource.PLAYERS, 1f, 2f);
+        } else if (offGeneData.hasBeenEquipped()) {
+            offStack.shrink(1);
+            pPlayer.displayClientMessage(Component.translatable("gene.immortuoscalyx.destablized.off").withStyle(ChatFormatting.RED), true);
+            pPlayer.level().playSound(null, pPlayer.blockPosition().above(), SoundEvents.ITEM_BREAK, SoundSource.PLAYERS, 1f, 2f);
+        } else if (
+                !mainGeneData.geneValue2().isBlank() || !offGeneData.geneValue2().isBlank() || !mainGeneData.contaminationValue().isBlank() || !offGeneData.contaminationValue().isBlank()
+            //any contamination or pre-combined genes are rejected.
+        ) {
+            pPlayer.displayClientMessage(Component.translatable("gene.immortuoscalyx.invalid").withStyle(ChatFormatting.RED), true);
+            pPlayer.level().playSound(null, pPlayer.blockPosition().above(), SoundEvents.NOTE_BLOCK_PLING.value(), SoundSource.PLAYERS, 1f, 0.5f);
+        } else if (
+                Objects.equals(mainGeneData.geneValue1(), offGeneData.geneValue1()) //when combining two of the same geen
+        ) {
+            String contamination = "";
+            SoundEvent event = NeoSoundEvents.SCANCLEAR.get();
+
+            //5% chance for contamination
+            boolean contaminated = pPlayer.getRandom().nextInt(100) < 5;
+            if (contaminated) {
+                contamination = DefaultGeneMethods.contaminationPicker(pPlayer.getRandom());
+                event = NeoSoundEvents.SCANBAD.get();
+            }
+
+            int quality = mainGeneData.quality() + offGeneData.quality();
+            if (quality > 100) quality = 100;
+            mainStack.set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(mainGeneData.geneValue1(), "", contamination, quality, false));
+            pPlayer.level().playSound(null, pPlayer.blockPosition().above(), event, SoundSource.PLAYERS, 1f, 1f);
+            offStack.shrink(1);
+        } else {
+            //Two different non-combined non-contaminated genes
+            String contamination = "";
+            SoundEvent event = NeoSoundEvents.SCANCLEAR.get();
+            //12% chance for contamination
+            boolean contaminated = pPlayer.getRandom().nextInt(100) < 12;
+            if (contaminated) {
+                contamination = DefaultGeneMethods.contaminationPicker(pPlayer.getRandom());
+                event = NeoSoundEvents.SCANBAD.get();
+            }
+
+            int quality = (mainGeneData.quality() + offGeneData.quality())/2;
+            mainStack.set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(mainGeneData.geneValue1(), offGeneData.geneValue1(), contamination, quality, false));
+            pPlayer.level().playSound(null, pPlayer.blockPosition().above(), event, SoundSource.PLAYERS, 1f, 1f);
+            offStack.shrink(1);
+        }
+    }
+
+    @Override
     public Holder<MobEffect> INFECTION_BLIND() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_BLIND.get());
     }
@@ -163,6 +233,21 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public Holder<MobEffect> INFECTION_CONSUMPTION() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.IMMORTUOS_CONSUME.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_IMMORTUOS() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_IMMORTUOS.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_ZOMBIE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_ZOMBIE.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_OCELOT() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_OCELOT.get());
     }
 
     @Override
@@ -283,5 +368,15 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     @Override
     public Item HEALTH_SCANNER() {
         return NeoItems.HEALTH_SCANNER.value();
+    }
+
+    @Override
+    public Item UNIDENTIFIED_GENE() {
+        return NeoItems.UNIDENTIFIED_GENE.get();
+    }
+
+    @Override
+    public Item IDENTIFIED_GENE() {
+        return NeoItems.IDENTIFIED_GENE.get();
     }
 }

@@ -4,6 +4,7 @@ import com.cartoonishvillain.immortuoscalyx.Constants;
 import com.cartoonishvillain.immortuoscalyx.items.HealthScanner;
 import com.cartoonishvillain.immortuoscalyx.items.SyringeItems;
 import com.cartoonishvillain.immortuoscalyx.items.Syringes;
+import com.cartoonishvillain.immortuoscalyx.items.trinkets.Gene;
 import com.cartoonishvillain.immortuoscalyx.items.trinkets.GeneSplicer;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,6 +30,9 @@ public class FabricItems {
 
     public static Supplier<Item> GENE_SPLICER;
     public static Supplier<Item> ADVANCED_GENE_SPLICER;
+
+    public static Supplier<Item> UNIDENTIFIED_GENE;
+    public static Supplier<Item> IDENTIFIED_GENE;
     
     public static void init() {
         ANTI_PARASITIC = registerItem("anti_parasitic", new SyringeItems(new Item.Properties(), Syringes.ANTIPARASITIC));
@@ -41,6 +45,8 @@ public class FabricItems {
         HUMAN_SPAWN_EGG = registerItem("human_spawn_egg", new SpawnEggItem(FabricEntity.INFECTED_HUMAN.get(), 2565927, 5065244, new Item.Properties()));
         GENE_SPLICER = registerItem("gene_splicer", new GeneSplicer(new Item.Properties(), 1));
         ADVANCED_GENE_SPLICER = registerItem("advanced_gene_splicer", new GeneSplicer(new Item.Properties(), 2));
+        UNIDENTIFIED_GENE = registerItem("unidentified_gene", new Item(new Item.Properties()));
+        IDENTIFIED_GENE = registerItem("identified_gene", new Gene(new Item.Properties()));
     }
 
     private static Supplier<Item> registerItem(String name, Item item) {

@@ -1,11 +1,11 @@
 package com.cartoonishvillain.immortuoscalyx.data.player;
 
+import net.minecraft.resources.ResourceLocation;
 import org.ladysnake.cca.api.v3.component.ComponentKey;
 import org.ladysnake.cca.api.v3.component.ComponentRegistryV3;
 import org.ladysnake.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import org.ladysnake.cca.api.v3.entity.EntityComponentInitializer;
 import org.ladysnake.cca.api.v3.entity.RespawnCopyStrategy;
-import net.minecraft.resources.ResourceLocation;
 
 public class PlayerComponentStarter implements EntityComponentInitializer {
 

@@ -1,20 +1,12 @@
 package com.cartoonishvillain.immortuoscalyx.register;
 
 import com.cartoonishvillain.immortuoscalyx.Constants;
+import com.cartoonishvillain.immortuoscalyx.curios.Gene;
 import com.cartoonishvillain.immortuoscalyx.curios.GeneSplicer;
-import com.cartoonishvillain.immortuoscalyx.effects.GenericModdedEffect;
-import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosConsumptionEffect;
-import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosTemperatureCongealmentEffect;
-import com.cartoonishvillain.immortuoscalyx.effects.ImmortuosTemperatureStabilityEffect;
 import com.cartoonishvillain.immortuoscalyx.items.HealthScanner;
 import com.cartoonishvillain.immortuoscalyx.items.SyringeItems;
 import com.cartoonishvillain.immortuoscalyx.items.Syringes;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.effect.MobEffect;
-import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.Item;
 import net.neoforged.bus.api.IEventBus;
@@ -40,6 +32,8 @@ public class NeoItems {
     public static DeferredHolder<Item, Item> GENE_SPLICER;
     public static DeferredHolder<Item, Item> ADVANCED_GENE_SPLICER;
 
+    public static Supplier<Item> UNIDENTIFIED_GENE;
+    public static Supplier<Item> IDENTIFIED_GENE;
 
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(Registries.ITEM, Constants.MOD_ID);
 
@@ -54,6 +48,8 @@ public class NeoItems {
         HUMAN_SPAWN_EGG = ITEMS.register("human_spawn_egg", () -> new DeferredSpawnEggItem(NeoEntity.INFECTEDHUMAN, 2565927, 5065244, new Item.Properties()));
         GENE_SPLICER = ITEMS.register("gene_splicer", () -> new GeneSplicer(new Item.Properties(), 1));
         ADVANCED_GENE_SPLICER = ITEMS.register("advanced_gene_splicer", () -> new GeneSplicer(new Item.Properties(), 2));
+        UNIDENTIFIED_GENE = ITEMS.register("unidentified_gene", () -> new Item(new Item.Properties()));
+        IDENTIFIED_GENE = ITEMS.register("identified_gene", () -> new Gene(new Item.Properties()));
         ITEMS.register(modbus);
     }
 }
