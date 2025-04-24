@@ -1,9 +1,11 @@
 package com.cartoonishvillain.immortuoscalyx.entities;
 
 import com.cartoonishvillain.immortuoscalyx.AbstractInfectionHandler;
+import com.cartoonishvillain.immortuoscalyx.CommonImmortuos;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -12,11 +14,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
@@ -26,6 +29,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.npc.AbstractVillager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Optional;
@@ -167,5 +172,11 @@ public class InfectedHumanEntity extends Monster implements InfectedEntity {
     @Override
     protected void playStepSound(BlockPos pos, BlockState blockIn) {
         this.playSound(SoundEvents.ZOMBIE_STEP, 0.15F, 1.0F);
+    }
+
+    public static boolean checkImmortuosSpawnRules(EntityType<InfectedHumanEntity> pType, ServerLevelAccessor pLevel, MobSpawnType spawnType, BlockPos pPos, RandomSource pRandom) {
+        Holder<Biome> holder = pLevel.getBiome(pPos);
+        boolean flag = pLevel.getDifficulty() != Difficulty.PEACEFUL && (MobSpawnType.ignoresLightRequirements(spawnType) || isDarkEnoughToSpawn(pLevel, pPos, pRandom)) && checkMobSpawnRules(pType, pLevel, spawnType, pPos, pRandom);
+        return flag && !holder.is(CommonImmortuos.MushroomBiomes);
     }
 }

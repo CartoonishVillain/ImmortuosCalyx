@@ -28,6 +28,8 @@ import net.minecraft.world.level.levelgen.Heightmap;
 
 import java.util.function.Predicate;
 
+import static com.cartoonishvillain.immortuoscalyx.CommonImmortuos.MushroomBiomes;
+
 public class FabricImmortuos implements ModInitializer {
     
     @Override
@@ -66,8 +68,6 @@ public class FabricImmortuos implements ModInitializer {
             }
         });
     }
-
-    public static final TagKey<Biome> MushroomBiomes = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "land_spawnable"));
 
 
     public static Predicate<BiomeSelectionContext> overWorldNoOceanNoGoZones() {

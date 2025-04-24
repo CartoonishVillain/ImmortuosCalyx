@@ -4,6 +4,10 @@ import com.cartoonishvillain.immortuoscalyx.config.ImmortuosConfigData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.biome.Biome;
 
 import java.io.*;
 
@@ -38,4 +42,6 @@ public class CommonImmortuos {
             }
         }
     }
+
+    public static final TagKey<Biome> MushroomBiomes = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "land_spawnable"));
 }

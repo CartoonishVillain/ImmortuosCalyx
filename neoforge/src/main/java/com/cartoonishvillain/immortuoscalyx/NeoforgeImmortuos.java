@@ -235,14 +235,13 @@ public class NeoforgeImmortuos {
 
         @SubscribeEvent
         public static void spawnPlacements(RegisterSpawnPlacementsEvent event) {
-            event.register(NeoEntity.INFECTEDHUMAN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
+            event.register(NeoEntity.INFECTEDHUMAN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, InfectedHumanEntity::checkImmortuosSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
             event.register(NeoEntity.INFECTEDDIVER.get(), SpawnPlacementTypes.IN_WATER, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, InfectedDiverEntity::checkDiverSpawnRules, RegisterSpawnPlacementsEvent.Operation.AND);
         }
 
         @SubscribeEvent
         public static void commonEvent(FMLCommonSetupEvent event) {
-//            CuriosApi.registerCurio(NeoItems.GENE_SPLICER.get(), new GeneSplicer(new Item.Properties(), 1));
-//            CuriosApi.registerCurio(NeoItems.ADVANCED_GENE_SPLICER.get(), new GeneSplicer(new Item.Properties(), 1));
+
         }
     }
 
