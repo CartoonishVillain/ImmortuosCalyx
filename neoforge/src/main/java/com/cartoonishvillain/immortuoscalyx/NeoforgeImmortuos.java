@@ -64,7 +64,7 @@ public class NeoforgeImmortuos {
     public void livingDamageEvent(LivingDamageEvent.Pre event) {
         LivingEntity entity = event.getEntity();
 
-        float damageDealt = event.getOriginalDamage();
+        float damageDealt = event.getNewDamage();
 
         //Stagger Contamination Handling
         if (
@@ -121,7 +121,6 @@ public class NeoforgeImmortuos {
         }
 
         event.setNewDamage(damageDealt);
-
     }
 
     @SubscribeEvent

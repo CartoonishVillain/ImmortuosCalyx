@@ -27,8 +27,6 @@ public class ImmortuosPlayerAttackMixin {
             AbstractInfectionHandler.infectionCheck((ServerPlayer) pTargetEntity, aggressorInfectionRate);
         }
 
-
-
         //Health Scanner
         if (!pTargetEntity.level().isClientSide() && aggressor.getMainHandItem().getItem() instanceof HealthScanner && pTargetEntity instanceof LivingEntity) {
             AbstractInfectionHandler.foreignHealthCheck((LivingEntity) pTargetEntity, aggressor);
