@@ -6,6 +6,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.IEventBus;
@@ -33,6 +34,7 @@ public class NeoEffects {
     public static DeferredHolder<MobEffect, MobEffect> GENE_IRON_GOLEM;
     public static DeferredHolder<MobEffect, MobEffect> GENE_TEMP_IRON_GOLEM;
     public static DeferredHolder<MobEffect, MobEffect> GENE_FROG;
+    public static DeferredHolder<MobEffect, MobEffect> GENE_SILVERFISH;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_HELIOPHOBIA;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_HYDROPHOBIA;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_GENETIC_DESTABLIZATION;
@@ -74,6 +76,9 @@ public class NeoEffects {
                 Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_iron_golem"), 1, AttributeModifier.Operation.ADD_VALUE
         ));
         GENE_FROG = MOB_EFFECTS.register("immortuos_gene_frog", () ->  new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519));
+        GENE_SILVERFISH = MOB_EFFECTS.register("immortuos_gene_silverfish", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519).addAttributeModifier(
+                Attributes.SCALE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_silverfish"), -0.0035185185185185, AttributeModifier.Operation.ADD_VALUE
+        ));
         CONTAMINATION_HELIOPHOBIA = MOB_EFFECTS.register("immortuos_contamination_heliophobia", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_HYDROPHOBIA = MOB_EFFECTS.register("immortuos_contamination_hydrophobia", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_GENETIC_DESTABLIZATION = MOB_EFFECTS.register("immortuos_contamination_genetic_destablization", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));

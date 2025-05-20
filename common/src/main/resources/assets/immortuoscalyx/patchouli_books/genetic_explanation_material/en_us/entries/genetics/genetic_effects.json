@@ -38,6 +38,11 @@
       "type": "patchouli:text",
       "title": "Iron Golem Gene",
       "text": "This gene activates a small rush of adrenaline to the arm muscles after taking damage, allowing the user to deal more damage for a few seconds."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Silverfish Gene",
+      "text": "This gene enables and forces the host to produce enzymes that will chew up unnecessary bone material in the skeleton. This results in a shorter stature."
     }
   ]
 }

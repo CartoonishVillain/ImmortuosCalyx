@@ -52,19 +52,6 @@ public class Gene extends Item implements ICurioItem {
     }
 
     @Override
-    public void onEquip(SlotContext slotContext, ItemStack prevStack, ItemStack stack) {
-        ICurioItem.super.onEquip(slotContext, prevStack, stack);
-        GeneComponent.GeneRecord geneData = stack.getComponents().getOrDefault(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord("", "", "", 0, true));
-
-        if (!geneData.hasBeenEquipped()) {
-            stack.set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(geneData.geneValue1(), geneData.geneValue2(), geneData.contaminationValue(), geneData.quality(), true));
-        } else {
-            stack.shrink(1);
-        }
-        slotContext.entity().level().playSound(null, slotContext.entity().blockPosition().above(), SoundEvents.ITEM_BREAK, SoundSource.PLAYERS, 1f, 2f);
-    }
-
-    @Override
     public void appendHoverText(ItemStack stack, Item.TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
         GeneComponent.GeneRecord geneData = stack.getComponents().getOrDefault(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord("", "", "", 0, false));
@@ -87,11 +74,6 @@ public class Gene extends Item implements ICurioItem {
 
         }
 
-        addedComponents.add(Component.translatable("gene.immortuoscalyx.warning").withStyle(ChatFormatting.RED));
-
-        if (geneData.hasBeenEquipped()) {
-            addedComponents.add(Component.translatable("gene.immortuoscalyx.ruined").withStyle(ChatFormatting.RED));
-        }
         tooltipComponents.addAll(addedComponents);
     }
 

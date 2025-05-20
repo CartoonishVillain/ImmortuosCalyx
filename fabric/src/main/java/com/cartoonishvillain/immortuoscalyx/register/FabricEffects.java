@@ -37,6 +37,7 @@ public class FabricEffects {
     public static Supplier<MobEffect> GENE_IRON_GOLEM;
     public static Supplier<MobEffect> GENE_TEMP_IRON_GOLEM;
     public static Supplier<MobEffect> GENE_FROG;
+    public static Supplier<MobEffect> GENE_SILVERFISH;
     public static Supplier<MobEffect> CONTAMINATION_HELIOPHOBIA;
     public static Supplier<MobEffect> CONTAMINATION_HYDROPHOBIA;
     public static Supplier<MobEffect> CONTAMINATION_GENETIC_DESTABLIZATION;
@@ -76,6 +77,9 @@ public class FabricEffects {
                 Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_iron_golem"), 1, AttributeModifier.Operation.ADD_VALUE
         ));
         GENE_FROG = registerEffect("immortuos_gene_frog", new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519));
+        GENE_SILVERFISH = registerEffect("immortuos_gene_silverfish", new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519).addAttributeModifier(
+                Attributes.SCALE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_silverfish"), -0.0035185185185185, AttributeModifier.Operation.ADD_VALUE
+        ));
         CONTAMINATION_HELIOPHOBIA = registerEffect("immortuos_contamination_heliophobia", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_HYDROPHOBIA = registerEffect("immortuos_contamination_hydrophobia", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_GENETIC_DESTABLIZATION = registerEffect("immortuos_contamination_genetic_destablization", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));

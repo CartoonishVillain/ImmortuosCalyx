@@ -177,6 +177,7 @@ public interface IPlatformHelper {
     Holder<MobEffect> GENE_IRON_GOLEM();
     Holder<MobEffect> GENE_IRON_GOLEM_ACTIVE();
     Holder<MobEffect> GENE_FROG();
+    Holder<MobEffect> GENE_SILVERFISH();
     Holder<MobEffect> CONTAMINATION_HELIOPHOBIA();
     Holder<MobEffect> CONTAMINATION_HYDROPHOBIA();
     Holder<MobEffect> CONTAMINATION_GENETIC_DESTABILIZATION();

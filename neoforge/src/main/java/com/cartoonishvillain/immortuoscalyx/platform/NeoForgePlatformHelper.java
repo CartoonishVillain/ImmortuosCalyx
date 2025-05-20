@@ -298,6 +298,11 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> GENE_SILVERFISH() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_SILVERFISH.get());
+    }
+
+    @Override
     public Holder<MobEffect> CONTAMINATION_HELIOPHOBIA() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.CONTAMINATION_HELIOPHOBIA.get());
     }

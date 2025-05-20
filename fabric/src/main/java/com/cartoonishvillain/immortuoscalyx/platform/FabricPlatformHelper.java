@@ -291,6 +291,11 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> GENE_SILVERFISH() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.GENE_SILVERFISH.get());
+    }
+
+    @Override
     public Holder<MobEffect> CONTAMINATION_HELIOPHOBIA() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_HELIOPHOBIA.get());
     }

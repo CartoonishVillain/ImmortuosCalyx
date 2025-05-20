@@ -26,6 +26,9 @@ public class DefaultGeneMethods {
             case "gene_frog" -> new MobEffectInstance(
                     Services.PLATFORM.GENE_FROG(), 420, quality / 10, true, false, true
             );
+            case "gene_silverfish" -> new MobEffectInstance(
+                    Services.PLATFORM.GENE_SILVERFISH(), 420, quality, true, false, true
+            );
             default -> null;
         };
     }

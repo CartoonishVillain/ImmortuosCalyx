@@ -50,19 +50,6 @@ public class Gene extends TrinketItem {
     }
 
     @Override
-    public void onEquip(ItemStack stack, SlotReference slot, LivingEntity entity) {
-        super.onEquip(stack, slot, entity);
-        GeneItemComponent.GeneData geneData = stack.getComponents().getOrDefault(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData("", "", "", 0, true));
-
-        if (!geneData.previouslyEquipped()) {
-            stack.set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(geneData.geneValue1(), geneData.geneValue2(), geneData.contaminationValue(), geneData.quality(), true));
-        } else {
-            stack.shrink(1);
-        }
-        entity.level().playSound(null, entity.blockPosition().above(), SoundEvents.ITEM_BREAK, SoundSource.PLAYERS, 1f, 2f);
-    }
-
-    @Override
     public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
         super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
         GeneItemComponent.GeneData geneData = stack.getComponents().getOrDefault(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData("", "", "", 0, false));
@@ -82,14 +69,8 @@ public class Gene extends TrinketItem {
 
         if (!addedComponents.isEmpty()) {
             addedComponents.add(Component.translatable("gene.immortuoscalyx.quality", geneData.quality()).withStyle(ChatFormatting.GOLD));
-
         }
 
-        addedComponents.add(Component.translatable("gene.immortuoscalyx.warning").withStyle(ChatFormatting.RED));
-
-        if (geneData.previouslyEquipped()) {
-            addedComponents.add(Component.translatable("gene.immortuoscalyx.ruined").withStyle(ChatFormatting.RED));
-        }
         tooltipComponents.addAll(addedComponents);
     }
 
