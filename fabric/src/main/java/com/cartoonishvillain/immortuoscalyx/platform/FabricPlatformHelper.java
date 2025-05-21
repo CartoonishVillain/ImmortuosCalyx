@@ -326,6 +326,21 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> CONTAMINATION_GIANT() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_GIANT.get());
+    }
+
+    @Override
+    public Holder<MobEffect> CONTAMINATION_GLASS() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_GLASS.get());
+    }
+
+    @Override
+    public Holder<MobEffect> CONTAMINATION_SHADY() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_SHADY.get());
+    }
+
+    @Override
     public SoundEvent HUMANOID_AMBIENT() {
         return FabricSoundEvents.HUMANAMBIENT.get();
     }

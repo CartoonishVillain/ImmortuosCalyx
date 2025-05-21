@@ -184,6 +184,9 @@ public interface IPlatformHelper {
     Holder<MobEffect> CONTAMINATION_STAGGER();
     Holder<MobEffect> CONTAMINATION_KNEE_PASTAFICATION();
     Holder<MobEffect> CONTAMINATION_KNEE_PASTAFICATION_ACTIVE();
+    Holder<MobEffect> CONTAMINATION_GIANT();
+    Holder<MobEffect> CONTAMINATION_GLASS();
+    Holder<MobEffect> CONTAMINATION_SHADY();
 
     /**
      * Sound Effects

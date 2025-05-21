@@ -3,6 +3,7 @@ package com.cartoonishvillain.immortuoscalyx.items;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Mob;
 
 public class DefaultGeneMethods {
     public static MobEffectInstance geneSelection(String gene, int quality) {
@@ -47,6 +48,15 @@ public class DefaultGeneMethods {
             case "contamination_knee_pastafication" -> new MobEffectInstance(
                     Services.PLATFORM.CONTAMINATION_KNEE_PASTAFICATION(), 420, quality/20, true, false, true
             );
+            case "contamination_giant" -> new MobEffectInstance(
+                    Services.PLATFORM.CONTAMINATION_GIANT(), 420, quality, true, false, true
+            );
+            case "contamination_glass" -> new MobEffectInstance(
+                    Services.PLATFORM.CONTAMINATION_GLASS(), 420, quality, true, false, true
+            );
+            case "contamination_shady" -> new MobEffectInstance(
+                    Services.PLATFORM.CONTAMINATION_SHADY(), 420, quality/20, true, false, true
+            );
             default -> new MobEffectInstance(
                     Services.PLATFORM.CONTAMINATION_HELIOPHOBIA(), 420, 0, true, false, true
             );
@@ -55,11 +65,14 @@ public class DefaultGeneMethods {
     }
 
     public static String contaminationPicker(RandomSource source) {
-        return switch (source.nextInt(5)) {
+        return switch (source.nextInt(8)) {
             case 1 -> "contamination_hydrophobia";
             case 2 -> "contamination_genetic_destablization";
             case 3 -> "contamination_stagger";
             case 4 -> "contamination_knee_pastafication";
+            case 5 -> "contamination_giant";
+            case 6 -> "contamination_glass";
+            case 7 -> "contamination_shady";
             default -> "contamination_heliophobia";
         };
     }

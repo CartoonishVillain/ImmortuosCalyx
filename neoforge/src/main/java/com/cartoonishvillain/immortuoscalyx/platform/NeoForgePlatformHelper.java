@@ -333,6 +333,21 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> CONTAMINATION_GIANT() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.CONTAMINATION_GIANT.get());
+    }
+
+    @Override
+    public Holder<MobEffect> CONTAMINATION_GLASS() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.CONTAMINATION_GLASS.get());
+    }
+
+    @Override
+    public Holder<MobEffect> CONTAMINATION_SHADY() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.CONTAMINATION_SHADY.get());
+    }
+
+    @Override
     public SoundEvent HUMANOID_AMBIENT() {
         return NeoSoundEvents.HUMANAMBIENT.value();
     }

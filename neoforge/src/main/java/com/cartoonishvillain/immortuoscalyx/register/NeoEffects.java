@@ -6,7 +6,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.neoforged.bus.api.IEventBus;
@@ -41,7 +40,9 @@ public class NeoEffects {
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_STAGGER;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_KNEE_PASTAFICATION;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_KNEE_PASTAFICATION_TEMP;
-
+    public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_GIANT;
+    public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_GLASS;
+    public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_SHADY;
 
     private static final DeferredRegister<MobEffect> MOB_EFFECTS = DeferredRegister.create(Registries.MOB_EFFECT, Constants.MOD_ID);
 
@@ -63,6 +64,7 @@ public class NeoEffects {
         IMMORTUOS_CHAT = MOB_EFFECTS.register("immortuos_chat", () -> new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
         IMMORTUOS_CONTAGION = MOB_EFFECTS.register("immortuos_contagion", () -> new GenericModdedEffect(MobEffectCategory.NEUTRAL, 4587519));
         IMMORTUOS_CONSUME = MOB_EFFECTS.register("immortuos_consumption", () -> new ImmortuosConsumptionEffect(MobEffectCategory.HARMFUL, 4587519));
+
         GENE_IMMORTUOS = MOB_EFFECTS.register("immortuos_gene_immortuos", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4587519));
         GENE_ZOMBIE = MOB_EFFECTS.register("immortuos_gene_zombie", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4587519).addAttributeModifier(
                 Attributes.ARMOR, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_zombie"), 1, AttributeModifier.Operation.ADD_VALUE
@@ -79,6 +81,7 @@ public class NeoEffects {
         GENE_SILVERFISH = MOB_EFFECTS.register("immortuos_gene_silverfish", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519).addAttributeModifier(
                 Attributes.SCALE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_silverfish"), -0.0035185185185185, AttributeModifier.Operation.ADD_VALUE
         ));
+
         CONTAMINATION_HELIOPHOBIA = MOB_EFFECTS.register("immortuos_contamination_heliophobia", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_HYDROPHOBIA = MOB_EFFECTS.register("immortuos_contamination_hydrophobia", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_GENETIC_DESTABLIZATION = MOB_EFFECTS.register("immortuos_contamination_genetic_destablization", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
@@ -87,6 +90,17 @@ public class NeoEffects {
         CONTAMINATION_KNEE_PASTAFICATION_TEMP = MOB_EFFECTS.register("immortuos_contamination_knee_pastafication_temp", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
                 Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_knee_pastafication"), -0.05, AttributeModifier.Operation.ADD_VALUE
         ));
+        CONTAMINATION_GIANT = MOB_EFFECTS.register("immortuos_contamination_giant", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
+                Attributes.SCALE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_giant"), 0.025, AttributeModifier.Operation.ADD_VALUE
+        ).addAttributeModifier(
+                Attributes.BLOCK_INTERACTION_RANGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_giant"), 0.025, AttributeModifier.Operation.ADD_VALUE
+        ).addAttributeModifier(
+                Attributes.ENTITY_INTERACTION_RANGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_giant"), 0.025, AttributeModifier.Operation.ADD_VALUE
+        ));
+        CONTAMINATION_GLASS = MOB_EFFECTS.register("immortuos_contamination_glass", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
+                Attributes.MAX_HEALTH, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_glass"), -0.075, AttributeModifier.Operation.ADD_VALUE
+        ));
+        CONTAMINATION_SHADY = MOB_EFFECTS.register("immortuos_contamination_shady", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4597519));
         MOB_EFFECTS.register(modbus);
     }
 }

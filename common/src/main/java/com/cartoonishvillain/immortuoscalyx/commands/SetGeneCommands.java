@@ -115,6 +115,21 @@ public class SetGeneCommands {
                 .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("ContaminationSlot").then(Commands.literal("contamination_heliophobia").executes(context -> {
                     return setContamination(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "contamination_heliophobia");
                 }))))));
+
+        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
+                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("ContaminationSlot").then(Commands.literal("contamination_giant").executes(context -> {
+                    return setContamination(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "contamination_giant");
+                }))))));
+
+        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
+                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("ContaminationSlot").then(Commands.literal("contamination_glass").executes(context -> {
+                    return setContamination(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "contamination_glass");
+                }))))));
+
+        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
+                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("ContaminationSlot").then(Commands.literal("contamination_shady").executes(context -> {
+                    return setContamination(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "contamination_shady");
+                }))))));
     }
 
 

@@ -15,7 +15,8 @@
         "ImmortuosDieMixin",
         "ConsumeMixin",
         "BiomeInvoker",
-        "ImmortuosJumpMixin"
+        "ImmortuosJumpMixin",
+        "ImmortuosVillagerTradeMixin"
     ],
     "client": [
     ],

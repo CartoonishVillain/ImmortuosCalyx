@@ -33,6 +33,21 @@
       "type": "patchouli:text",
       "title": "Knee Pastafication",
       "text": "Makes the victim's knees prone to being unstable, especially under heavy loads. The victim will be unable to move conventionally for a few seconds upon taking fall damage."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Giant",
+      "text": "Makes the victim rapidly grow in size. Their reach will grow to compensate, but no other physical statistics will increase as one may usually expect from becoming giant."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Glass Bones",
+      "text": "Enzymes produced by the gene crystallize the calcium in the victim's bones into a glass-like substance, reducing their maximum health."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Shady",
+      "text": "This gene will make the victim give off bad vibes that villagers don't appreciate."
     }
   ]
 }

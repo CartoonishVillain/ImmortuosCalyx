@@ -44,7 +44,9 @@ public class FabricEffects {
     public static Supplier<MobEffect> CONTAMINATION_STAGGER;
     public static Supplier<MobEffect> CONTAMINATION_KNEE_PASTAFICATION;
     public static Supplier<MobEffect> CONTAMINATION_KNEE_PASTAFICATION_TEMP;
-
+    public static Supplier<MobEffect> CONTAMINATION_GIANT;
+    public static Supplier<MobEffect> CONTAMINATION_GLASS;
+    public static Supplier<MobEffect> CONTAMINATION_SHADY;
 
     public static void initEffects() {
         IMMORTUOS_BLIND = registerEffect("immortuos_blind", new GenericModdedEffect(MobEffectCategory.HARMFUL, 4587519));
@@ -88,6 +90,17 @@ public class FabricEffects {
         CONTAMINATION_KNEE_PASTAFICATION_TEMP = registerEffect("immortuos_contamination_knee_pastafication_temp", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
                 Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_knee_pastafication"), -0.0075, AttributeModifier.Operation.ADD_VALUE
         ));
+        CONTAMINATION_GIANT = registerEffect("immortuos_contamination_giant", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
+                Attributes.SCALE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_giant"), 0.025, AttributeModifier.Operation.ADD_VALUE
+        ).addAttributeModifier(
+                Attributes.BLOCK_INTERACTION_RANGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_giant"), 0.025, AttributeModifier.Operation.ADD_VALUE
+        ).addAttributeModifier(
+                Attributes.ENTITY_INTERACTION_RANGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_giant"), 0.025, AttributeModifier.Operation.ADD_VALUE
+        ));
+        CONTAMINATION_GLASS = registerEffect("immortuos_contamination_glass", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
+                Attributes.MAX_HEALTH, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuos_glass"), -0.075, AttributeModifier.Operation.ADD_VALUE
+        ));
+        CONTAMINATION_SHADY = registerEffect("immortuos_contamination_shady", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4597519));
     }
 
     private static Supplier<MobEffect> registerEffect(String name, MobEffect effect) {
