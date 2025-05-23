@@ -19,19 +19,19 @@ public class ImmortuosServerPlayerTick {
     private void ImmortuosPlayerTick(CallbackInfo info) {
         ServerPlayer player = (ServerPlayer) (Object) this;
         AbstractInfectionHandler.playerTick(player);
-
         AbstractGeneHandler.tickHeliophobia(player);
-
-        if (player.hasEffect(Services.PLATFORM.CONTAMINATION_HYDROPHOBIA())) {
-            if (player.isInWaterRainOrBubble() && player.tickCount % 20 == 0) {
-                player.hurt(
-                        new DamageSource(player.level().registryAccess()
-                                .registryOrThrow(Registries.DAMAGE_TYPE)
-                                .getHolderOrThrow(DamageTypes.DROWN)
-                        ), 1);
+        if (player.tickCount % 20 == 0) {
+            if (player.hasEffect(Services.PLATFORM.CONTAMINATION_HYDROPHOBIA())) {
+                if (player.isInWaterRainOrBubble()) {
+                    player.hurt(
+                            new DamageSource(player.level().registryAccess()
+                                    .registryOrThrow(Registries.DAMAGE_TYPE)
+                                    .getHolderOrThrow(DamageTypes.DROWN)
+                            ), 1);
+                }
             }
+            AbstractGeneHandler.tickEnderman(player);
+            AbstractGeneHandler.tickDestabilized(player);
         }
-
-        AbstractGeneHandler.tickDestablized(player);
     }
 }

@@ -52,6 +52,11 @@ public class SetGeneCommands {
                 }))))));
 
         dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
+                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_enderman").executes(context -> {
+                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_enderman");
+                }))))));
+
+        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
                 .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_silverfish").executes(context -> {
                     return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_silverfish");
                 }))))));
@@ -89,6 +94,11 @@ public class SetGeneCommands {
         dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
                 .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_silverfish").executes(context -> {
                     return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_silverfish");
+                }))))));
+
+        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
+                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_enderman").executes(context -> {
+                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_enderman");
                 }))))));
 
         dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))

@@ -296,6 +296,21 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> GENE_ENDERMAN() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.GENE_ENDERMAN.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_ENDERMAN_ACTIVE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.GENE_ENDERMAN_ACTIVE.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_ENDERMAN_DRAWBACK() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.GENE_ENDERMAN_DRAWBACK.get());
+    }
+
+    @Override
     public Holder<MobEffect> CONTAMINATION_HELIOPHOBIA() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_HELIOPHOBIA.get());
     }

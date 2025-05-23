@@ -38,6 +38,9 @@ public class FabricEffects {
     public static Supplier<MobEffect> GENE_TEMP_IRON_GOLEM;
     public static Supplier<MobEffect> GENE_FROG;
     public static Supplier<MobEffect> GENE_SILVERFISH;
+    public static Supplier<MobEffect> GENE_ENDERMAN;
+    public static Supplier<MobEffect> GENE_ENDERMAN_ACTIVE;
+    public static Supplier<MobEffect> GENE_ENDERMAN_DRAWBACK;
     public static Supplier<MobEffect> CONTAMINATION_HELIOPHOBIA;
     public static Supplier<MobEffect> CONTAMINATION_HYDROPHOBIA;
     public static Supplier<MobEffect> CONTAMINATION_GENETIC_DESTABLIZATION;
@@ -81,6 +84,15 @@ public class FabricEffects {
         GENE_FROG = registerEffect("immortuos_gene_frog", new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519));
         GENE_SILVERFISH = registerEffect("immortuos_gene_silverfish", new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519).addAttributeModifier(
                 Attributes.SCALE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_silverfish"), -0.0035185185185185, AttributeModifier.Operation.ADD_VALUE
+        ));
+        GENE_ENDERMAN = registerEffect("immortuos_gene_enderman", new GeneModdedEffect(MobEffectCategory.NEUTRAL, 4598519));
+        GENE_ENDERMAN_ACTIVE = registerEffect("immortuos_gene_enderman_active", new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519).addAttributeModifier(
+                Attributes.BLOCK_INTERACTION_RANGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_enderman_active"), 0.02, AttributeModifier.Operation.ADD_VALUE
+        ).addAttributeModifier(
+                Attributes.ENTITY_INTERACTION_RANGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_enderman_active"), 0.02, AttributeModifier.Operation.ADD_VALUE
+        ));
+        GENE_ENDERMAN_DRAWBACK = registerEffect("immortuos_gene_enderman_drawback", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
+                Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_enderman_drawback"), -0.05, AttributeModifier.Operation.ADD_VALUE
         ));
         CONTAMINATION_HELIOPHOBIA = registerEffect("immortuos_contamination_heliophobia", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_HYDROPHOBIA = registerEffect("immortuos_contamination_hydrophobia", new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));

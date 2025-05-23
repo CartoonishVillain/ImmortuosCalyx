@@ -303,6 +303,21 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> GENE_ENDERMAN() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_ENDERMAN.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_ENDERMAN_ACTIVE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_ENDERMAN_ACTIVE.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_ENDERMAN_DRAWBACK() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_ENDERMAN_DRAWBACK.get());
+    }
+
+    @Override
     public Holder<MobEffect> CONTAMINATION_HELIOPHOBIA() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.CONTAMINATION_HELIOPHOBIA.get());
     }
