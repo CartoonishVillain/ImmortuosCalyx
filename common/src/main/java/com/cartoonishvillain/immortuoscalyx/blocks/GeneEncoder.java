@@ -73,7 +73,7 @@ public class GeneEncoder extends HorizontalDirectionalBlock {
     }
 
     private String getRandomGene(RandomSource random) {
-        return switch (random.nextInt(9)) {
+        return switch (random.nextInt(10)) {
             case 1 -> "gene_zombie";
             case 2 -> "gene_ocelot";
             case 3 -> "gene_turtle";
@@ -82,6 +82,7 @@ public class GeneEncoder extends HorizontalDirectionalBlock {
             case 6 -> "gene_silverfish";
             case 7 -> "gene_enderman";
             case 8 -> "gene_vindicator";
+            case 9 -> "gene_wither_skeleton";
             default -> "gene_immortuos";
         };
     }

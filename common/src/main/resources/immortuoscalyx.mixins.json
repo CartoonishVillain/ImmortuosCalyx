@@ -16,7 +16,9 @@
         "ConsumeMixin",
         "BiomeInvoker",
         "ImmortuosJumpMixin",
-        "ImmortuosVillagerTradeMixin"
+        "ImmortuosVillagerTradeMixin",
+        "ImmortuosPlayerExhaustMixin",
+        "PlayerAbilitiesAccessor"
     ],
     "client": [
     ],

@@ -53,6 +53,11 @@
       "type": "patchouli:text",
       "title": "Vindicator Gene",
       "text": "Spikes the user's adrenaline when killing something with an axe, increasing movement speed and attack swing speed for a short while, potentially dramatically."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Wither Skeleton Gene",
+      "text": "When in the nether, the user harnesses the effects of the wither and applies it to attacked targets. This can be manifested elsewhere when at above 10 health and hunger. This gene increases hunger decrease rate by 25%"
     }
   ]
 }

@@ -39,6 +39,7 @@ public class NeoEffects {
     public static DeferredHolder<MobEffect, MobEffect> GENE_ENDERMAN_DRAWBACK;
     public static DeferredHolder<MobEffect, MobEffect> GENE_VINDICATOR;
     public static DeferredHolder<MobEffect, MobEffect> GENE_VINDICATOR_ACTIVE;
+    public static DeferredHolder<MobEffect, MobEffect> GENE_WITHER_SKELETON;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_HELIOPHOBIA;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_HYDROPHOBIA;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_GENETIC_DESTABLIZATION;
@@ -95,12 +96,13 @@ public class NeoEffects {
         GENE_ENDERMAN_DRAWBACK = MOB_EFFECTS.register("immortuos_gene_enderman_drawback", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519).addAttributeModifier(
                 Attributes.ATTACK_DAMAGE, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_enderman_drawback"), -0.05, AttributeModifier.Operation.ADD_VALUE
         ));
-        GENE_VINDICATOR = MOB_EFFECTS.register("immortuos_gene_vindicator", () -> new GeneModdedEffect(MobEffectCategory.NEUTRAL, 4598519));
+        GENE_VINDICATOR = MOB_EFFECTS.register("immortuos_gene_vindicator", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519));
         GENE_VINDICATOR_ACTIVE = MOB_EFFECTS.register("immortuos_gene_vindicator_active", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519).addAttributeModifier(
                 Attributes.MOVEMENT_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_vindicator_active"), 0.009, AttributeModifier.Operation.ADD_VALUE
         ).addAttributeModifier(
                 Attributes.ATTACK_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_vindicator_active"), 0.2, AttributeModifier.Operation.ADD_VALUE
         ));
+        GENE_WITHER_SKELETON = MOB_EFFECTS.register("immortuos_gene_wither_skeleton", () -> new GeneModdedEffect(MobEffectCategory.NEUTRAL, 4598519));
 
         CONTAMINATION_HELIOPHOBIA = MOB_EFFECTS.register("immortuos_contamination_heliophobia", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_HYDROPHOBIA = MOB_EFFECTS.register("immortuos_contamination_hydrophobia", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));

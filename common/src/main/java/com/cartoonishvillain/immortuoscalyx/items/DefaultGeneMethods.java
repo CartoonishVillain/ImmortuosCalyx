@@ -36,6 +36,9 @@ public class DefaultGeneMethods {
             case "gene_vindicator" -> new MobEffectInstance(
                     Services.PLATFORM.GENE_VINDICATOR(), 420, quality, true, false, true
             );
+            case "gene_wither_skeleton" -> new MobEffectInstance(
+                    Services.PLATFORM.GENE_WITHER_SKELETON(), 420, quality, true, false, true
+            );
             default -> null;
         };
     }
