@@ -48,6 +48,11 @@
       "type": "patchouli:text",
       "title": "Enderman Gene",
       "text": "This gene creates a weak telepathic link with the world around the user, allowing them to interact with the world from further away. The user also inherits the Enderman's weakness to water, being exposed will temporarily remove the telepathic link, and weaken the user until dry."
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Vindicator Gene",
+      "text": "Spikes the user's adrenaline when killing something with an axe, increasing movement speed and attack swing speed for a short while, potentially dramatically."
     }
   ]
 }

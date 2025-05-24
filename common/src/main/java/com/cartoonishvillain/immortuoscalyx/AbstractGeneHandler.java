@@ -3,7 +3,10 @@ package com.cartoonishvillain.immortuoscalyx;
 
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
 
 public class AbstractGeneHandler {
     public static float turtleDamageHandler(float damageIncoming, int amplitude) {
@@ -54,6 +57,18 @@ public class AbstractGeneHandler {
             if (player.hasEffect(Services.PLATFORM.GENE_ENDERMAN_ACTIVE()) || player.hasEffect(Services.PLATFORM.GENE_ENDERMAN_DRAWBACK())) {
                 player.removeEffect(Services.PLATFORM.GENE_ENDERMAN_ACTIVE());
                 player.removeEffect(Services.PLATFORM.GENE_ENDERMAN_DRAWBACK());
+            }
+        }
+    }
+
+    public static void vindicatorGeneCheck(DamageSource damageSource) {
+        if (damageSource.getDirectEntity() instanceof ServerPlayer) {
+            ServerPlayer player = (ServerPlayer) damageSource.getDirectEntity();
+            if (player.getMainHandItem().is(ItemTags.AXES) && player.hasEffect(Services.PLATFORM.GENE_VINDICATOR())) {
+                MobEffectInstance instance = player.getEffect(Services.PLATFORM.GENE_VINDICATOR());
+                if (instance != null) {
+                    player.addEffect(new MobEffectInstance(Services.PLATFORM.GENE_VINDICATOR_ACTIVE(), 600, instance.getAmplifier()/10, true, false, true));
+                }
             }
         }
     }

@@ -318,6 +318,16 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> GENE_VINDICATOR() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_VINDICATOR.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_VINDICATOR_ACTIVE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.GENE_VINDICATOR_ACTIVE.get());
+    }
+
+    @Override
     public Holder<MobEffect> CONTAMINATION_HELIOPHOBIA() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(NeoEffects.CONTAMINATION_HELIOPHOBIA.get());
     }
