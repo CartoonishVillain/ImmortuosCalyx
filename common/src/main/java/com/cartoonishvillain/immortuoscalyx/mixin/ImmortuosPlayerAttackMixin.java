@@ -38,8 +38,7 @@ public class ImmortuosPlayerAttackMixin {
             MobEffectInstance instance = aggressor.getEffect(Services.PLATFORM.GENE_WITHER_SKELETON());
             if (instance != null && pTargetEntity instanceof LivingEntity) {
                 ((LivingEntity) pTargetEntity).addEffect(
-                        // Effect lasts as long as there is quality percentage, in half, minimum of 1 second (20 ticks)
-                        new MobEffectInstance(MobEffects.WITHER, Math.clamp(instance.getAmplifier()/2, 10, 150), 2)
+                        new MobEffectInstance(MobEffects.WITHER, Math.clamp(instance.getAmplifier()/2 * 5 + 40, 10, 300), 1)
                 );
             }
         }
