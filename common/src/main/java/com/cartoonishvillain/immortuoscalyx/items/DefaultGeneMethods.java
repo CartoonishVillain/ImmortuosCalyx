@@ -39,6 +39,9 @@ public class DefaultGeneMethods {
             case "gene_wither_skeleton" -> new MobEffectInstance(
                     Services.PLATFORM.GENE_WITHER_SKELETON(), 420, quality, true, false, true
             );
+            case "gene_magma_cube" -> new MobEffectInstance(
+                    Services.PLATFORM.GENE_MAGMA_CUBE(), 420, quality/2, true, false, true
+            );
             default -> null;
         };
     }

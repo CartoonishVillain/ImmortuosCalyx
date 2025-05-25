@@ -15,111 +15,35 @@ import java.util.Collection;
 
 public class SetGeneCommands {
 
+    public static void registerGene(String gene, CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
+                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal(gene).executes(context -> {
+                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), gene);
+                }))))));
+
+        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
+                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal(gene).executes(context -> {
+                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), gene);
+                }))))));
+    }
+
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
                 .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("Quality").then(Commands.argument("quality", IntegerArgumentType.integer(0, 100)).executes(context -> {
                     return setQuality(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), IntegerArgumentType.getInteger(context, "quality"));
                 }))))));
 
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_immortuos").executes(context -> {
-                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_immortuos");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_zombie").executes(context -> {
-                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_zombie");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_ocelot").executes(context -> {
-                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_ocelot");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_turtle").executes(context -> {
-                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_turtle");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_iron_golem").executes(context -> {
-                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_iron_golem");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_frog").executes(context -> {
-                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_frog");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_enderman").executes(context -> {
-                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_enderman");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_silverfish").executes(context -> {
-                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_silverfish");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_vindicator").executes(context -> {
-                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_vindicator");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot1").then(Commands.literal("gene_wither_skeleton").executes(context -> {
-                    return setGene1(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_wither_skeleton");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_immortuos").executes(context -> {
-                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_immortuos");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_zombie").executes(context -> {
-                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_zombie");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_ocelot").executes(context -> {
-                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_ocelot");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_turtle").executes(context -> {
-                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_turtle");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_iron_golem").executes(context -> {
-                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_iron_golem");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_frog").executes(context -> {
-                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_frog");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_silverfish").executes(context -> {
-                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_silverfish");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_enderman").executes(context -> {
-                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_enderman");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_vindicator").executes(context -> {
-                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_vindicator");
-                }))))));
-
-        dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
-                .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("GeneSlot2").then(Commands.literal("gene_wither_skeleton").executes(context -> {
-                    return setGene2(context.getSource(), GameProfileArgument.getGameProfiles(context, "player"), "gene_wither_skeleton");
-                }))))));
+        registerGene("gene_immortuos", dispatcher);
+        registerGene("gene_zombie", dispatcher);
+        registerGene("gene_ocelot", dispatcher);
+        registerGene("gene_turtle", dispatcher);
+        registerGene("gene_iron_golem", dispatcher);
+        registerGene("gene_frog", dispatcher);
+        registerGene("gene_enderman", dispatcher);
+        registerGene("gene_silverfish", dispatcher);
+        registerGene("gene_vindicator", dispatcher);
+        registerGene("gene_wither_skeleton", dispatcher);
+        registerGene("gene_magma_cube", dispatcher);
 
         dispatcher.register(Commands.literal("immortuoscalyx").then(Commands.literal("setGeneStatus").requires(cs -> cs.hasPermission(2))
                 .then(Commands.argument("player", GameProfileArgument.gameProfile()).then(Commands.literal("ContaminationSlot").then(Commands.literal("contamination_hydrophobia").executes(context -> {

@@ -58,6 +58,11 @@
       "type": "patchouli:text",
       "title": "Wither Skeleton Gene",
       "text": "When in the nether, the user harnesses the effects of the wither and applies it to attacked targets. This can be manifested elsewhere when at above 10 health and hunger. This gene increases hunger decrease rate by 25%"
+    },
+    {
+      "type": "patchouli:text",
+      "title": "Magma Cube Gene",
+      "text": "Coils the leg bones of the user similar to how a magma slime coils when crouching. If the user were to take fall damage while coiled, it is reduced. The energy from the fall is redirected from shattering your skeleton to a flaming pulse, radiating the fall damage removed from your fall as fire damage to all nearby entities."
     }
   ]
 }

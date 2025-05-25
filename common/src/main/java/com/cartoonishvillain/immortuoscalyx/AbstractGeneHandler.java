@@ -2,11 +2,24 @@ package com.cartoonishvillain.immortuoscalyx;
 
 
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.BlockParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.phys.Vec3;
+
+import java.util.List;
 
 public class AbstractGeneHandler {
     public static float turtleDamageHandler(float damageIncoming, int amplitude) {
@@ -70,6 +83,29 @@ public class AbstractGeneHandler {
                     player.addEffect(new MobEffectInstance(Services.PLATFORM.GENE_VINDICATOR_ACTIVE(), 600, instance.getAmplifier()/10, true, false, true));
                 }
             }
+        }
+    }
+
+    public static void magmaCubeFunction(ServerLevel level, List<Entity> effectedEntities, Vec3 userPos, float dmg) {
+        // for every x and z coord 2 blocks away from the source, spawn a magma cube particle
+        for (double x = -2; x <= 2; x = x+0.1) {
+            for (double z = -2; z <= 2; z = z+0.1) {
+                level.sendParticles(
+                        ParticleTypes.FLAME, userPos.x()+x, (double) userPos.y(), userPos.z()+z, 1,  0d, 0d, 0d, 0d
+                );
+            }
+        }
+
+        level.playSound(null, userPos.x, userPos.y, userPos.z, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS, 1f, 1f);
+
+        // Hurt all living entities involved.
+        for (Entity entity : effectedEntities) {
+            if (entity instanceof LivingEntity) entity.hurt(
+                    new DamageSource(level.registryAccess()
+                            .registryOrThrow(Registries.DAMAGE_TYPE)
+                            .getHolderOrThrow(DamageTypes.ON_FIRE)
+                    ), dmg
+            );
         }
     }
 }

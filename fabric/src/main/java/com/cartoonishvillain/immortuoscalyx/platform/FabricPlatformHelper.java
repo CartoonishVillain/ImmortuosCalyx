@@ -321,6 +321,16 @@ public class FabricPlatformHelper implements IPlatformHelper {
     }
 
     @Override
+    public Holder<MobEffect> GENE_WITHER_SKELETON() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.GENE_WITHER_SKELETON.get());
+    }
+
+    @Override
+    public Holder<MobEffect> GENE_MAGMA_CUBE() {
+        return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.GENE_MAGMA_CUBE.get());
+    }
+
+    @Override
     public Holder<MobEffect> CONTAMINATION_HELIOPHOBIA() {
         return BuiltInRegistries.MOB_EFFECT.wrapAsHolder(FabricEffects.CONTAMINATION_HELIOPHOBIA.get());
     }

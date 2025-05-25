@@ -40,6 +40,7 @@ public class NeoEffects {
     public static DeferredHolder<MobEffect, MobEffect> GENE_VINDICATOR;
     public static DeferredHolder<MobEffect, MobEffect> GENE_VINDICATOR_ACTIVE;
     public static DeferredHolder<MobEffect, MobEffect> GENE_WITHER_SKELETON;
+    public static DeferredHolder<MobEffect, MobEffect> GENE_MAGMA_CUBE;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_HELIOPHOBIA;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_HYDROPHOBIA;
     public static DeferredHolder<MobEffect, MobEffect> CONTAMINATION_GENETIC_DESTABLIZATION;
@@ -103,6 +104,7 @@ public class NeoEffects {
                 Attributes.ATTACK_SPEED, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "gene_vindicator_active"), 0.2, AttributeModifier.Operation.ADD_VALUE
         ));
         GENE_WITHER_SKELETON = MOB_EFFECTS.register("immortuos_gene_wither_skeleton", () -> new GeneModdedEffect(MobEffectCategory.NEUTRAL, 4598519));
+        GENE_MAGMA_CUBE = MOB_EFFECTS.register("immortuos_gene_magma_cube", () -> new GeneModdedEffect(MobEffectCategory.BENEFICIAL, 4598519));
 
         CONTAMINATION_HELIOPHOBIA = MOB_EFFECTS.register("immortuos_contamination_heliophobia", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));
         CONTAMINATION_HYDROPHOBIA = MOB_EFFECTS.register("immortuos_contamination_hydrophobia", () -> new GeneModdedEffect(MobEffectCategory.HARMFUL, 4598519));

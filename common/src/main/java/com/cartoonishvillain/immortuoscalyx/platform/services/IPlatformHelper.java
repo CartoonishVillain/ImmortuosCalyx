@@ -184,6 +184,7 @@ public interface IPlatformHelper {
     Holder<MobEffect> GENE_VINDICATOR();
     Holder<MobEffect> GENE_VINDICATOR_ACTIVE();
     Holder<MobEffect> GENE_WITHER_SKELETON();
+    Holder<MobEffect> GENE_MAGMA_CUBE();
     Holder<MobEffect> CONTAMINATION_HELIOPHOBIA();
     Holder<MobEffect> CONTAMINATION_HYDROPHOBIA();
     Holder<MobEffect> CONTAMINATION_GENETIC_DESTABILIZATION();

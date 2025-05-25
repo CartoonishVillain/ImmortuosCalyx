@@ -2,15 +2,20 @@ package com.cartoonishvillain.immortuoscalyx.mixin;
 
 import com.cartoonishvillain.immortuoscalyx.AbstractGeneHandler;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import java.util.List;
 
 @Mixin(LivingEntity.class)
 public class ImmortuosDamageLevelMixin {
@@ -32,6 +37,28 @@ public class ImmortuosDamageLevelMixin {
                 entity.hasEffect(Services.PLATFORM.GENE_TURTLE()) && entity.isInWaterRainOrBubble() && !pDamageSource.is(DamageTypeTags.BYPASSES_RESISTANCE)
         ) {
             damageDealt = AbstractGeneHandler.turtleDamageHandler(damageDealt, entity.getEffect(Services.PLATFORM.GENE_TURTLE()).getAmplifier());
+        }
+
+        //Magma Cube Gene Handling
+        if (
+                entity.hasEffect(Services.PLATFORM.GENE_MAGMA_CUBE()) &&
+                        entity.isCrouching() &&
+                        pDamageSource.is(DamageTypes.FALL)
+        ) {
+            if (entity instanceof ServerPlayer) {
+                MobEffectInstance instance = entity.getEffect(Services.PLATFORM.GENE_MAGMA_CUBE());
+                if (instance != null) {
+                    //Calculate damage reduction
+                    //For every amplifier, +0.2 damage reduction, starting at 0.2 for 0
+                    float dmgModifier = (1 + instance.getAmplifier() * 0.2f);
+                    //The damage dealt to nearby mobs is whichever is lowest between the fall damage the user would have taken, and the fall damage removed.
+                    float damagePulse = Math.min(damageDealt, dmgModifier);
+                    damageDealt = Math.clamp(damageDealt - dmgModifier, 0f, Float.MAX_VALUE);
+
+                    List<Entity> effectedEntities = entity.level().getEntities(entity, entity.getBoundingBox().inflate(2));
+                    AbstractGeneHandler.magmaCubeFunction((ServerLevel) entity.level(), effectedEntities, entity.position(), damagePulse);
+                }
+            }
         }
 
         //Infection symptom handling
