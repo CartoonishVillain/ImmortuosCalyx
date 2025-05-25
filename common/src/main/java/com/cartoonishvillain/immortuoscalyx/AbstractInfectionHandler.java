@@ -285,7 +285,7 @@ public class AbstractInfectionHandler {
 
             if (player.getItemInHand(InteractionHand.MAIN_HAND).getItem() == Services.PLATFORM.GENE_RIPPER() ||
             player.getItemInHand(InteractionHand.OFF_HAND).getItem() == Services.PLATFORM.GENE_RIPPER()) {
-                if (player.getRandom().nextInt(100) < 5) {
+                if (player.getRandom().nextInt(100) < 10) {
                     ItemEntity itemEntity = new ItemEntity(player.level(), entity.getX(), entity.getY(), entity.getZ(), new ItemStack(Services.PLATFORM.UNIDENTIFIED_GENE()));
                     itemEntity.setPos(entity.getX(), entity.getY(), entity.getZ());
                     entity.level().addFreshEntity(itemEntity);

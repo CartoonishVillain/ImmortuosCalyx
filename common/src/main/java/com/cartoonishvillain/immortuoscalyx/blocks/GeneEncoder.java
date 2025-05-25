@@ -61,7 +61,7 @@ public class GeneEncoder extends HorizontalDirectionalBlock {
                 mainStack.shrink(1);
                 offStack.shrink(1);
                 ItemStack identifiedGene = new ItemStack(Holder.direct(Services.PLATFORM.IDENTIFIED_GENE()));
-                Services.PLATFORM.updateGeneAndGiveToPlayer(pPlayer, identifiedGene, getRandomGene(pLevel.getRandom()), pLevel.random.nextInt(39)+1);
+                Services.PLATFORM.updateGeneAndGiveToPlayer(pPlayer, identifiedGene, getRandomGene(pLevel.getRandom()), pLevel.random.nextInt(9)+1);
             }
             if (
                     (mainStack.getItem() == Services.PLATFORM.IDENTIFIED_GENE() && offStack.getItem() == Services.PLATFORM.IDENTIFIED_GENE())
