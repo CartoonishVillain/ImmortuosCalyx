@@ -13,6 +13,7 @@ import net.minecraft.world.level.biome.Biome;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 // This class is part of the common project meaning it is shared between all supported loaders. Code written here can only
 // import and access the vanilla codebase, libraries used by vanilla, and optionally third party libraries that provide
@@ -29,6 +30,10 @@ public class CommonImmortuos {
     private static HashMap<String, ImmortuosEffectMath> CONTAMINATIONS = new HashMap<>();
 
     private static HashMap<String, ImmortuosEffectMath> ACTIVECONTAMINATIONS = new HashMap<>();
+
+    private static List<String> CLIENTACTIVEGENES = List.of();
+
+    private static List<String> CLIENTACTIVECONTAMINATION = List.of();
 
     // The loader specific projects are able to import and use any code from the common project. This allows you to
     // write the majority of your code here and load it from your loader specific projects. This example has some
@@ -140,6 +145,22 @@ public class CommonImmortuos {
 
     public static HashMap<String, ImmortuosEffectMath> getActiveContaminations() {
         return ACTIVECONTAMINATIONS;
+    }
+
+    public static List<String> getClientActivegenes() {
+        return CLIENTACTIVEGENES;
+    }
+
+    public static void setClientActiveGenes(List<String> clientActiveGenes) {
+        CommonImmortuos.CLIENTACTIVEGENES = clientActiveGenes;
+    }
+
+    public static List<String> getClientActiveContamination() {
+        return CLIENTACTIVECONTAMINATION;
+    }
+
+    public static void setClientActiveContamination(List<String> clientActiveContamination) {
+        CommonImmortuos.CLIENTACTIVECONTAMINATION = clientActiveContamination;
     }
 
     public static final TagKey<Biome> MushroomBiomes = TagKey.create(Registries.BIOME, ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "land_spawnable"));

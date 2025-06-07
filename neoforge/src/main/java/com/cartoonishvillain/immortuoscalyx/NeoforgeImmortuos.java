@@ -10,11 +10,21 @@ import com.cartoonishvillain.immortuoscalyx.commands.SetInfectionCommands;
 import com.cartoonishvillain.immortuoscalyx.data.player.PlayerInfectionDataAttachment;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.entities.InfectedHumanEntity;
+import com.cartoonishvillain.immortuoscalyx.networking.ImmortuosPacketClientHandler;
+import com.cartoonishvillain.immortuoscalyx.networking.ImmortuosPacketServerHandler;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.*;
 import com.cartoonishvillain.incapacitated.Incapacitated;
+import com.cartoonishvillain.incapacitated.NFIncapacitated;
+import com.cartoonishvillain.incapacitated.networking.IncapPacketClientHandler;
+import com.cartoonishvillain.incapacitated.networking.IncapPacketServerHandler;
+import io.netty.buffer.ByteBuf;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.DamageTypeTags;
@@ -29,6 +39,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.Event;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -40,11 +51,15 @@ import net.neoforged.neoforge.common.BasicItemListing;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
 import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
+import net.neoforged.neoforge.event.entity.EntityJoinLevelEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 import java.util.List;
 
@@ -68,6 +83,17 @@ public class NeoforgeImmortuos {
     @SubscribeEvent
     public void serverStartEvent(ServerStartedEvent event) {
         CommonImmortuos.bootStrapGenes();
+    }
+
+    @SubscribeEvent
+    public void serverJoinEvent(EntityJoinLevelEvent event) {
+        if(!event.getLevel().isClientSide() && event.getEntity() instanceof ServerPlayer) {
+            Services.PLATFORM.sendConfigPacket(
+                    Constants.encodeSCV(CommonImmortuos.getActiveGenes().keySet().stream().toList()),
+                    Constants.encodeSCV(CommonImmortuos.getActiveContaminations().keySet().stream().toList()),
+                    (ServerPlayer) event.getEntity()
+            );
+        }
     }
 
     @SubscribeEvent
@@ -271,8 +297,16 @@ public class NeoforgeImmortuos {
         }
 
         @SubscribeEvent
-        public static void commonEvent(FMLCommonSetupEvent event) {
-
+        public static void onClientSetup(final RegisterPayloadHandlersEvent event) {
+            final PayloadRegistrar registrar = event.registrar(Constants.MOD_ID);
+            registrar.playBidirectional(
+                    ImmortuosPayload.TYPE,
+                    ImmortuosPayload.STREAM_CODEC,
+                    new DirectionalPayloadHandler<>(
+                            ImmortuosPacketClientHandler::handleData,
+                            ImmortuosPacketServerHandler::handleData
+                    )
+            );
         }
     }
 
@@ -287,6 +321,24 @@ public class NeoforgeImmortuos {
         public static void rendererSetup(EntityRenderersEvent.RegisterRenderers event) {
             event.registerEntityRenderer(NeoEntity.INFECTEDHUMAN.get(), RenderInfectedHumanEntity::new);
             event.registerEntityRenderer(NeoEntity.INFECTEDDIVER.get(), RenderDiverEntity::new);
+        }
+    }
+
+    public record ImmortuosPayload(String genesEnabled, String contaminationsEnabled) implements CustomPacketPayload {
+
+        public static final CustomPacketPayload.Type<NeoforgeImmortuos.ImmortuosPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuosconfigpayload"));
+
+        public static final StreamCodec<ByteBuf, ImmortuosPayload> STREAM_CODEC = StreamCodec.composite(
+                ByteBufCodecs.STRING_UTF8,
+                ImmortuosPayload::genesEnabled,
+                ByteBufCodecs.STRING_UTF8,
+                ImmortuosPayload::contaminationsEnabled,
+                ImmortuosPayload::new
+        );
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
         }
     }
 }

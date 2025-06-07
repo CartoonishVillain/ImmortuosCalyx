@@ -70,7 +70,7 @@ public class Gene extends TrinketItem {
         List<Component> addedComponents = new ArrayList<>();
         boolean showDisabledText = false;
         if (!geneData.geneValue1().isBlank()) {
-            if (CommonImmortuos.getActiveGenes().containsKey(geneData.geneValue1())) {
+            if (CommonImmortuos.getClientActivegenes().contains(geneData.geneValue1())) {
                 addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.geneValue1()).withStyle(ChatFormatting.BLUE));
             } else {
                 addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.geneValue1()).withStyle(ChatFormatting.GRAY));
@@ -79,7 +79,7 @@ public class Gene extends TrinketItem {
         }
 
         if (!geneData.geneValue2().isBlank()) {
-            if (CommonImmortuos.getActiveGenes().containsKey(geneData.geneValue2())) {
+            if (CommonImmortuos.getClientActivegenes().contains(geneData.geneValue2())) {
                 addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.geneValue2()).withStyle(ChatFormatting.BLUE));
             } else {
                 addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.geneValue2()).withStyle(ChatFormatting.GRAY));
@@ -88,7 +88,7 @@ public class Gene extends TrinketItem {
         }
 
         if (!geneData.contaminationValue().isBlank()) {
-            if (CommonImmortuos.getActiveContaminations().containsKey(geneData.contaminationValue())) {
+            if (CommonImmortuos.getClientActiveContamination().contains(geneData.contaminationValue())) {
                 addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.contaminationValue()).withStyle(ChatFormatting.RED));
             } else {
                 addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.contaminationValue()).withStyle(ChatFormatting.GRAY));

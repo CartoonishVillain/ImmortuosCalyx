@@ -6,6 +6,7 @@ import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.FabricEntity;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 
 public class FabricImmortuosClient implements ClientModInitializer {
@@ -17,5 +18,12 @@ public class FabricImmortuosClient implements ClientModInitializer {
         ClientLifecycleEvents.CLIENT_STARTED.register((minecraft) -> {
             Services.PLATFORM.clientUpdate();
         });
+
+        ClientPlayNetworking.registerGlobalReceiver(FabricImmortuos.ImmortuosCalyxPayload.TYPE, ((payload, context) -> {
+            context.client().execute(() -> {
+                CommonImmortuos.setClientActiveGenes(Constants.decodeCSV(payload.genesEnabled()));
+                CommonImmortuos.setClientActiveContamination(Constants.decodeCSV(payload.contaminationsEnabled()));
+            });
+        }));
     }
 }

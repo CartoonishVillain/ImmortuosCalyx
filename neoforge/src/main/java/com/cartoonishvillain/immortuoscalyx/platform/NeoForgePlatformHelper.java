@@ -1,5 +1,6 @@
 package com.cartoonishvillain.immortuoscalyx.platform;
 
+import com.cartoonishvillain.immortuoscalyx.NeoforgeImmortuos;
 import com.cartoonishvillain.immortuoscalyx.data.gene.GeneComponent;
 import com.cartoonishvillain.immortuoscalyx.data.player.NeoForgeInfectionPlayerData;
 import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
@@ -25,6 +26,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLLoader;
+import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -177,7 +179,6 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
             switch (slot) {
                 default -> {
                     serverPlayer.getMainHandItem().set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(gene, mainGeneData.geneValue2(), mainGeneData.contaminationValue(), mainGeneData.quality(), mainGeneData.hasBeenEquipped()));
-                    break;
                 }
                 case "slot2" -> {
                     serverPlayer.getMainHandItem().set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(mainGeneData.geneValue1(), gene, mainGeneData.contaminationValue(), mainGeneData.quality(), mainGeneData.hasBeenEquipped()));
@@ -195,6 +196,11 @@ public class NeoForgePlatformHelper implements IPlatformHelper {
             GeneComponent.GeneRecord mainGeneData = serverPlayer.getMainHandItem().getComponents().getOrDefault(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord("", "", "", 0, false));
             serverPlayer.getMainHandItem().set(NeoDataComponentType.NEO_GENE_COMPONENT.get(), new GeneComponent.GeneRecord(mainGeneData.geneValue1(), mainGeneData.geneValue2(), mainGeneData.contaminationValue(), quality, mainGeneData.hasBeenEquipped()));
         }
+    }
+
+    @Override
+    public void sendConfigPacket(String geneEffects, String contaminationEffects, ServerPlayer player) {
+        PacketDistributor.sendToPlayer(player, new NeoforgeImmortuos.ImmortuosPayload(geneEffects, contaminationEffects));
     }
 
     @Override

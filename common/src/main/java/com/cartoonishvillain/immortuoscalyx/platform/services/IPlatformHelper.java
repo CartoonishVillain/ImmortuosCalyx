@@ -155,6 +155,11 @@ public interface IPlatformHelper {
     void setGeneQuality(ServerPlayer serverPlayer, int quality);
 
     /**
+     * Sends a config packet to the client to let the client know which genes are available.
+     */
+    void sendConfigPacket(String geneEffects, String contaminationEffects, ServerPlayer player);
+
+    /**
      * MOB EFFECTS
      */
     Holder<MobEffect> INFECTION_BLIND();

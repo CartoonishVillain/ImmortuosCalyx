@@ -8,6 +8,7 @@ import com.cartoonishvillain.immortuoscalyx.entities.InfectedDiverEntity;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.cartoonishvillain.immortuoscalyx.register.*;
 import com.cartoonishvillain.incapacitated.Incapacitated;
+import io.netty.buffer.ByteBuf;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
@@ -15,7 +16,12 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
@@ -25,6 +31,7 @@ import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.levelgen.Heightmap;
+import org.intellij.lang.annotations.Identifier;
 
 import java.util.function.Predicate;
 
@@ -71,8 +78,35 @@ public class FabricImmortuos implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTED.register((event) -> {
             CommonImmortuos.bootStrapGenes();
         });
+
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            Services.PLATFORM.sendConfigPacket(
+                    Constants.encodeSCV(CommonImmortuos.getActiveGenes().keySet().stream().toList()),
+                    Constants.encodeSCV(CommonImmortuos.getActiveContaminations().keySet().stream().toList()),
+                    handler.getPlayer()
+            );
+        });
+
+        PayloadTypeRegistry.playS2C().register(ImmortuosCalyxPayload.TYPE, ImmortuosCalyxPayload.STREAM_CODEC);
     }
 
+    public record ImmortuosCalyxPayload(String genesEnabled, String contaminationsEnabled) implements CustomPacketPayload {
+        public static final StreamCodec<ByteBuf, ImmortuosCalyxPayload> STREAM_CODEC = StreamCodec.composite(
+                ByteBufCodecs.STRING_UTF8,
+                ImmortuosCalyxPayload::genesEnabled,
+                ByteBufCodecs.STRING_UTF8,
+                ImmortuosCalyxPayload::contaminationsEnabled,
+                ImmortuosCalyxPayload::new
+        );
+
+        public static final CustomPacketPayload.Type<ImmortuosCalyxPayload> TYPE = new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MOD_ID, "immortuosconfigpayload"));
+
+
+        @Override
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
+        }
+    }
 
     public static Predicate<BiomeSelectionContext> overWorldNoOceanNoGoZones() {
         return BiomeSelectors.tag(BiomeTags.IS_OVERWORLD).and(shroomExclusion());

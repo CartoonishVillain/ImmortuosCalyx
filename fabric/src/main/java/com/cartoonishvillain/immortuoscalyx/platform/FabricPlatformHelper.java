@@ -1,11 +1,13 @@
 package com.cartoonishvillain.immortuoscalyx.platform;
 
+import com.cartoonishvillain.immortuoscalyx.FabricImmortuos;
 import com.cartoonishvillain.immortuoscalyx.data.gene.GeneItemComponent;
 import com.cartoonishvillain.immortuoscalyx.infection.AbstractSymptom;
 import com.cartoonishvillain.immortuoscalyx.infection.Symptom;
 import com.cartoonishvillain.immortuoscalyx.items.DefaultGeneMethods;
 import com.cartoonishvillain.immortuoscalyx.platform.services.IPlatformHelper;
 import com.cartoonishvillain.immortuoscalyx.register.*;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
@@ -188,6 +190,11 @@ public class FabricPlatformHelper implements IPlatformHelper {
             GeneItemComponent.GeneData mainGeneData = serverPlayer.getMainHandItem().getComponents().getOrDefault(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData("", "", "", 0, false));
             serverPlayer.getMainHandItem().set(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData(mainGeneData.geneValue1(), mainGeneData.geneValue2(), mainGeneData.contaminationValue(), quality, mainGeneData.previouslyEquipped()));
         }
+    }
+
+    @Override
+    public void sendConfigPacket(String geneEffects, String contaminationEffects, ServerPlayer player) {
+        ServerPlayNetworking.send(player, new FabricImmortuos.ImmortuosCalyxPayload(geneEffects, contaminationEffects));
     }
 
     @Override
