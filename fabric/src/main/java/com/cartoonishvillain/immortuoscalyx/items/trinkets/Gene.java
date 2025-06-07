@@ -1,5 +1,6 @@
 package com.cartoonishvillain.immortuoscalyx.items.trinkets;
 
+import com.cartoonishvillain.immortuoscalyx.CommonImmortuos;
 import com.cartoonishvillain.immortuoscalyx.damage.ImmortuosDamageTypes;
 import com.cartoonishvillain.immortuoscalyx.data.gene.GeneItemComponent;
 import com.cartoonishvillain.immortuoscalyx.items.DefaultGeneMethods;
@@ -7,11 +8,14 @@ import com.cartoonishvillain.immortuoscalyx.register.FabricItemComponents;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketItem;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -30,15 +34,24 @@ public class Gene extends TrinketItem {
         GeneItemComponent.GeneData geneData = stack.getComponents().getOrDefault(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData("", "", "", 0, true));
 
         if (!geneData.geneValue1().isBlank()) {
-            entity.removeEffect(DefaultGeneMethods.geneSelection(geneData.geneValue1(), geneData.quality()).getEffect());
+            MobEffectInstance instance = DefaultGeneMethods.geneSelection(geneData.geneValue1(), geneData.quality());
+            if (instance != null) {
+                entity.removeEffect(instance.getEffect());
+            }
         }
 
         if (!geneData.geneValue2().isBlank()) {
-            entity.removeEffect(DefaultGeneMethods.geneSelection(geneData.geneValue2(), geneData.quality()).getEffect());
+            MobEffectInstance instance = DefaultGeneMethods.geneSelection(geneData.geneValue2(), geneData.quality());
+            if (instance != null) {
+                entity.removeEffect(instance.getEffect());
+            }
         }
 
         if (!geneData.contaminationValue().isBlank()) {
-            entity.removeEffect(DefaultGeneMethods.contaminationSelection(geneData.contaminationValue(), geneData.quality()).getEffect());
+            MobEffectInstance instance = DefaultGeneMethods.contaminationSelection(geneData.contaminationValue(), geneData.quality());
+            if (instance != null) {
+                entity.removeEffect(instance.getEffect());
+            }
         }
 
         entity.hurt(
@@ -55,16 +68,36 @@ public class Gene extends TrinketItem {
         GeneItemComponent.GeneData geneData = stack.getComponents().getOrDefault(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData("", "", "", 0, false));
 
         List<Component> addedComponents = new ArrayList<>();
+        boolean showDisabledText = false;
         if (!geneData.geneValue1().isBlank()) {
-            addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.geneValue1()).withStyle(ChatFormatting.BLUE));
+            if (CommonImmortuos.getActiveGenes().containsKey(geneData.geneValue1())) {
+                addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.geneValue1()).withStyle(ChatFormatting.BLUE));
+            } else {
+                addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.geneValue1()).withStyle(ChatFormatting.GRAY));
+                showDisabledText = true;
+            }
         }
 
         if (!geneData.geneValue2().isBlank()) {
-            addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.geneValue2()).withStyle(ChatFormatting.BLUE));
+            if (CommonImmortuos.getActiveGenes().containsKey(geneData.geneValue2())) {
+                addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.geneValue2()).withStyle(ChatFormatting.BLUE));
+            } else {
+                addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.geneValue2()).withStyle(ChatFormatting.GRAY));
+                showDisabledText = true;
+            }
         }
 
         if (!geneData.contaminationValue().isBlank()) {
-            addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.contaminationValue()).withStyle(ChatFormatting.RED));
+            if (CommonImmortuos.getActiveContaminations().containsKey(geneData.contaminationValue())) {
+                addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.contaminationValue()).withStyle(ChatFormatting.RED));
+            } else {
+                addedComponents.add(Component.translatable("gene.immortuoscalyx." + geneData.contaminationValue()).withStyle(ChatFormatting.GRAY));
+                showDisabledText = true;
+            }
+        }
+
+        if (showDisabledText) {
+            addedComponents.add(Component.translatable("gene.immortuos.disabledgene").withStyle(ChatFormatting.GRAY));
         }
 
         if (!addedComponents.isEmpty()) {
@@ -81,15 +114,18 @@ public class Gene extends TrinketItem {
             GeneItemComponent.GeneData geneData = stack.getComponents().getOrDefault(FabricItemComponents.GENE_DATA.get(), new GeneItemComponent.GeneData("", "", "", 0, true));
 
             if (!geneData.geneValue1().isBlank()) {
-                entity.addEffect(DefaultGeneMethods.geneSelection(geneData.geneValue1(), geneData.quality()));
+                MobEffectInstance effectInstance = DefaultGeneMethods.geneSelection(geneData.geneValue1(), geneData.quality());
+                if (effectInstance != null) entity.addEffect(effectInstance);
             }
 
             if (!geneData.geneValue2().isBlank()) {
-                entity.addEffect(DefaultGeneMethods.geneSelection(geneData.geneValue2(), geneData.quality()));
+                MobEffectInstance effectInstance = DefaultGeneMethods.geneSelection(geneData.geneValue2(), geneData.quality());
+                if (effectInstance != null) entity.addEffect(effectInstance);
             }
 
             if (!geneData.contaminationValue().isBlank()) {
-                entity.addEffect(DefaultGeneMethods.contaminationSelection(geneData.contaminationValue(), geneData.quality()));
+                MobEffectInstance effectInstance = DefaultGeneMethods.contaminationSelection(geneData.contaminationValue(), geneData.quality());
+                if (effectInstance != null) entity.addEffect(effectInstance);
             }
         }
     }

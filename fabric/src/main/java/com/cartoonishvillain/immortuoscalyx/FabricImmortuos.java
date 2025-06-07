@@ -67,6 +67,10 @@ public class FabricImmortuos implements ModInitializer {
                 Incapacitated.noMercyDamageSourcesMessageID.add("organ_damage");
             }
         });
+
+        ServerLifecycleEvents.SERVER_STARTED.register((event) -> {
+            CommonImmortuos.bootStrapGenes();
+        });
     }
 
 

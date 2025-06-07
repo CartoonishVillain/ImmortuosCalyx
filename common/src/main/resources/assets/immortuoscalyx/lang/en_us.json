@@ -83,6 +83,7 @@
   "curios.modifiers.gene_splicer": "Adds slots:",
   "curios.identifier.gene": "Gene",
   "trinkets.slot.head.gene": "Gene",
+  "gene.immortuos.disabledgene": "Genes and Contaminations in Gray are disabled by the server config, and have no effect",
   "gene.immortuoscalyx.gene_immortuos": "Immortuos Genes",
   "gene.immortuoscalyx.gene_zombie": "Zombie Genes",
   "gene.immortuoscalyx.gene_ocelot": "Ocelot Genes",
