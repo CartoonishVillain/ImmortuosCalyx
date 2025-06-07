@@ -43,6 +43,7 @@ import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 import net.neoforged.neoforge.event.server.ServerAboutToStartEvent;
+import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.village.VillagerTradesEvent;
 
 import java.util.List;
@@ -51,7 +52,6 @@ import java.util.List;
 public class NeoforgeImmortuos {
 
     public NeoforgeImmortuos(IEventBus eventBus) {
-        CommonImmortuos.init();
         NeoEffects.init(eventBus);
         NeoSoundEvents.init(eventBus);
         NeoEntity.init(eventBus);
@@ -62,6 +62,12 @@ public class NeoforgeImmortuos {
         PlayerInfectionDataAttachment.loadDataAttachment(eventBus);
         NeoDataComponentType.initDataComponent(eventBus);
         NeoForge.EVENT_BUS.register(this);
+        CommonImmortuos.init();
+    }
+
+    @SubscribeEvent
+    public void serverStartEvent(ServerStartedEvent event) {
+        CommonImmortuos.bootStrapGenes();
     }
 
     @SubscribeEvent

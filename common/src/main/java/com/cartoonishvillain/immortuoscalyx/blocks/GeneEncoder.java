@@ -1,5 +1,6 @@
 package com.cartoonishvillain.immortuoscalyx.blocks;
 
+import com.cartoonishvillain.immortuoscalyx.CommonImmortuos;
 import com.cartoonishvillain.immortuoscalyx.platform.Services;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -73,18 +74,6 @@ public class GeneEncoder extends HorizontalDirectionalBlock {
     }
 
     private String getRandomGene(RandomSource random) {
-        return switch (random.nextInt(11)) {
-            case 1 -> "gene_zombie";
-            case 2 -> "gene_ocelot";
-            case 3 -> "gene_turtle";
-            case 4 -> "gene_iron_golem";
-            case 5 -> "gene_frog";
-            case 6 -> "gene_silverfish";
-            case 7 -> "gene_enderman";
-            case 8 -> "gene_vindicator";
-            case 9 -> "gene_wither_skeleton";
-            case 10 -> "gene_magma_cube";
-            default -> "gene_immortuos";
-        };
+        return CommonImmortuos.getActiveGenes().keySet().stream().toList().get(random.nextInt(CommonImmortuos.getActiveGenes().keySet().stream().toList().size()));
     }
 }

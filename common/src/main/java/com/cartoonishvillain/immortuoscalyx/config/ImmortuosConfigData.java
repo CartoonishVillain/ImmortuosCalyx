@@ -1,6 +1,7 @@
 package com.cartoonishvillain.immortuoscalyx.config;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class ImmortuosConfigData implements Serializable {
     String info;
@@ -14,6 +15,8 @@ public class ImmortuosConfigData implements Serializable {
     int infectionSymptomTemperatureStrength;
     int infectionSymptomBlindness;
     int infectionSymptomConsumption;
+    List<String> disabledGenes;
+    List<String> disabledContamination;
 
     public ImmortuosConfigData(
             int infectionTicksPerPercentage,
@@ -25,7 +28,9 @@ public class ImmortuosConfigData implements Serializable {
             int infectionSymptomChatBlocked,
             int infectionSymptomTemperatureStrength,
             int infectionSymptomBlindness,
-            int infectionSymptomConsumption
+            int infectionSymptomConsumption,
+            List<String> disabledGenes,
+            List<String> disabledContamination
     ) {
         this.info = "For documentation on what each item does, see the readme file on github: https://github.com/CartoonishVillain/ImmortuosCalyx";
         this.infectionTicksPerPercentage = infectionTicksPerPercentage;
@@ -38,6 +43,8 @@ public class ImmortuosConfigData implements Serializable {
         this.infectionSymptomTemperatureStrength = infectionSymptomTemperatureStrength;
         this.infectionSymptomBlindness = infectionSymptomBlindness;
         this.infectionSymptomConsumption = infectionSymptomConsumption;
+        this.disabledGenes = disabledGenes;
+        this.disabledContamination = disabledContamination;
     }
 
     public static ImmortuosConfigData buildDefaultConfig() {
@@ -51,7 +58,9 @@ public class ImmortuosConfigData implements Serializable {
                 60, //infectionSymptomChatBlocked
                 70, //infectionSymptomTemperatureStrength
                 90, //infectionSymptomBlindness
-                100 //infectionSymptomConsumption
+                100, //infectionSymptomConsumption
+                List.of(), //Disabled Genes
+                List.of() //Disabled Contamination
         );
     }
 
@@ -93,5 +102,13 @@ public class ImmortuosConfigData implements Serializable {
 
     public int getInfectionSymptomConsumption() {
         return infectionSymptomConsumption;
+    }
+
+    public List<String> getDisabledGenes() {
+        return disabledGenes;
+    }
+
+    public List<String> getDisabledContamination() {
+        return disabledContamination;
     }
 }
